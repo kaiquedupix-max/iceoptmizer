@@ -1,0 +1,2134 @@
+{
+  "name": "ice optimizer",
+  "author": "Maciota",
+  "version": "1.0.0",
+  "repository": "kaiquedupix-max/iceoptmizer",
+  "ref": "main",
+  "actions": [
+    {
+      "id": "ping",
+      "title": "Renovar conexão e abrir DNS Jumper",
+      "category": "Windows",
+      "warning": "A conexão será interrompida temporariamente. Pode exigir reconexão ou reinicialização.",
+      "file": "scripts/actions/ping.bat",
+      "dependencies": [
+        "scripts/DnsJumper.exe",
+        "scripts/DnsJumper.ini"
+      ]
+    },
+    {
+      "id": "limparram",
+      "title": "Liberar memória RAM",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/limparram.bat",
+      "dependencies": [
+        "scripts/EmptyStandbyList.exe"
+      ]
+    },
+    {
+      "id": "restore",
+      "title": "Criar ponto de restauração e backup",
+      "category": "Recuperação",
+      "warning": "Cria ponto de restauração e exporta chaves do Registro. A Proteção do Sistema precisa estar disponível. Confira o resultado no registro.",
+      "file": "scripts/actions/restore.bat",
+      "dependencies": []
+    },
+    {
+      "id": "amd",
+      "title": "Ajustes AMD",
+      "category": "Hardware",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/amd.bat",
+      "dependencies": []
+    },
+    {
+      "id": "nvidia",
+      "title": "Ajustes NVIDIA",
+      "category": "Hardware",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/nvidia.bat",
+      "dependencies": []
+    },
+    {
+      "id": "intel",
+      "title": "Ajustes Intel",
+      "category": "Hardware",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/intel.bat",
+      "dependencies": []
+    },
+    {
+      "id": "reverteramdintelnvidia",
+      "title": "Restaurar padrões de GPU",
+      "category": "Hardware",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/reverteramdintelnvidia.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao1",
+      "title": "Otimizar energia",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao1.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao2",
+      "title": "Desativar efeitos visuais",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao2.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao3",
+      "title": "Desativar apps em segundo plano",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao3.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao4",
+      "title": "Desativar serviços (inclui impressão e biometria)",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar. Esta ação também desativa impressão e biometria.",
+      "file": "scripts/actions/opcao4.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao5",
+      "title": "Otimizar Game Bar",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao5.bat",
+      "dependencies": []
+    },
+    {
+      "id": "desativarxbox",
+      "title": "Desativar serviços Xbox",
+      "category": "Windows",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/desativarxbox.bat",
+      "dependencies": []
+    },
+    {
+      "id": "reverterxbox",
+      "title": "Reativar serviços Xbox",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/reverterxbox.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao7",
+      "title": "Desativar relatórios de erro",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao7.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao8",
+      "title": "Desativar telemetria",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao8.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao9",
+      "title": "Desativar hibernação",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao9.bat",
+      "dependencies": []
+    },
+    {
+      "id": "desativarmemoria",
+      "title": "Desativar compressão de memória",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/desativarmemoria.bat",
+      "dependencies": []
+    },
+    {
+      "id": "ativarmemoria",
+      "title": "Ativar compressão de memória",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/ativarmemoria.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao11",
+      "title": "Desativar indexação",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao11.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao12",
+      "title": "Otimizar menu Iniciar",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao12.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao13",
+      "title": "Desativar Cortana",
+      "category": "Windows",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/opcao13.bat",
+      "dependencies": []
+    },
+    {
+      "id": "desativarsuper",
+      "title": "Desativar Prefetch e SysMain",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/desativarsuper.bat",
+      "dependencies": []
+    },
+    {
+      "id": "ativarsuper",
+      "title": "Reativar Prefetch e SysMain",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/ativarsuper.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao15",
+      "title": "Prioridade de CPU e GPU",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao15.bat",
+      "dependencies": []
+    },
+    {
+      "id": "otimizarforeground",
+      "title": "Priorizar aplicativo em primeiro plano",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/otimizarforeground.bat",
+      "dependencies": []
+    },
+    {
+      "id": "voltarforeground",
+      "title": "Restaurar prioridade de primeiro plano",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/voltarforeground.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao17",
+      "title": "Desativar isolamento de núcleo",
+      "category": "Windows",
+      "warning": "Reduz proteções de isolamento e virtualização do Windows. Pode afetar segurança e compatibilidade. Reinicialização necessária.",
+      "file": "scripts/actions/opcao17.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloater",
+      "title": "Remover aplicativos em lote",
+      "category": "Windows",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloater.bat",
+      "dependencies": []
+    },
+    {
+      "id": "reverterdebloater",
+      "title": "Registrar novamente aplicativos",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/reverterdebloater.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao19",
+      "title": "Ativar Modo de Jogo",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao19.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao20",
+      "title": "Desativar otimizações de tela cheia",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao20.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao21",
+      "title": "Desativar aceleração do mouse",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao21.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao22",
+      "title": "Abrir ISLC / resolução de timer",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao22.bat",
+      "dependencies": [
+        "scripts/ISLC v1.0.4.6/ar/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/config.json",
+        "scripts/ISLC v1.0.4.6/cs/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/da/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/de/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/el/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/es/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/fi/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/fr/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/Intelligent standby list cleaner ISLC.exe",
+        "scripts/ISLC v1.0.4.6/Intelligent standby list cleaner ISLC.pdb",
+        "scripts/ISLC v1.0.4.6/ISLC.Core.dll",
+        "scripts/ISLC v1.0.4.6/ISLC.Core.pdb",
+        "scripts/ISLC v1.0.4.6/it/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/ja/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/ko/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/LICENSE.txt",
+        "scripts/ISLC v1.0.4.6/nl/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/no/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/pl/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/pt/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/ReadMe.txt",
+        "scripts/ISLC v1.0.4.6/ru/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/sv/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/THIRD-PARTY-NOTICES.txt",
+        "scripts/ISLC v1.0.4.6/tr/Intelligent standby list cleaner ISLC.resources.dll",
+        "scripts/ISLC v1.0.4.6/zh-Hans/Intelligent standby list cleaner ISLC.resources.dll"
+      ]
+    },
+    {
+      "id": "opcao23",
+      "title": "Desativar VBS e HVCI",
+      "category": "Windows",
+      "warning": "Reduz proteções de isolamento e virtualização do Windows. Pode afetar segurança e compatibilidade. Reinicialização necessária.",
+      "file": "scripts/actions/opcao23.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao24",
+      "title": "Desativar compatibilidade forçada",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao24.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao25",
+      "title": "Fechar Explorer",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao25.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao26",
+      "title": "Iniciar Explorer",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao26.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao27",
+      "title": "Limpar cache do Windows",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao27.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao28",
+      "title": "Verificar arquivos do Windows",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao28.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao29",
+      "title": "Desativar Power Throttling",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao29.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao30",
+      "title": "Desativar EcoQoS",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao30.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao31",
+      "title": "Desativar suspensão seletiva USB",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao31.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao32",
+      "title": "Desativar economia da rede",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao32.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao33",
+      "title": "Desativar economia PCIe",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/opcao33.bat",
+      "dependencies": []
+    },
+    {
+      "id": "opcao34",
+      "title": "Reiniciar computador",
+      "category": "Windows",
+      "warning": "Solicita desligamento ou reinicialização em 30 segundos. Salve os seus arquivos antes de executar.",
+      "file": "scripts/actions/opcao34.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_fortnite",
+      "title": "Priorizar FORTNITE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_fortnite.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_gtav",
+      "title": "Priorizar GTAV",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_gtav.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_fivem",
+      "title": "Priorizar FIVEM",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_fivem.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_cs2",
+      "title": "Priorizar CS2",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_cs2.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_minecraft",
+      "title": "Priorizar MINECRAFT",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_minecraft.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_valorant",
+      "title": "Priorizar VALORANT",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_valorant.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_lol",
+      "title": "Priorizar LOL",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_lol.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_warzone",
+      "title": "Priorizar WARZONE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_warzone.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_apex",
+      "title": "Priorizar APEX",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_apex.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_roblox",
+      "title": "Priorizar ROBLOX",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_roblox.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_gow",
+      "title": "Priorizar GOW",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_gow.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_gow_ragnarok",
+      "title": "Priorizar GOW RAGNAROK",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_gow_ragnarok.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_mta",
+      "title": "Priorizar MTA",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_mta.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_ets1",
+      "title": "Priorizar ETS1",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_ets1.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_ets2",
+      "title": "Priorizar ETS2",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_ets2.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_r6",
+      "title": "Priorizar R6",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_r6.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_cult",
+      "title": "Priorizar CULT",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_cult.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_ultrakill",
+      "title": "Priorizar ULTRAKILL",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_ultrakill.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_bloodstrike",
+      "title": "Priorizar BLOODSTRIKE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_bloodstrike.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_arenabreakout",
+      "title": "Priorizar ARENABREAKOUT",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_arenabreakout.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_residentevil4remake",
+      "title": "Priorizar RESIDENTEVIL4REMAKE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_residentevil4remake.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_residentevil2remake",
+      "title": "Priorizar RESIDENTEVIL2REMAKE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_residentevil2remake.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_residentevilvillage",
+      "title": "Priorizar RESIDENTEVILVILLAGE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_residentevilvillage.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_freefire",
+      "title": "Priorizar FREEFIRE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_freefire.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_battlefield2042",
+      "title": "Priorizar BATTLEFIELD2042",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_battlefield2042.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_battlefield4",
+      "title": "Priorizar BATTLEFIELD4",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_battlefield4.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_tlou1",
+      "title": "Priorizar TLOU1",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_tlou1.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_pubg",
+      "title": "Priorizar PUBG",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_pubg.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_rocketleague",
+      "title": "Priorizar ROCKETLEAGUE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_rocketleague.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_cyberpunk",
+      "title": "Priorizar CYBERPUNK",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_cyberpunk.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_terraria",
+      "title": "Priorizar TERRARIA",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_terraria.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_rdr2",
+      "title": "Priorizar RDR2",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_rdr2.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_battlefield6",
+      "title": "Priorizar BATTLEFIELD6",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_battlefield6.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_choochoo",
+      "title": "Priorizar CHOOCHOO",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_choochoo.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_hll",
+      "title": "Priorizar HLL",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_hll.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_fs22",
+      "title": "Priorizar FS22",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_fs22.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_fs25",
+      "title": "Priorizar FS25",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_fs25.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_hollowknight",
+      "title": "Priorizar HOLLOWKNIGHT",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_hollowknight.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_genshin",
+      "title": "Priorizar GENSHIN",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_genshin.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_pointblank",
+      "title": "Priorizar POINTBLANK",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_pointblank.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_mysummercar",
+      "title": "Priorizar MYSUMMERCAR",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_mysummercar.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_dayz",
+      "title": "Priorizar DAYZ",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_dayz.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_sf6",
+      "title": "Priorizar SF6",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_sf6.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_rust",
+      "title": "Priorizar RUST",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_rust.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_re9",
+      "title": "Priorizar RE9",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_re9.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_chivalry2",
+      "title": "Priorizar CHIVALRY2",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_chivalry2.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_subnautica",
+      "title": "Priorizar SUBNAUTICA",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_subnautica.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_left4dead",
+      "title": "Priorizar LEFT4DEAD",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_left4dead.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_marvelrivals",
+      "title": "Priorizar MARVELRIVALS",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_marvelrivals.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_warface",
+      "title": "Priorizar WARFACE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_warface.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_deadlock",
+      "title": "Priorizar DEADLOCK",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_deadlock.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_cuphead",
+      "title": "Priorizar CUPHEAD",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_cuphead.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_escapefromtarkov",
+      "title": "Priorizar ESCAPEFROMTARKOV",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_escapefromtarkov.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_deathstranding",
+      "title": "Priorizar DEATHSTRANDING",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_deathstranding.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_poppyplaytime",
+      "title": "Priorizar POPPYPLAYTIME",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_poppyplaytime.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_pes",
+      "title": "Priorizar PES",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_pes.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_dbd",
+      "title": "Priorizar DBD",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_dbd.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_fc26",
+      "title": "Priorizar FC26",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_fc26.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_ffxiv",
+      "title": "Priorizar FFXIV",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_ffxiv.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_marvel",
+      "title": "Priorizar MARVEL",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_marvel.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_got",
+      "title": "Priorizar GOT",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_got.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_skyrim",
+      "title": "Priorizar SKYRIM",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_skyrim.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_daysgone",
+      "title": "Priorizar DAYSGONE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_daysgone.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_palworld",
+      "title": "Priorizar PALWORLD",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_palworld.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_crossfire",
+      "title": "Priorizar CROSSFIRE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_crossfire.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_warframe",
+      "title": "Priorizar WARFRAME",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_warframe.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_theisle",
+      "title": "Priorizar THEISLE",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_theisle.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_snowrunner",
+      "title": "Priorizar SNOWRUNNER",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_snowrunner.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_rematch",
+      "title": "Priorizar REMATCH",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_rematch.bat",
+      "dependencies": []
+    },
+    {
+      "id": "priorizar_meccha",
+      "title": "Priorizar MECCHA",
+      "category": "Jogos",
+      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_meccha.bat",
+      "dependencies": []
+    },
+    {
+      "id": "autorun",
+      "title": "Gerenciar inicialização / Autoruns",
+      "category": "Windows",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/autorun.bat",
+      "dependencies": [
+        "scripts/Autoruns.exe"
+      ]
+    },
+    {
+      "id": "fixbluetooth",
+      "title": "Reparar Bluetooth",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixbluetooth.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixreativarwifi",
+      "title": "Reativar Wi-Fi",
+      "category": "Reparos",
+      "warning": "A conexão será interrompida temporariamente. Pode exigir reconexão ou reinicialização.",
+      "file": "scripts/actions/fixreativarwifi.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixaudio",
+      "title": "Reparar áudio",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixaudio.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixlojadowindows",
+      "title": "Reparar Microsoft Store",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixlojadowindows.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixnotebookmodoaviao",
+      "title": "Reparar modo avião",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixnotebookmodoaviao.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixpcnaodesliga",
+      "title": "Desligar computador",
+      "category": "Reparos",
+      "warning": "Solicita desligamento ou reinicialização em 30 segundos. Salve os seus arquivos antes de executar.",
+      "file": "scripts/actions/fixpcnaodesliga.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixarquivoscorrompidos",
+      "title": "Reparar arquivos corrompidos",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixarquivoscorrompidos.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixderedeeinternet",
+      "title": "Redefinir rede e internet",
+      "category": "Reparos",
+      "warning": "A conexão será interrompida temporariamente. Pode exigir reconexão ou reinicialização.",
+      "file": "scripts/actions/fixderedeeinternet.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixerrodedisco",
+      "title": "Verificar disco do sistema",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixerrodedisco.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixmenuiniciarebarradetarefas",
+      "title": "Reiniciar Explorer e barra de tarefas",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixmenuiniciarebarradetarefas.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixservicosxbox",
+      "title": "Reparar serviços Xbox",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixservicosxbox.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixwindowsupdate",
+      "title": "Reparar Windows Update",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixwindowsupdate.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixxboxapp",
+      "title": "Reparar aplicativo Xbox",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixxboxapp.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixcamera",
+      "title": "Reparar câmera",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixcamera.bat",
+      "dependencies": []
+    },
+    {
+      "id": "fixmicrofone",
+      "title": "Reparar microfone",
+      "category": "Reparos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/fixmicrofone.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao2",
+      "title": "Remover: todos programas inúteis do Windows",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao2.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao3",
+      "title": "Remover: Officehub",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao3.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao4",
+      "title": "Remover: Cortana",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao4.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao5",
+      "title": "Remover: Copilot",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao5.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao6",
+      "title": "Remover: Loja do Windows",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao6.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao7",
+      "title": "Remover: a Xbox do Windows",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao7.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao8",
+      "title": "Remover: Windows photo",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao8.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao9",
+      "title": "Remover: Windows Phone",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao9.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao10",
+      "title": "Remover: Windows Music",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao10.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao11",
+      "title": "Remover: Windows Messaging",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao11.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao12",
+      "title": "Remover: Windows Maps",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao12.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao13",
+      "title": "Remover: Windows Groove",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao13.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao14",
+      "title": "Remover: Windows Getstarted",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao14.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao15",
+      "title": "Remover: Windows Calendário",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao15.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao16",
+      "title": "Remover: Calculadora Do Windows",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao16.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao17",
+      "title": "Remover: Windows Alarmes",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao17.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao18",
+      "title": "Remover: Windows 3DBuilder",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao18.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao19",
+      "title": "Remover: Windows Câmera",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao19.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao20",
+      "title": "Remover: Notícias do Windows",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao20.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao21",
+      "title": "Remover: OneDrive",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao21.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao22",
+      "title": "Remover: Anúncios e sugestões",
+      "category": "Aplicativos",
+      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "file": "scripts/actions/debloat_opcao22.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao23",
+      "title": "Remover: Emails",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao23.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao24",
+      "title": "Remover: Outlook",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao24.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao25",
+      "title": "Remover: Assistência Rápida",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao25.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao26",
+      "title": "Remover: Microsoft To Do",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao26.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao27",
+      "title": "Remover: Solitaire e Jogos Casuais",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao27.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao28",
+      "title": "Remover: Todos os aplicativos",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao28.bat",
+      "dependencies": []
+    },
+    {
+      "id": "debloat_opcao29",
+      "title": "Remover: Hub de Comentários",
+      "category": "Aplicativos",
+      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "file": "scripts/actions/debloat_opcao29.bat",
+      "dependencies": []
+    }
+  ],
+  "files": {
+    "scripts/actions/amd.bat": {
+      "sha256": "ff44935b6ed92c81c6294cb34ecfe3d8dac96d3e03894a1e92d0efb808510044",
+      "size": 1794
+    },
+    "scripts/actions/ativarmemoria.bat": {
+      "sha256": "0ef5ddb8d8c541d67b12717dc584890ff9926d331c26615f4078af33c162ca24",
+      "size": 249
+    },
+    "scripts/actions/ativarsuper.bat": {
+      "sha256": "5c11be1c341f5a7ae302d9b2abed4b5bbda71d2c6ec087fead8f23023a572c04",
+      "size": 550
+    },
+    "scripts/actions/autorun.bat": {
+      "sha256": "5653ef56f03c98e8da16d0411880d884f4261a2bb218aad0f3b8c02ae665fec7",
+      "size": 271
+    },
+    "scripts/actions/debloater.bat": {
+      "sha256": "87407f2160b7e396e4712ed99145a28ea91afe9e9dd88cb9ab870d818e47c35a",
+      "size": 1623
+    },
+    "scripts/actions/debloat_opcao10.bat": {
+      "sha256": "b78c8d57749cd10e04376818bab572877bf0483b83ab5b20562bb68c99bdd93e",
+      "size": 350
+    },
+    "scripts/actions/debloat_opcao11.bat": {
+      "sha256": "b4393447c3a009daa8a95c62428c149190dfa8781ae2fb61b474c3c6246521b4",
+      "size": 358
+    },
+    "scripts/actions/debloat_opcao12.bat": {
+      "sha256": "ed3d191cc98d34155849ae5ad67d4f31aabaa88dc419c9d591009006a53c901d",
+      "size": 348
+    },
+    "scripts/actions/debloat_opcao13.bat": {
+      "sha256": "64619061640cc0b84254611dec724710c857a2c4814722e26c59330c9dc4f690",
+      "size": 352
+    },
+    "scripts/actions/debloat_opcao14.bat": {
+      "sha256": "f6391074fb2a6d18bad258296d53a5084dfc2abc9a5df0aefbc445a3fcee8f23",
+      "size": 360
+    },
+    "scripts/actions/debloat_opcao15.bat": {
+      "sha256": "b9b6ca596307bade86e7efcbb3504f2685cb1f4553b1e8d7da0bb82ec779f569",
+      "size": 359
+    },
+    "scripts/actions/debloat_opcao16.bat": {
+      "sha256": "7d831d7e703cc9bdadb098e447b97a195859df599e8e41e6e4d9ee39b76b18f5",
+      "size": 364
+    },
+    "scripts/actions/debloat_opcao17.bat": {
+      "sha256": "f4c670e97affdf35be4f945a219f265f7db414b3f2c9aca26fa3b5a88d993015",
+      "size": 353
+    },
+    "scripts/actions/debloat_opcao18.bat": {
+      "sha256": "f16bda0fe9e19ee3a584817b88295346d4ac2cd6a06ff934e9bf920d3c77d221",
+      "size": 358
+    },
+    "scripts/actions/debloat_opcao19.bat": {
+      "sha256": "63e3677b9d65c77795f731faa724846bbca5e19784c485c5c5a013c8507fcd26",
+      "size": 353
+    },
+    "scripts/actions/debloat_opcao2.bat": {
+      "sha256": "ffd53ee609f3a303209abdd92b1984f6d905762a5c9f02fb5a3e2b160d1bd62e",
+      "size": 2817
+    },
+    "scripts/actions/debloat_opcao20.bat": {
+      "sha256": "d3d6ba9cdbd9d5cf10085bb2343f63b02f45a623c45c903f921de981a04bc60b",
+      "size": 356
+    },
+    "scripts/actions/debloat_opcao21.bat": {
+      "sha256": "a59c3a703cbb0df2976c06fbe69f879038fba78a13abc75af3bdfc10cb16a5a1",
+      "size": 348
+    },
+    "scripts/actions/debloat_opcao22.bat": {
+      "sha256": "72d8fa3db8d3e6544e6bded4a48d4fca7003e73890852080bc023d000ad8d9a9",
+      "size": 1925
+    },
+    "scripts/actions/debloat_opcao23.bat": {
+      "sha256": "7bda35c6e3702169a4eeb763ae64bd385c8a43a0d29dcb78a566058d3bcb3066",
+      "size": 362
+    },
+    "scripts/actions/debloat_opcao24.bat": {
+      "sha256": "69a6ebfc4fd26ca1acd3034806e3f29edbe27c76d6d345d7ead928d7af2eefd7",
+      "size": 344
+    },
+    "scripts/actions/debloat_opcao25.bat": {
+      "sha256": "fd71dc65472cc725a32d5758c690c3b43e7a5752e5b21b915d6a9fb4e161a760",
+      "size": 361
+    },
+    "scripts/actions/debloat_opcao26.bat": {
+      "sha256": "decf5026b1ccc7aaccd3401dcf038093d8f9cba62bbb1fb03389c394981982b1",
+      "size": 350
+    },
+    "scripts/actions/debloat_opcao27.bat": {
+      "sha256": "81ff58512048234e38d3e80aa4a92e994d97150920af60c6d6d5a78b5686b74b",
+      "size": 444
+    },
+    "scripts/actions/debloat_opcao28.bat": {
+      "sha256": "656bbdee0cda5018824960a78cbee6442f9e1f865ab7c31e35b27be616c0950f",
+      "size": 337
+    },
+    "scripts/actions/debloat_opcao29.bat": {
+      "sha256": "540116916814455253a2abcb2911867559ad39ec134a53216ecdb108cec6aac7",
+      "size": 360
+    },
+    "scripts/actions/debloat_opcao3.bat": {
+      "sha256": "519412c2360ccaae110d5e88b4a1802e7d57ab765579823a4d2cf6c3c243095f",
+      "size": 350
+    },
+    "scripts/actions/debloat_opcao4.bat": {
+      "sha256": "9739bdeffe2a5df49ae25b1dd8b0ee1f928ee0ca2fe3f555e45f5d73347cbb13",
+      "size": 364
+    },
+    "scripts/actions/debloat_opcao5.bat": {
+      "sha256": "9458bde08fd837827e5eaebd1322f33b7647de9c45d350d3c36776497e5c1874",
+      "size": 574
+    },
+    "scripts/actions/debloat_opcao6.bat": {
+      "sha256": "a8d847a73cd8ed3bf6dd14146de4285669e0e411a038ba5623d44e72faf2a7c8",
+      "size": 352
+    },
+    "scripts/actions/debloat_opcao7.bat": {
+      "sha256": "0a56b43660d986f2b5939af534025aaac9a4f69942db6b3553853fa21101d769",
+      "size": 353
+    },
+    "scripts/actions/debloat_opcao8.bat": {
+      "sha256": "40a5461a6fb3946eb94b2f206f7b884312d4fc295026cccaa8fd85ebd56c6a83",
+      "size": 351
+    },
+    "scripts/actions/debloat_opcao9.bat": {
+      "sha256": "d2744d8f16495e868e98fe00f3f8c34fb411ba4f75ac58531f8822b69a3af6fb",
+      "size": 350
+    },
+    "scripts/actions/desativarmemoria.bat": {
+      "sha256": "671567dd5930a3bf8c6e669d47690b2bb938706bb799933893005a55ac3e5e92",
+      "size": 250
+    },
+    "scripts/actions/desativarsuper.bat": {
+      "sha256": "3d7f6cae1e3de69fdb0f83f30e406350670f80e0c789c31fee868dc571b45511",
+      "size": 553
+    },
+    "scripts/actions/desativarxbox.bat": {
+      "sha256": "590d0fc3909e7b2aa674cb0de3ceb8d643d9fc10e54ab3677f101b05a4f658d4",
+      "size": 986
+    },
+    "scripts/actions/fixarquivoscorrompidos.bat": {
+      "sha256": "de47af602723ba0820d1579d75f4961316ba9e1222f27b95628dc145aa33b0cf",
+      "size": 345
+    },
+    "scripts/actions/fixaudio.bat": {
+      "sha256": "87e01dc93e298517aecbee7a1da8ae0d714adf4576e8728c5316676f9789e77f",
+      "size": 374
+    },
+    "scripts/actions/fixbluetooth.bat": {
+      "sha256": "be7b138d760d13af9aee9c9c2375415930aa0e7d67d739d365bd8c37815685fa",
+      "size": 258
+    },
+    "scripts/actions/fixcamera.bat": {
+      "sha256": "6f06a12e4a1e65dc2877e8766381cc61fc774006e81e4ac7ac4b07de6b151dad",
+      "size": 5432
+    },
+    "scripts/actions/fixderedeeinternet.bat": {
+      "sha256": "d4d0852627b823ba2f06781b95ee38d0e3c3af94807d6e634076649d7c437313",
+      "size": 306
+    },
+    "scripts/actions/fixerrodedisco.bat": {
+      "sha256": "239dcb72798cfe0bef5a24e61945e790ec19a1106d975ca34be57054e08d2491",
+      "size": 237
+    },
+    "scripts/actions/fixlojadowindows.bat": {
+      "sha256": "14f967d2643cfb10fae862ef3d4dbba40a84980f559d68dfc5f258c23bf19930",
+      "size": 403
+    },
+    "scripts/actions/fixmenuiniciarebarradetarefas.bat": {
+      "sha256": "f91b6e91d22b4e76e76697bb4a54b52bb00b6f8c05741f0a7e34f2538028a62d",
+      "size": 259
+    },
+    "scripts/actions/fixmicrofone.bat": {
+      "sha256": "f62d3c57bb15b6697d87af69cad32aa7fe952e84b8b20b04b9bc69431a395160",
+      "size": 5043
+    },
+    "scripts/actions/fixnotebookmodoaviao.bat": {
+      "sha256": "9ca42c68c03df9a69d447283071b4e7929342875238536ca0dfcd9cb324773c2",
+      "size": 303
+    },
+    "scripts/actions/fixpcnaodesliga.bat": {
+      "sha256": "6cbd4393f46bd159fc2e8abeab66be62390aa40527bdabfef309ffbca1498d25",
+      "size": 244
+    },
+    "scripts/actions/fixreativarwifi.bat": {
+      "sha256": "36b7ca80aebcde8d1188ce2c3875e0cf41508a19b919438017723ef3cbb318a7",
+      "size": 436
+    },
+    "scripts/actions/fixservicosxbox.bat": {
+      "sha256": "3460335de3236cd50c707da87780b8b3c059532cda9eb11207d7bd2e5c848701",
+      "size": 538
+    },
+    "scripts/actions/fixwindowsupdate.bat": {
+      "sha256": "717289f0e1e21cba378ab71550bdb9baed284a712ace96d06f87449db4668578",
+      "size": 431
+    },
+    "scripts/actions/fixxboxapp.bat": {
+      "sha256": "fea9c57f1090b274a2bfaf2cf516363f101d37cfcc06883c40c4659981df29d9",
+      "size": 545
+    },
+    "scripts/actions/intel.bat": {
+      "sha256": "bf57e2fa296c86d85b2c7aced665b9cc5a870d005fa4a39d714edc13511d420e",
+      "size": 1798
+    },
+    "scripts/actions/limparram.bat": {
+      "sha256": "a3f652b4aeca96083decbb810f0f23719dd57677d34f2c82971b2727f3235a14",
+      "size": 659
+    },
+    "scripts/actions/nvidia.bat": {
+      "sha256": "42d1ff83bacf6d8b4f71d7bdb40be7a9cfd4e777e6dc2630ffd2156ce367fda1",
+      "size": 1957
+    },
+    "scripts/actions/opcao1.bat": {
+      "sha256": "0ccfcd5084336e8814f18f0371a06a78947b952859fca7af03f95bfe85445cb9",
+      "size": 412
+    },
+    "scripts/actions/opcao11.bat": {
+      "sha256": "499cee1544b759841559b35f6ce7b256c2ee1191799b3e9113f5936be2061c36",
+      "size": 336
+    },
+    "scripts/actions/opcao12.bat": {
+      "sha256": "fe2fb7ced065b46dc7cb29d7002253b3c3051c42528096e3714a60bd2e762cc8",
+      "size": 707
+    },
+    "scripts/actions/opcao13.bat": {
+      "sha256": "bf4c8b7b052e1cf5a398a04f135890749c06b09888cc8d8b642d6df54f43d361",
+      "size": 459
+    },
+    "scripts/actions/opcao15.bat": {
+      "sha256": "9f4f2bf7692f42051362f43b32d54ae285128eda4ff973ae4f3bc29548f0bb86",
+      "size": 930
+    },
+    "scripts/actions/opcao17.bat": {
+      "sha256": "5b3913269a962550bfa44f74b30519975a383b9bf5e20353f0b0287d71fa4322",
+      "size": 617
+    },
+    "scripts/actions/opcao19.bat": {
+      "sha256": "76cb12587145e60d1b179c1128b01389722bbd1cdf27f8a9a5db5469bec1d0b1",
+      "size": 395
+    },
+    "scripts/actions/opcao2.bat": {
+      "sha256": "86c4fa59cb3feb207541c146b662c37331e4ef12b72b7f615afda83291aa4784",
+      "size": 646
+    },
+    "scripts/actions/opcao20.bat": {
+      "sha256": "d804bde7d9cf54070d1cb66651e44accdddf3ca7a181903d547fed2f0b7a04a1",
+      "size": 423
+    },
+    "scripts/actions/opcao21.bat": {
+      "sha256": "4bdbe944e930d53309ff9a854cdad24d4e64c7077e4a7ea03cc1747b27bcf5e5",
+      "size": 449
+    },
+    "scripts/actions/opcao22.bat": {
+      "sha256": "ef8e181c24662b2b28e1fd1fb4798f26ddf9e6b26aa9663ccfa949cdbf534423",
+      "size": 486
+    },
+    "scripts/actions/opcao23.bat": {
+      "sha256": "defc9d37ba46e4c56c09321fa6899b8f191e8db592a581549225eff6d149f559",
+      "size": 739
+    },
+    "scripts/actions/opcao24.bat": {
+      "sha256": "66b2f364298834e2b182cae0574915825200bd03fdbf99b098cb2af01a1b936f",
+      "size": 606
+    },
+    "scripts/actions/opcao25.bat": {
+      "sha256": "bd4b420d6d62f55839b45b49ced7b1d9cc003bfc63d3f863d5dba771fdc9c3e8",
+      "size": 249
+    },
+    "scripts/actions/opcao26.bat": {
+      "sha256": "56afdef5da6312d9a004b98bde670aff6c880f26f22724753f7c864973e29c29",
+      "size": 240
+    },
+    "scripts/actions/opcao27.bat": {
+      "sha256": "a239866506d4779851978bdba833f9b9b95b59aa2614212481d2e29dd777e47d",
+      "size": 780
+    },
+    "scripts/actions/opcao28.bat": {
+      "sha256": "54707250a9ab162a70e94ac1b10329b1bba7dc7a11b03cc5074fabe11c13a36e",
+      "size": 305
+    },
+    "scripts/actions/opcao29.bat": {
+      "sha256": "949d37e1a2057d6301a65b3d48ec0bc7266a58127f04fa9f6da1e3a4e9c63d7f",
+      "size": 460
+    },
+    "scripts/actions/opcao3.bat": {
+      "sha256": "1a40c5ca7b1d44aedcc63f0db18a6b44682db73afbfda48255bbb763db0bb603",
+      "size": 482
+    },
+    "scripts/actions/opcao30.bat": {
+      "sha256": "294e592fb7dc5f155174c93b82d2ff29995f09f42b4b12bdba8fa1b8cc578cfa",
+      "size": 565
+    },
+    "scripts/actions/opcao31.bat": {
+      "sha256": "0e1ac6a8ea273790f9b4cb27a3a839294208b138e090733227a92ae4a2f38d98",
+      "size": 524
+    },
+    "scripts/actions/opcao32.bat": {
+      "sha256": "d8459dcf6ef6f76cc7d9c2b29d091368e5ddc8556e732445904c4ee9906c5ce9",
+      "size": 659
+    },
+    "scripts/actions/opcao33.bat": {
+      "sha256": "f629d59ccd33580a10cee171bdc4c54ee4db4795af25a9061d7a37d294e0448a",
+      "size": 553
+    },
+    "scripts/actions/opcao34.bat": {
+      "sha256": "0c738314449ad018511e993110b8c56fb27e9d8941d85abc8e098c382e625066",
+      "size": 337
+    },
+    "scripts/actions/opcao4.bat": {
+      "sha256": "001861ab51fff56a82725c24f54beb0efe8ab45ad6f059246732f05641b3bef5",
+      "size": 513
+    },
+    "scripts/actions/opcao5.bat": {
+      "sha256": "3eee0e946300f0a5ba75f463ba07b79d305b7965ca46a3901a308e26fac2601c",
+      "size": 671
+    },
+    "scripts/actions/opcao7.bat": {
+      "sha256": "a915e2ca1c3f1a1a39bc0b843e74267678db0183b78848eb50678d2199b84412",
+      "size": 413
+    },
+    "scripts/actions/opcao8.bat": {
+      "sha256": "de92674369c214a11e7bb38095936d214403f15793528620ce7591f6a381fb58",
+      "size": 978
+    },
+    "scripts/actions/opcao9.bat": {
+      "sha256": "3498430b875ace82dab70589f594e544635f13cadec85b61839d762fe9a406b3",
+      "size": 254
+    },
+    "scripts/actions/otimizarforeground.bat": {
+      "sha256": "ca53b33ad143d95d133d2d0fcb7a61652d6d82a9921d7929c48308bf5fb1c843",
+      "size": 780
+    },
+    "scripts/actions/ping.bat": {
+      "sha256": "e6c0b1719ac158e50f2db0ecdeed456da944d0aa9c4bcc0b9d51b9a5297fb707",
+      "size": 362
+    },
+    "scripts/actions/priorizar_apex.bat": {
+      "sha256": "4c456d51cfa6fbcabff2263c6faf807bd1efd6dbd06dabbde5a0eb65c44545aa",
+      "size": 653
+    },
+    "scripts/actions/priorizar_arenabreakout.bat": {
+      "sha256": "0175812f1a1a977b19012426232b3424e918ab488c4a3a90c9e0209e11dc5b5d",
+      "size": 687
+    },
+    "scripts/actions/priorizar_battlefield2042.bat": {
+      "sha256": "52f197d8b1177ae4be017d2b3cb8a7968ab8247ce7d74df5bb81c05d9ea8a474",
+      "size": 668
+    },
+    "scripts/actions/priorizar_battlefield4.bat": {
+      "sha256": "d1fef6a66635603eee23303578510cd9440b1b6bfce475dbd19fd7950baf420f",
+      "size": 656
+    },
+    "scripts/actions/priorizar_battlefield6.bat": {
+      "sha256": "60f9b95e958aee9a68d0172742145dd101ef8017becf695d14a7e62d247f75f8",
+      "size": 603
+    },
+    "scripts/actions/priorizar_bloodstrike.bat": {
+      "sha256": "dcf12cdb3894ba1df7d8f902e3dfb3006a27db8c82fe518e1a976acd81a67337",
+      "size": 678
+    },
+    "scripts/actions/priorizar_chivalry2.bat": {
+      "sha256": "5b4e68d33d2f49034cbbe773d3fc1bd938608d3e402576b3a193919bce46cc07",
+      "size": 705
+    },
+    "scripts/actions/priorizar_choochoo.bat": {
+      "sha256": "a43fe404eb10c3ead83175791eb92b3246fe78cf752bd01dcbe47eb92695e43f",
+      "size": 619
+    },
+    "scripts/actions/priorizar_crossfire.bat": {
+      "sha256": "a974a521610076eff43b9c1b6292144809ff57db9420d898ea83973bbac34470",
+      "size": 617
+    },
+    "scripts/actions/priorizar_cs2.bat": {
+      "sha256": "655491649956e915acd4f2df6f9dab88a5693e5a360293fcdd54a50150af4316",
+      "size": 635
+    },
+    "scripts/actions/priorizar_cult.bat": {
+      "sha256": "e6373f3835956fd62597c6d6ff87d3f5f58f94995b5325318a17709f53fb8047",
+      "size": 689
+    },
+    "scripts/actions/priorizar_cuphead.bat": {
+      "sha256": "e47d1d01b325d2e82e87f42e86decb479f450a99e1baa86a03b6d06f86980709",
+      "size": 651
+    },
+    "scripts/actions/priorizar_cyberpunk.bat": {
+      "sha256": "480f9a802a18dcbf26c275cd63729487d3de623a7138a8c3f2c8ade10651e595",
+      "size": 729
+    },
+    "scripts/actions/priorizar_daysgone.bat": {
+      "sha256": "13c953999c7578de33ab7f9ee0e21978a08749b79523f9e3d556cbfd8ce62354",
+      "size": 614
+    },
+    "scripts/actions/priorizar_dayz.bat": {
+      "sha256": "c974403f9c76793a6ebd346a013455aac98729feee125a8d4ab833390b47c5c5",
+      "size": 597
+    },
+    "scripts/actions/priorizar_dbd.bat": {
+      "sha256": "94fefcc2391c26ce4ef874aae30c856880d95f535ba4cfe41bc4ea25552a668a",
+      "size": 684
+    },
+    "scripts/actions/priorizar_deadlock.bat": {
+      "sha256": "ff707e1ba028d61d048c2e3ec401532b06a28f568b669e0fa631f80c42e8b567",
+      "size": 655
+    },
+    "scripts/actions/priorizar_deathstranding.bat": {
+      "sha256": "bc9ea9cd8e0c3c1339e9c6d356e70e84761172b344252eb835729f517b57dd15",
+      "size": 1087
+    },
+    "scripts/actions/priorizar_escapefromtarkov.bat": {
+      "sha256": "2fbb323f219b8dcaf23ca82a63c962b7db998b18a284c449691775e9a6a602bd",
+      "size": 689
+    },
+    "scripts/actions/priorizar_ets1.bat": {
+      "sha256": "d1d86dcd189bbc565090d005049c70f77b58d987f60dba5d92c4aa287c72cd13",
+      "size": 633
+    },
+    "scripts/actions/priorizar_ets2.bat": {
+      "sha256": "1c1fe06bdc823300c957a747c091d413e5296d0c951567360a8fb19b9c19f5f4",
+      "size": 615
+    },
+    "scripts/actions/priorizar_fc26.bat": {
+      "sha256": "3b7e5e3b246df0facfdb4fd46e78c619096d294dd6853729a7cb9f3e042ecb67",
+      "size": 608
+    },
+    "scripts/actions/priorizar_ffxiv.bat": {
+      "sha256": "6f5e7f4243f67a7a272077c89c5ba20823318131c32c18b48e96989d77f2ef23",
+      "size": 628
+    },
+    "scripts/actions/priorizar_fivem.bat": {
+      "sha256": "54ecc1617c6541e73a10de0197813c7ad08ce77be044459ad525f6ac505e2c09",
+      "size": 694
+    },
+    "scripts/actions/priorizar_fortnite.bat": {
+      "sha256": "bb6984c78a12d0d52b597c67bd28b24cbbcb47b2340f762a08e2434502a05b26",
+      "size": 718
+    },
+    "scripts/actions/priorizar_freefire.bat": {
+      "sha256": "70e707e60fa194d85d8865dafc0d61fbe9b445fcac8cf5b889016e0ed2c0da0e",
+      "size": 670
+    },
+    "scripts/actions/priorizar_fs22.bat": {
+      "sha256": "116c32cdbb334ee915aff048a991888fd9ab3e7f6fcd37b99942de6389ef0c5d",
+      "size": 661
+    },
+    "scripts/actions/priorizar_fs25.bat": {
+      "sha256": "8452af30b9aae2c296a8652df739a493b1db34fb8eaafaf913647fab7f54cc6d",
+      "size": 661
+    },
+    "scripts/actions/priorizar_genshin.bat": {
+      "sha256": "2bf5ddfcc80d67bbb548a20b83ed08ea5c2f6b8d0380fb0c64334cfae1517baa",
+      "size": 634
+    },
+    "scripts/actions/priorizar_got.bat": {
+      "sha256": "e4e7d35f324323e04da81006e1825e5737c6b92f5c40420c37dc394728617d80",
+      "size": 643
+    },
+    "scripts/actions/priorizar_gow.bat": {
+      "sha256": "6c4397bd918ed92c5007bbf0300f0f08df6acafbc7d67074fcf5143f35ca1693",
+      "size": 600
+    },
+    "scripts/actions/priorizar_gow_ragnarok.bat": {
+      "sha256": "7010f02a245db6570f4532189fefffddbfc47e955f39122b63cd2a4632ca5c5e",
+      "size": 633
+    },
+    "scripts/actions/priorizar_gtav.bat": {
+      "sha256": "a20b9730b82984b5990720352ccd105efbb8efe7b405b3630cc691acb478e797",
+      "size": 640
+    },
+    "scripts/actions/priorizar_hll.bat": {
+      "sha256": "9f2957324029e238f60a3d5601170d440258b933f6441874037df6c13d36075f",
+      "size": 604
+    },
+    "scripts/actions/priorizar_hollowknight.bat": {
+      "sha256": "2a0a1c295a265796fd8641a12ce917df25aa777f330fcfa437f5998847d7fdbc",
+      "size": 633
+    },
+    "scripts/actions/priorizar_left4dead.bat": {
+      "sha256": "38382483cbcef3ded10f2e40e8f8c443a2d6f51d8ef35d280c29babd85f5132a",
+      "size": 1089
+    },
+    "scripts/actions/priorizar_lol.bat": {
+      "sha256": "96ae0d47449c5d770b94f84a9424dbe15f17bd9fbecc31c987b3262b6af99d6d",
+      "size": 676
+    },
+    "scripts/actions/priorizar_marvel.bat": {
+      "sha256": "a1ace3a4bf30f1aaa21426a7e8d4f66f47ce510e728298e6e995ae950a5bf491",
+      "size": 630
+    },
+    "scripts/actions/priorizar_marvelrivals.bat": {
+      "sha256": "92bf725343d675554559530444773599cd918db515cb1435c6fec9eea27c1936",
+      "size": 672
+    },
+    "scripts/actions/priorizar_meccha.bat": {
+      "sha256": "858c5ddad38074c9df3c97f83cb0acba95a683316ddd0ca30d07dd0df50e51c4",
+      "size": 642
+    },
+    "scripts/actions/priorizar_minecraft.bat": {
+      "sha256": "4bd1cabb79b18e58c3556087223f5801718f246217bc51ba0400f1f88bf5e489",
+      "size": 647
+    },
+    "scripts/actions/priorizar_mta.bat": {
+      "sha256": "02716f276f86253f400abbc8a7ee3b2a8bec642c83b163ee9e8e5ff04c2487be",
+      "size": 1019
+    },
+    "scripts/actions/priorizar_mysummercar.bat": {
+      "sha256": "591c804a65173df12f399870b1fee6106a77ae2101a8fdd5aeef64d95168d739",
+      "size": 627
+    },
+    "scripts/actions/priorizar_palworld.bat": {
+      "sha256": "858c2747e713d1464aed45a090507e4845ac98d77b34c6f1489c480c84681af6",
+      "size": 658
+    },
+    "scripts/actions/priorizar_pes.bat": {
+      "sha256": "b88ec0a916e973ce847190b002e25df6bc535aaec65c114f739f2ace69bb20db",
+      "size": 2127
+    },
+    "scripts/actions/priorizar_pointblank.bat": {
+      "sha256": "aa879d4bfaa1edeba7020a96cee84de6dff11db17015021d65eb46a8e5a237d2",
+      "size": 622
+    },
+    "scripts/actions/priorizar_poppyplaytime.bat": {
+      "sha256": "e58a65de24a30cfad7c7fa18c2f609e37d087aff6cd79f6b1b114b5d9d3255c8",
+      "size": 2300
+    },
+    "scripts/actions/priorizar_pubg.bat": {
+      "sha256": "59c6b6047ff7aa932f468be5597c31c6f4cfb5eef1f0503b0592e43c6960ebe6",
+      "size": 701
+    },
+    "scripts/actions/priorizar_r6.bat": {
+      "sha256": "571d1763259d20d217f97749ccaaa2a47fec7c95b33aad18cf3ea3bdf66c273d",
+      "size": 628
+    },
+    "scripts/actions/priorizar_rdr2.bat": {
+      "sha256": "9543b9b3f9fa9eee52b8b5e462b5afdce348b0bba30443e2409459cdcf8b2c8d",
+      "size": 709
+    },
+    "scripts/actions/priorizar_re9.bat": {
+      "sha256": "70fda0b944800a83295c74bff2fcc06458e24e44f8ef33867ec4a04c9a2ee360",
+      "size": 632
+    },
+    "scripts/actions/priorizar_rematch.bat": {
+      "sha256": "02102925190f94b605682ccdb91dbb7482e4683531933f6262f518b95968304a",
+      "size": 609
+    },
+    "scripts/actions/priorizar_residentevil2remake.bat": {
+      "sha256": "a834cb8aba4ddea0a0aa7c1b957b2f12e7389c84769ce94a805cdd3cf9d86866",
+      "size": 665
+    },
+    "scripts/actions/priorizar_residentevil4remake.bat": {
+      "sha256": "8ed08b38bb68ca30b49516e249ac5ec7e1b8729ce27ac6101c16f7b85e1a46d6",
+      "size": 665
+    },
+    "scripts/actions/priorizar_residentevilvillage.bat": {
+      "sha256": "c980b0671459bbf27c0e06eb38541f4b36d2071dc18fc4ae6763512eacc6e6c1",
+      "size": 664
+    },
+    "scripts/actions/priorizar_roblox.bat": {
+      "sha256": "a83747deb649e92026e09475c9a53762a26f843b6a632bbc1328d34bc66b3d40",
+      "size": 677
+    },
+    "scripts/actions/priorizar_rocketleague.bat": {
+      "sha256": "a8760d4ad4f6ba8985d948c1dc404621b292438adecba8668d0f9d9970e7c50d",
+      "size": 725
+    },
+    "scripts/actions/priorizar_rust.bat": {
+      "sha256": "61f2b4cc0899db02e499f8f132b5839c5c7c4844f2af3aa232724bb999195d1a",
+      "size": 615
+    },
+    "scripts/actions/priorizar_sf6.bat": {
+      "sha256": "35ac67aef1480922c6fee0f14b20e406fcc37aeb6e852381c2542d1191d2981d",
+      "size": 639
+    },
+    "scripts/actions/priorizar_skyrim.bat": {
+      "sha256": "a7941ab0a89d89f30e18a10e5d8147d6f014bc9dab0521880f254ab7eac2c641",
+      "size": 611
+    },
+    "scripts/actions/priorizar_snowrunner.bat": {
+      "sha256": "15732651f586e80ee0275e8e21487534ea54c7ebb5daadf74718de74992d207e",
+      "size": 621
+    },
+    "scripts/actions/priorizar_subnautica.bat": {
+      "sha256": "36c23dbc462afb4b319ffa7850b91502f8100e99d44443c0aaf156aa79aa7547",
+      "size": 663
+    },
+    "scripts/actions/priorizar_terraria.bat": {
+      "sha256": "5bef6647ac90b6d84eb383a270b3d8db4168991cf32c5941f35aad17343f6b57",
+      "size": 708
+    },
+    "scripts/actions/priorizar_theisle.bat": {
+      "sha256": "f9606bfa864ed3c4008990c4d1d782d8fb98eab2da3116cc7fb400516a07ea10",
+      "size": 673
+    },
+    "scripts/actions/priorizar_tlou1.bat": {
+      "sha256": "a54d61bc63b9d83f4d735850261c9794b02c8360f73cbf4b83e4da0e86c4f1c0",
+      "size": 1139
+    },
+    "scripts/actions/priorizar_ultrakill.bat": {
+      "sha256": "ca535978331a73ce6cf554317c89320b969fb69d7738b1d7a9a86a88cd9b19e1",
+      "size": 670
+    },
+    "scripts/actions/priorizar_valorant.bat": {
+      "sha256": "b04e0205937b3164f8b702fa4423b86c8dd7230b1a3f446f022e474726dcc06f",
+      "size": 700
+    },
+    "scripts/actions/priorizar_warface.bat": {
+      "sha256": "300c9977ed31d629ea074feb394b14c9eaab08fd5e92e52cb3fa042380bb753e",
+      "size": 656
+    },
+    "scripts/actions/priorizar_warframe.bat": {
+      "sha256": "db2867b9b0f41438984a21e5da16521e5a872c08c7311d0a845675309f4acc92",
+      "size": 625
+    },
+    "scripts/actions/priorizar_warzone.bat": {
+      "sha256": "2a945574838a0954d53b88f7e5b68005c0a30bced13e7979984ef65dc79b43b0",
+      "size": 639
+    },
+    "scripts/actions/restore.bat": {
+      "sha256": "ed12314212488ab288910e384bc96db1bb5bc234078ac2dee100e5d255233529",
+      "size": 512
+    },
+    "scripts/actions/reverteramdintelnvidia.bat": {
+      "sha256": "3e68bf2d9b2e5453764d9f397988927c0e6bfc5e002b4472f312cfbf920ed861",
+      "size": 2169
+    },
+    "scripts/actions/reverterdebloater.bat": {
+      "sha256": "974dee206ea4b56fbefb08e48e812f226f42efbafa77e7afaa9d78554e3903f9",
+      "size": 536
+    },
+    "scripts/actions/reverterxbox.bat": {
+      "sha256": "d800d515c559dd22b18bef3d68bb2096664defcd3efacc6315f67e440fc4eeb1",
+      "size": 639
+    },
+    "scripts/actions/voltarforeground.bat": {
+      "sha256": "27c982054d75fcd32f060ea18fecf1ea208a9125d0058ba306f0c01c9564e65a",
+      "size": 806
+    },
+    "scripts/Aga.Controls.dll": {
+      "sha256": "830e520caf3e89dccaa3c12e3bfc992221c164f2319a2ba57e402499c24290e3",
+      "size": 145920
+    },
+    "scripts/Autoruns.exe": {
+      "sha256": "f41051697b220757f3612ecd00749b952ce7bcaadd9dc782d79ef0338e45c3b6",
+      "size": 1758240
+    },
+    "scripts/debloater.bat": {
+      "sha256": "1f1e9b4ffa735f88204465136c27b561ffb22c2fdd243cbbfff2acec2ddb7e4c",
+      "size": 15173
+    },
+    "scripts/DnsJumper.exe": {
+      "sha256": "6fe6bac71a82a58abcb06b0df4a836116543302efe6e076402fa518dfa455baa",
+      "size": 912304
+    },
+    "scripts/DnsJumper.ini": {
+      "sha256": "f8f8e33aa098198b4e5169f69c604107dbe71dd36d851470cd20c12b7ffbd833",
+      "size": 239030
+    },
+    "scripts/EmptyStandbyList.exe": {
+      "sha256": "6d2b18f8a8ba787d3fa4c6e36ed6c7af66b10083ce555a21ec24b2ada3821cbe",
+      "size": 139424
+    },
+    "scripts/engine.bat": {
+      "sha256": "40a51ebe466243ccf1ecc62d1c6c21e6befa33bb7d4229a58d0392e0897312e4",
+      "size": 104894
+    },
+    "scripts/FilterKeysSetter.exe": {
+      "sha256": "1c838c8d8fff838cdb583cf76ff61c8002df9be7d617da6094175d4d78697023",
+      "size": 184320
+    },
+    "scripts/icon.ico": {
+      "sha256": "8e4a2ec705b531e1d195f4431682c946b4409fb4c9e8a54a89424a619cc57608",
+      "size": 35281
+    },
+    "scripts/ISLC v1.0.4.6/ar/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "1b687caf12f830fd05356cb84505cbf3bf14c0d5d821606516c012e8f23ad618",
+      "size": 24848
+    },
+    "scripts/ISLC v1.0.4.6/config.json": {
+      "sha256": "1c2801e9ff70097497bb7ffe5529754fe8e7d746fcf04c0f2e1eb37a388befbd",
+      "size": 318
+    },
+    "scripts/ISLC v1.0.4.6/cs/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "de22e57c694c028a4d0e60ff0c12e1da98af75eab7b6d6824bf66cf5ded595f8",
+      "size": 23312
+    },
+    "scripts/ISLC v1.0.4.6/da/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "4fedc53a2ee97b232248411b828ad5e0754f3361833cf7fa1b854c345214bcc8",
+      "size": 22800
+    },
+    "scripts/ISLC v1.0.4.6/de/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "330778b2b4f55cc45bd7a79b149d05b85c08ff0b926be02c09e7a23938354783",
+      "size": 23312
+    },
+    "scripts/ISLC v1.0.4.6/el/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "4f75ac4b7a9fd2cbcf1537f5286ae205666690c00bdb67c9f3c030ee3d9c47c4",
+      "size": 27408
+    },
+    "scripts/ISLC v1.0.4.6/es/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "a1fab9bf948c64ba8aac29c5ca6924f8bd370bb5a43bd3ad58bf9113e9fd5590",
+      "size": 23824
+    },
+    "scripts/ISLC v1.0.4.6/fi/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "e0debd0c86ca23d600c063e9a4f7121d025ccfd50003797f0b06c2657f23dbc8",
+      "size": 23312
+    },
+    "scripts/ISLC v1.0.4.6/fr/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "b11feef61d508e9d2ec624ef48094bc15cb21a88f3b5763b514f88f1d156413f",
+      "size": 23312
+    },
+    "scripts/ISLC v1.0.4.6/Intelligent standby list cleaner ISLC.exe": {
+      "sha256": "92f6e0fe9cabcf732dfb1a5e8dd1067b84583aeb6de3f9d596db4884158b0ee5",
+      "size": 1173264
+    },
+    "scripts/ISLC v1.0.4.6/Intelligent standby list cleaner ISLC.pdb": {
+      "sha256": "9921204a9b90bc599b84ef352b4db907d1f9216ac11bef80030dc18f13b1fb8f",
+      "size": 187904
+    },
+    "scripts/ISLC v1.0.4.6/ISLC.Core.dll": {
+      "sha256": "95f74bbd97c9809f2d231ae775f917f5f9b96d357c5c082c208bc3c852a6ca87",
+      "size": 47888
+    },
+    "scripts/ISLC v1.0.4.6/ISLC.Core.pdb": {
+      "sha256": "3a17355aeae1127b77764ab658d8fb9558cfb9d7667bab6c842a29b646ee7459",
+      "size": 95744
+    },
+    "scripts/ISLC v1.0.4.6/it/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "8a0f1df9e786c346071e7fd7299ef164bff3c1f768eb8010de6008ecf27dd24f",
+      "size": 23824
+    },
+    "scripts/ISLC v1.0.4.6/ja/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "ccfda953b6d3f909a388d3a565251aecc27335534f1cee4f0ed7f1dec6b0c7e5",
+      "size": 24336
+    },
+    "scripts/ISLC v1.0.4.6/ko/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "4c8335dd962f2c3985aff28a0f54e1571e3269b5e15a2a4d3659000d4d7ee81c",
+      "size": 23824
+    },
+    "scripts/ISLC v1.0.4.6/LICENSE.txt": {
+      "sha256": "31deb37929508cb318b95c586850b45aff999a1e155fbf76465457b893b364cf",
+      "size": 3082
+    },
+    "scripts/ISLC v1.0.4.6/nl/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "7ca857bc2100db8d31abad634bad143b77d93bc18648df878eff3e4bf434bddb",
+      "size": 23312
+    },
+    "scripts/ISLC v1.0.4.6/no/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "d662f1bec47aee8e8d57dad0616d0a2967f95aa062364694b7908d78cdaeba0a",
+      "size": 22800
+    },
+    "scripts/ISLC v1.0.4.6/pl/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "013887405931322f0f4bcecfb136e096f5bbe8b1e5bac910b57381d888395d70",
+      "size": 23312
+    },
+    "scripts/ISLC v1.0.4.6/pt/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "ef2ae65e29b41142e30d58f89ea70ca4fc4790822ba60c05428e3e10ce9d3c9c",
+      "size": 23312
+    },
+    "scripts/ISLC v1.0.4.6/ReadMe.txt": {
+      "sha256": "6e8557e10a26bb94bc042a281463b78d0da8a810c69c6bc4f88bbb0359c52d97",
+      "size": 1623
+    },
+    "scripts/ISLC v1.0.4.6/ru/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "9fa70afe9bebc10a303144583f3670ee07c27bcfbd99a21d6477a65e6c4ac2c8",
+      "size": 26896
+    },
+    "scripts/ISLC v1.0.4.6/sv/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "4c772e1955d4862d3191b06312af925f818ccbe026873d2af5642e0e252c7bf3",
+      "size": 22800
+    },
+    "scripts/ISLC v1.0.4.6/THIRD-PARTY-NOTICES.txt": {
+      "sha256": "dcb134e849f7ed0e2842c25c5a1a38403c197cda4a7e554bedbaa823f0c97411",
+      "size": 1587
+    },
+    "scripts/ISLC v1.0.4.6/tr/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "41aed7ca26a995dfb7261456597800cd23a993b71aa5eb97b02f00055aa2a7fc",
+      "size": 23824
+    },
+    "scripts/ISLC v1.0.4.6/zh-Hans/Intelligent standby list cleaner ISLC.resources.dll": {
+      "sha256": "4bc4458d45715a06ad4c89f108703b205caafa20769b7cd1bbda20101e662b6e",
+      "size": 22288
+    },
+    "scripts/OpenHardwareMonitor.config": {
+      "sha256": "2612e995e3dbb90bdf4011b35618cf8c8bc1c37b2bfb31624fd907df40104c87",
+      "size": 20930
+    },
+    "scripts/OpenHardwareMonitor.exe": {
+      "sha256": "ec767a74c5659a05bdb7ac10bd42c2ea6d44fa946286029b2866aed476ad83bc",
+      "size": 493568
+    },
+    "scripts/OpenHardwareMonitorLib.dll": {
+      "sha256": "ef02b0991aac678052bb79dfdfd5bfa0b42b1f34b209e35819ba606909655f58",
+      "size": 311808
+    },
+    "scripts/OpenHardwareMonitorLib.sys": {
+      "sha256": "11bd2c9f9e2397c9a16e0990e4ed2cf0679498fe0fd418a3dfdac60b5c160ee5",
+      "size": 14544
+    },
+    "scripts/OxyPlot.dll": {
+      "sha256": "d3a00f3b9fbf82c4ee9fcf495a0fcc80f9f26711b4bb4fe15e0b769d47488b50",
+      "size": 305152
+    },
+    "scripts/OxyPlot.WindowsForms.dll": {
+      "sha256": "c92cfe4026ef2319c84aab392f274ebdeb135db85123ff0e44edf4a99b05c7d0",
+      "size": 21504
+    }
+  }
+}

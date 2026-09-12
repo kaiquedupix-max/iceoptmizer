@@ -1,0 +1,6 @@
+*.bat -text
+*.exe binary
+*.dll binary
+*.sys binary
+*.zip binary
+*.png binary
