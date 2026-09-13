@@ -1,8 +1,10 @@
 # ice optimizer
 
-Interface Windows e integração por **Maciota**. Versão **2.0 — Edição Glacial**: identidade de gelo com logo vetorial, cartões personalizados, animações suaves, descrições das 160 ações, seleção por categoria, revisão de conflitos, execução sequencial e histórico local.
+Interface Windows e integração por **Maciota**. Versão **2.1 — Edição Glacial**: identidade de gelo com logo vetorial, cartões personalizados, animações suaves, descrições das 160 ações, seleção por categoria, revisão de conflitos, execução sequencial, histórico local e ativação de licença.
 
-Marque os cartões ou use **Marcar categoria**, depois **Revisar e executar**. A revisão permite desmarcar combinações opostas. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. **Parar após esta ação** encerra a fila entre ações, sem matar um comando do Windows em andamento. Configurações permite reduzir movimento, escolher modo offline e decidir se a fila para após erro informado.
+Marque os cartões ou use **Marcar categoria**, depois **Revisar e executar**. A revisão permite desmarcar combinações opostas. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. **Parar após esta ação** encerra a fila entre ações, sem matar um comando do Windows em andamento. A fila continua quando uma ação informa erro, mostra o resultado individual e limpa a seleção ao terminar.
+
+O portal em `portal/` inclui página comercial, painel administrativo e API de licenças. Configure `ADMIN_PASSWORD`, `SESSION_SECRET` e `DATA_PATH=/data/licenses.json` no Railway e monte um volume em `/data`. As chaves são armazenadas somente como SHA-256, aparecem completas uma única vez, começam a contar na primeira ativação e ficam vinculadas a um computador.
 
 ## Usar
 

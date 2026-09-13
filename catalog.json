@@ -1,9 +1,10 @@
 {
   "name": "ice optimizer",
   "author": "Maciota",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "repository": "kaiquedupix-max/iceoptmizer",
   "ref": "main",
+  "licenseApi": "https://iceoptmizer-production.up.railway.app",
   "actions": [
     {
       "id": "ping",

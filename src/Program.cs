@@ -24,7 +24,7 @@ public class ActionItem {
 }
 public class FileInfoEntry { public string sha256; public long size; }
 public class Catalog {
- public string name, author, version, repository, @ref;
+ public string name, author, version, repository, @ref, licenseApi;
  public ActionItem[] actions;
  public Dictionary<string,FileInfoEntry> files;
  public static Catalog Load(){using(var s=Assembly.GetExecutingAssembly().GetManifestResourceStream("catalog.json"))using(var r=new StreamReader(s))return new JavaScriptSerializer().Deserialize<Catalog>(r.ReadToEnd());}
@@ -95,7 +95,9 @@ public static class Program {
     var act=c.actions.Single(a=>a.id=="ping");string prepared=Payload.Prepare(c,act,testRoot,true,null,l=>{}).GetAwaiter().GetResult();if(!File.Exists(Path.Combine(Path.GetDirectoryName(prepared),"DnsJumper.exe")))throw new Exception("Dependency layout invalid");
     if(args.Length>1)File.WriteAllText(args[1],"PASS: trusted catalog and descriptions; hash tampering rejection; unsafe paths; search, multi-selection and responsive layout; queue order, preparation before execution, cancellation, error policies, conflicts and restore ordering; harmless process output/exit code; offline dependencies. No optimization executed.");return 0;
    }
-   using(var window=new MainWindow()){if(args.Length==2&&args[0].StartsWith("--render")){if(args[0]=="--render-small")window.Size=new Size(980,720);window.Render(args[1],args[0]=="--render-selected"?"selected":args[0]=="--render-settings"?"settings":"");return 0;}Application.Run(window);}return 0;
+   if(args.Length==2&&args[0].StartsWith("--render")){using(var preview=new MainWindow()){if(args[0]=="--render-small")preview.Size=new Size(980,720);preview.Render(args[1],args[0]=="--render-selected"?"selected":args[0]=="--render-settings"?"settings":"");return 0;}}
+   var catalog=Catalog.Load();if(!LicenseGate.Ensure(catalog))return 2;
+   using(var window=new MainWindow())Application.Run(window);return 0;
   }catch(Exception e){if(args.Length>1)File.WriteAllText(args[args.Length-1],e.ToString());else MessageBox.Show(e.Message,"ice optimizer");return 1;}
  }
 }
