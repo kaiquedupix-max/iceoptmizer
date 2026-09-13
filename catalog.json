@@ -1,284 +1,543 @@
 {
   "name": "ice optimizer",
   "author": "Maciota",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "repository": "kaiquedupix-max/iceoptmizer",
   "ref": "main",
   "actions": [
     {
       "id": "ping",
-      "title": "Renovar conexão e abrir DNS Jumper",
+      "title": "Renovar conexão e DNS",
       "category": "Windows",
-      "warning": "A conexão será interrompida temporariamente. Pode exigir reconexão ou reinicialização.",
+      "warning": "A rede será interrompida e uma ferramenta externa será aberta.",
       "file": "scripts/actions/ping.bat",
       "dependencies": [
         "scripts/DnsJumper.exe",
         "scripts/DnsJumper.ini"
-      ]
+      ],
+      "description": "Limpa o cache DNS, libera e renova o endereço IP. Depois abre o DNS Jumper para escolher servidores DNS.",
+      "risk": "Ferramenta",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "limparram",
-      "title": "Liberar memória RAM",
+      "title": "Limpar memória em espera",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Aplicativos podem precisar recarregar dados; o efeito pode ser temporário.",
       "file": "scripts/actions/limparram.bat",
       "dependencies": [
         "scripts/EmptyStandbyList.exe"
-      ]
+      ],
+      "description": "Usa EmptyStandbyList para esvaziar listas de memória em espera, páginas modificadas e conjuntos de trabalho.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "restore",
-      "title": "Criar ponto de restauração e backup",
+      "title": "Criar ponto de restauração",
       "category": "Recuperação",
-      "warning": "Cria ponto de restauração e exporta chaves do Registro. A Proteção do Sistema precisa estar disponível. Confira o resultado no registro.",
+      "warning": "Depende da Proteção do Sistema. Não é um backup completo do computador.",
       "file": "scripts/actions/restore.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Solicita um ponto de restauração do Windows e exporta chaves do Explorer e da área de trabalho para a pasta Backup.",
+      "risk": "Recuperação",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "amd",
       "title": "Ajustes AMD",
       "category": "Hardware",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Use apenas um perfil de hardware por vez. Pode afetar captura e compatibilidade gráfica.",
       "file": "scripts/actions/amd.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Aplica o perfil AMD: desativa MPO e capturas, ajusta tela cheia e prioridades multimídia.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "intel",
+        "nvidia",
+        "reverteramdintelnvidia"
+      ]
     },
     {
       "id": "nvidia",
       "title": "Ajustes NVIDIA",
       "category": "Hardware",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Use apenas um perfil de hardware por vez. Pode afetar captura e compatibilidade gráfica.",
       "file": "scripts/actions/nvidia.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Aplica o perfil NVIDIA: desativa MPO e capturas, ajusta tela cheia e prioridades multimídia. Também desativa o contêiner de telemetria, se existir.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "amd",
+        "intel",
+        "reverteramdintelnvidia"
+      ]
     },
     {
       "id": "intel",
       "title": "Ajustes Intel",
       "category": "Hardware",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Use apenas um perfil de hardware por vez. Pode afetar captura e compatibilidade gráfica.",
       "file": "scripts/actions/intel.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Aplica o perfil INTEL: desativa MPO e capturas, ajusta tela cheia e prioridades multimídia.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "amd",
+        "nvidia",
+        "reverteramdintelnvidia"
+      ]
     },
     {
       "id": "reverteramdintelnvidia",
       "title": "Restaurar padrões de GPU",
       "category": "Hardware",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Restaura padrões definidos pelo script; não recupera suas configurações a partir de um backup.",
       "file": "scripts/actions/reverteramdintelnvidia.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Remove os ajustes de MPO e tela cheia, reativa opções Game Bar e restaura valores fixos do agendamento multimídia.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "amd",
+        "intel",
+        "nvidia",
+        "opcao5",
+        "opcao15",
+        "opcao20",
+        "otimizarforeground",
+        "desativarxbox"
+      ]
     },
     {
       "id": "opcao1",
-      "title": "Otimizar energia",
+      "title": "Ajustar plano de energia",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "O plano duplicado precisa ser escolhido no painel; o script mantém o plano atual ativo.",
       "file": "scripts/actions/opcao1.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Duplica o plano Desempenho Máximo, ajusta a ociosidade da CPU no plano atual e abre o painel de energia.",
+      "risk": "Ferramenta",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao2",
-      "title": "Desativar efeitos visuais",
+      "title": "Reduzir efeitos visuais",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Muda a aparência do Windows e pode exigir nova sessão.",
       "file": "scripts/actions/opcao2.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Configura a aparência do Windows para desempenho e desativa transparências do sistema.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao3",
-      "title": "Desativar apps em segundo plano",
+      "title": "Limitar apps em segundo plano",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode afetar atualizações e notificações de aplicativos.",
       "file": "scripts/actions/opcao3.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa a permissão global de execução em segundo plano para apps compatíveis e o rastreamento de programas.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao4",
-      "title": "Desativar serviços (inclui impressão e biometria)",
+      "title": "Desativar serviços do sistema",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar. Esta ação também desativa impressão e biometria.",
+      "warning": "Impressão e autenticação biométrica podem parar de funcionar.",
       "file": "scripts/actions/opcao4.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Interrompe relatórios de erro, telemetria, biometria e o serviço de impressão. Configura esses serviços como desativados.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao5",
-      "title": "Otimizar Game Bar",
+      "title": "Reduzir captura da Game Bar",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Gravações e recursos de captura do Xbox podem ficar indisponíveis.",
       "file": "scripts/actions/opcao5.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa Game DVR, avisos e integração da Game Bar, além de ajustar o comportamento de tela cheia.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverteramdintelnvidia"
+      ]
     },
     {
       "id": "desativarxbox",
-      "title": "Desativar serviços Xbox",
+      "title": "Remover recursos Xbox",
       "category": "Windows",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode afetar Game Pass, login e salvamentos. Não equivale apenas a desligar serviços.",
       "file": "scripts/actions/desativarxbox.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Remove pacotes Xbox do usuário e do provisionamento do Windows, desativa capturas e serviços relacionados.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterxbox",
+        "fixservicosxbox",
+        "fixxboxapp",
+        "reverteramdintelnvidia",
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "reverterxbox",
-      "title": "Reativar serviços Xbox",
+      "title": "Reativar recursos Xbox",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Não garante recuperar pacotes já removidos; pode exigir reinstalação.",
       "file": "scripts/actions/reverterxbox.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Restaura a inicialização manual dos serviços Xbox, tenta registrar a Game Bar instalada e reativa Game DVR.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "desativarxbox",
+        "debloat_opcao7",
+        "debloat_opcao2"
+      ]
     },
     {
       "id": "opcao7",
       "title": "Desativar relatórios de erro",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Reduz informações disponíveis para diagnosticar falhas.",
       "file": "scripts/actions/opcao7.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa o Windows Error Reporting e interrompe seu serviço de envio de relatórios.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao8",
-      "title": "Desativar telemetria",
+      "title": "Limitar coleta e sugestões",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode afetar atualizações. A eficácia das políticas depende da edição do Windows.",
       "file": "scripts/actions/opcao8.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Aplica políticas de coleta de dados, publicidade e sugestões. Também restringe conexões a locais online do Windows Update.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "fixwindowsupdate"
+      ]
     },
     {
       "id": "opcao9",
       "title": "Desativar hibernação",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Também pode desativar a Inicialização Rápida.",
       "file": "scripts/actions/opcao9.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa a hibernação pelo powercfg, removendo a necessidade do arquivo usado para salvar a sessão em disco.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "fixpcnaodesliga"
+      ]
     },
     {
       "id": "desativarmemoria",
-      "title": "Desativar compressão de memória",
+      "title": "Desativar compressão de RAM",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode aumentar o uso de RAM e de paginação; não garante ganho de desempenho.",
       "file": "scripts/actions/desativarmemoria.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa a compressão de memória do Windows pelo gerenciamento de memória MMAgent.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "ativarmemoria"
+      ]
     },
     {
       "id": "ativarmemoria",
-      "title": "Ativar compressão de memória",
+      "title": "Ativar compressão de RAM",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Reverte a desativação deste recurso; não restaura outras configurações.",
       "file": "scripts/actions/ativarmemoria.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Ativa novamente a compressão de memória do Windows pelo MMAgent.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "desativarmemoria"
+      ]
     },
     {
       "id": "opcao11",
-      "title": "Desativar indexação",
+      "title": "Desativar indexação de busca",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pesquisas de arquivos e de aplicativos podem ficar mais lentas ou incompletas.",
       "file": "scripts/actions/opcao11.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Interrompe o Windows Search e desativa sua inicialização automática.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao12",
-      "title": "Otimizar menu Iniciar",
+      "title": "Simplificar busca do Iniciar",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Altera a busca e a apresentação da barra de tarefas.",
       "file": "scripts/actions/opcao12.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa resultados do Bing e sugestões de busca, remove consentimento da Cortana e oculta a caixa de pesquisa.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao13",
-      "title": "Desativar Cortana",
+      "title": "Desativar e remover Cortana",
       "category": "Windows",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Só tem efeito quando esse componente ainda está instalado.",
       "file": "scripts/actions/opcao13.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Aplica a política que desativa a Cortana e tenta remover seu pacote do usuário atual.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "desativarsuper",
       "title": "Desativar Prefetch e SysMain",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode piorar a abertura de aplicativos, dependendo do hardware e do uso.",
       "file": "scripts/actions/desativarsuper.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa o pré-carregamento Prefetch/Superfetch e interrompe o serviço SysMain.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "ativarsuper"
+      ]
     },
     {
       "id": "ativarsuper",
       "title": "Reativar Prefetch e SysMain",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Restaura valores definidos pelo script; não recupera um backup anterior.",
       "file": "scripts/actions/ativarsuper.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Configura Prefetch e Superfetch no valor 3 e reativa o início automático do SysMain.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "desativarsuper"
+      ]
     },
     {
       "id": "opcao15",
-      "title": "Prioridade de CPU e GPU",
+      "title": "Ajustar prioridade de CPU e GPU",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "O resultado varia por jogo e sistema. Não aumenta a capacidade física do hardware.",
       "file": "scripts/actions/opcao15.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Modifica prioridades e categorias de agendamento multimídia para tarefas de jogos no Registro.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "voltarforeground",
+        "reverteramdintelnvidia"
+      ]
     },
     {
       "id": "otimizarforeground",
-      "title": "Priorizar aplicativo em primeiro plano",
+      "title": "Priorizar primeiro plano",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode alterar a resposta de tarefas em segundo plano.",
       "file": "scripts/actions/otimizarforeground.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Altera a divisão de tempo da CPU e prioridades multimídia para favorecer aplicativos em primeiro plano.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "voltarforeground",
+        "reverteramdintelnvidia"
+      ]
     },
     {
       "id": "voltarforeground",
       "title": "Restaurar prioridade de primeiro plano",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "É uma restauração para valores fixos, não para suas configurações anteriores.",
       "file": "scripts/actions/voltarforeground.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Reaplica valores definidos no script para divisão de CPU e prioridades de jogos.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "otimizarforeground",
+        "opcao15"
+      ]
     },
     {
       "id": "opcao17",
       "title": "Desativar isolamento de núcleo",
       "category": "Windows",
-      "warning": "Reduz proteções de isolamento e virtualização do Windows. Pode afetar segurança e compatibilidade. Reinicialização necessária.",
+      "warning": "Reduz proteções do Windows e pode afetar virtualização. Exige reinicialização.",
       "file": "scripts/actions/opcao17.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa políticas de segurança baseada em virtualização e a inicialização do hipervisor.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": true,
+      "conflicts": []
     },
     {
       "id": "debloater",
       "title": "Remover aplicativos em lote",
       "category": "Windows",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover apps usados por você; a reversão não é garantida.",
       "file": "scripts/actions/debloater.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Remove diversos pacotes, incluindo Cortana, Office Hub, mapas, calendário, notícias e assistência rápida.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "reverterdebloater",
-      "title": "Registrar novamente aplicativos",
+      "title": "Registrar aplicativos novamente",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Não baixa aplicativos ausentes e pode apresentar falhas parciais.",
       "file": "scripts/actions/reverterdebloater.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta registrar manifestos de aplicativos provisionados e instalados para todos os usuários.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "desativarxbox",
+        "opcao13",
+        "debloater",
+        "debloat_opcao2",
+        "debloat_opcao3",
+        "debloat_opcao4",
+        "debloat_opcao5",
+        "debloat_opcao6",
+        "debloat_opcao7",
+        "debloat_opcao8",
+        "debloat_opcao9",
+        "debloat_opcao10",
+        "debloat_opcao11",
+        "debloat_opcao12",
+        "debloat_opcao13",
+        "debloat_opcao14",
+        "debloat_opcao15",
+        "debloat_opcao16",
+        "debloat_opcao17",
+        "debloat_opcao18",
+        "debloat_opcao19",
+        "debloat_opcao20",
+        "debloat_opcao21",
+        "debloat_opcao23",
+        "debloat_opcao24",
+        "debloat_opcao25",
+        "debloat_opcao26",
+        "debloat_opcao27",
+        "debloat_opcao28",
+        "debloat_opcao29"
+      ]
     },
     {
       "id": "opcao19",
       "title": "Ativar Modo de Jogo",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Permite que o Windows gerencie recursos durante jogos; não garante mais FPS.",
       "file": "scripts/actions/opcao19.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Ativa as opções AutoGameModeEnabled e AllowAutoGameMode do Windows no usuário atual.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao20",
-      "title": "Desativar otimizações de tela cheia",
+      "title": "Ajustar tela cheia",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode melhorar ou piorar compatibilidade, latência e captura, conforme o jogo.",
       "file": "scripts/actions/opcao20.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Configura o comportamento global de otimizações de tela cheia nas chaves GameConfigStore.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverteramdintelnvidia"
+      ]
     },
     {
       "id": "opcao21",
       "title": "Desativar aceleração do mouse",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Muda a sensação do ponteiro; jogos com entrada bruta podem ignorar o ajuste.",
       "file": "scripts/actions/opcao21.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Zera MouseSpeed e os limiares de aceleração de ponteiro no perfil do usuário.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao22",
-      "title": "Abrir ISLC / resolução de timer",
+      "title": "Abrir ISLC",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "A configuração ocorre na janela do utilitário. Não aplica um perfil automaticamente.",
       "file": "scripts/actions/opcao22.bat",
       "dependencies": [
         "scripts/ISLC v1.0.4.6/ar/Intelligent standby list cleaner ISLC.resources.dll",
@@ -308,1017 +567,1790 @@
         "scripts/ISLC v1.0.4.6/THIRD-PARTY-NOTICES.txt",
         "scripts/ISLC v1.0.4.6/tr/Intelligent standby list cleaner ISLC.resources.dll",
         "scripts/ISLC v1.0.4.6/zh-Hans/Intelligent standby list cleaner ISLC.resources.dll"
-      ]
+      ],
+      "description": "Abre o Intelligent Standby List Cleaner para configurar a limpeza de memória em espera e a resolução do timer.",
+      "risk": "Ferramenta",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao23",
       "title": "Desativar VBS e HVCI",
       "category": "Windows",
-      "warning": "Reduz proteções de isolamento e virtualização do Windows. Pode afetar segurança e compatibilidade. Reinicialização necessária.",
+      "warning": "Reduz proteções contra código malicioso. Exige reinicialização e pode afetar VMs.",
       "file": "scripts/actions/opcao23.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa segurança baseada em virtualização, integridade de código protegida pelo hipervisor e início do hipervisor.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": true,
+      "conflicts": []
     },
     {
       "id": "opcao24",
-      "title": "Desativar compatibilidade forçada",
+      "title": "Desativar assistente de compatibilidade",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Programas antigos podem perder correções automáticas de compatibilidade.",
       "file": "scripts/actions/opcao24.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Interrompe o serviço de compatibilidade de programas e desativa mecanismos e inventário AppCompat.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao25",
-      "title": "Fechar Explorer",
+      "title": "Fechar Windows Explorer",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Execute separadamente. Use Iniciar Explorer para voltar à interface do Windows.",
       "file": "scripts/actions/opcao25.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Encerra à força o processo explorer.exe, incluindo a área de trabalho e a barra de tarefas.",
+      "risk": "Ajuste",
+      "standalone": true,
+      "restart": false,
+      "conflicts": [
+        "opcao26"
+      ]
     },
     {
       "id": "opcao26",
-      "title": "Iniciar Explorer",
+      "title": "Iniciar Windows Explorer",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Use quando o Explorer estiver fechado ou indisponível.",
       "file": "scripts/actions/opcao26.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Inicia explorer.exe para abrir ou recuperar o shell, a área de trabalho e a barra de tarefas.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "opcao25"
+      ]
     },
     {
       "id": "opcao27",
-      "title": "Limpar cache do Windows",
+      "title": "Limpar temporários e lixeira",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "A exclusão da Lixeira é permanente. Feche programas e revise seus arquivos antes.",
       "file": "scripts/actions/opcao27.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Apaga temporários, itens recentes e downloads do Windows Update; limpa DNS e esvazia a Lixeira.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao28",
-      "title": "Verificar arquivos do Windows",
+      "title": "Reparar imagem do Windows",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode levar bastante tempo e precisar de internet ou mídia do Windows.",
       "file": "scripts/actions/opcao28.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Executa DISM RestoreHealth e SFC para verificar e tentar reparar componentes e arquivos protegidos.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao29",
       "title": "Desativar Power Throttling",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode aumentar consumo e temperatura, especialmente em notebooks.",
       "file": "scripts/actions/opcao29.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define PowerThrottlingOff para impedir a limitação de energia controlada por essa política do Windows.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "opcao30"
+      ]
     },
     {
       "id": "opcao30",
-      "title": "Desativar EcoQoS",
+      "title": "Aplicar política de energia (EcoQoS)",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Não é necessário executar junto da opção Power Throttling.",
       "file": "scripts/actions/opcao30.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Aplica a mesma chave PowerThrottlingOff da opção Power Throttling. Não modifica uma política exclusiva de EcoQoS.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "opcao29"
+      ]
     },
     {
       "id": "opcao31",
-      "title": "Desativar suspensão seletiva USB",
+      "title": "Desativar suspensão USB",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode aumentar o consumo de energia de periféricos.",
       "file": "scripts/actions/opcao31.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa a suspensão seletiva USB no plano atual, tanto na tomada quanto na bateria.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao32",
-      "title": "Desativar economia da rede",
+      "title": "Desativar economia dos adaptadores",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "A disponibilidade depende do driver e pode aumentar o consumo.",
       "file": "scripts/actions/opcao32.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Solicita ao Windows que desative o gerenciamento de energia dos adaptadores físicos de rede.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao33",
       "title": "Desativar economia PCIe",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode aumentar consumo e temperatura.",
       "file": "scripts/actions/opcao33.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa gerenciamento de energia do link PCI Express no plano atual, na tomada e na bateria.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "opcao34",
       "title": "Reiniciar computador",
       "category": "Windows",
-      "warning": "Solicita desligamento ou reinicialização em 30 segundos. Salve os seus arquivos antes de executar.",
+      "warning": "Salve seus arquivos. Esta ação só pode ser executada separadamente.",
       "file": "scripts/actions/opcao34.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Agenda uma reinicialização do Windows em 30 segundos.",
+      "risk": "Alto impacto",
+      "standalone": true,
+      "restart": true,
+      "conflicts": []
     },
     {
       "id": "priorizar_fortnite",
       "title": "Priorizar FORTNITE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_fortnite.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para FortniteClient-Win64-Shipping.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_gtav",
       "title": "Priorizar GTAV",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_gtav.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para GTA5.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_fivem",
       "title": "Priorizar FIVEM",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_fivem.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para FiveM_b2372_GTAProcess.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_cs2",
       "title": "Priorizar CS2",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_cs2.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para cs2.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_minecraft",
       "title": "Priorizar MINECRAFT",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_minecraft.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para javaw.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_valorant",
       "title": "Priorizar VALORANT",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_valorant.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para VALORANT-Win64-Shipping.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_lol",
       "title": "Priorizar LOL",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_lol.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para LeagueClient.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_warzone",
       "title": "Priorizar WARZONE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_warzone.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para cod.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_apex",
       "title": "Priorizar APEX",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_apex.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para r5apex.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_roblox",
       "title": "Priorizar ROBLOX",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_roblox.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para RobloxPlayerBeta.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_gow",
       "title": "Priorizar GOW",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_gow.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para GoW.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_gow_ragnarok",
       "title": "Priorizar GOW RAGNAROK",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_gow_ragnarok.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para GoWRagnarok.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_mta",
       "title": "Priorizar MTA",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_mta.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Multi Theft Auto.exe, gta_sa.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_ets1",
       "title": "Priorizar ETS1",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_ets1.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para eurotrucks.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_ets2",
       "title": "Priorizar ETS2",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_ets2.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para ets2.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_r6",
       "title": "Priorizar R6",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_r6.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para RainbowSix.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_cult",
       "title": "Priorizar CULT",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_cult.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para CultOfTheLamb.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_ultrakill",
       "title": "Priorizar ULTRAKILL",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_ultrakill.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para ULTRAKILL.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_bloodstrike",
       "title": "Priorizar BLOODSTRIKE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_bloodstrike.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para BloodStrike.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_arenabreakout",
       "title": "Priorizar ARENABREAKOUT",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_arenabreakout.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para ArenaBreakout.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_residentevil4remake",
       "title": "Priorizar RESIDENTEVIL4REMAKE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_residentevil4remake.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para re4.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_residentevil2remake",
       "title": "Priorizar RESIDENTEVIL2REMAKE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_residentevil2remake.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para re2.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_residentevilvillage",
       "title": "Priorizar RESIDENTEVILVILLAGE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_residentevilvillage.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para re8.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_freefire",
       "title": "Priorizar FREEFIRE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_freefire.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para HD-Player.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_battlefield2042",
       "title": "Priorizar BATTLEFIELD2042",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_battlefield2042.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para BF2042.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_battlefield4",
       "title": "Priorizar BATTLEFIELD4",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_battlefield4.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para bf4.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_tlou1",
       "title": "Priorizar TLOU1",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_tlou1.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para tlou-i.exe, tlou-ii.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_pubg",
       "title": "Priorizar PUBG",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_pubg.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para tslgame.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_rocketleague",
       "title": "Priorizar ROCKETLEAGUE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_rocketleague.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para RocketLeague.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_cyberpunk",
       "title": "Priorizar CYBERPUNK",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_cyberpunk.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Cyberpunk2077.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_terraria",
       "title": "Priorizar TERRARIA",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_terraria.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Terraria.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_rdr2",
       "title": "Priorizar RDR2",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_rdr2.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para RDR2.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_battlefield6",
       "title": "Priorizar BATTLEFIELD6",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_battlefield6.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para BF6.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_choochoo",
       "title": "Priorizar CHOOCHOO",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_choochoo.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Charles.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_hll",
       "title": "Priorizar HLL",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_hll.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para HLL.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_fs22",
       "title": "Priorizar FS22",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_fs22.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para FarmingSimulator2022.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_fs25",
       "title": "Priorizar FS25",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_fs25.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para FarmingSimulator2025.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_hollowknight",
       "title": "Priorizar HOLLOWKNIGHT",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_hollowknight.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para hollow_knight.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_genshin",
       "title": "Priorizar GENSHIN",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_genshin.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para GenshinImpact.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_pointblank",
       "title": "Priorizar POINTBLANK",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_pointblank.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para PointBlank.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_mysummercar",
       "title": "Priorizar MYSUMMERCAR",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_mysummercar.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para mysummercar.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_dayz",
       "title": "Priorizar DAYZ",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_dayz.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para DayZ.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_sf6",
       "title": "Priorizar SF6",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_sf6.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para StreetFighter6.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_rust",
       "title": "Priorizar RUST",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_rust.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para RustClient.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_re9",
-      "title": "Priorizar RE9",
+      "title": "Priorizar Rust (entrada duplicada)",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "Esta entrada altera RustClient.exe e equivale à ação Priorizar Rust.",
       "file": "scripts/actions/priorizar_re9.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para RustClient.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_chivalry2",
       "title": "Priorizar CHIVALRY2",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_chivalry2.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Chivalry2-Win64-Shipping.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_subnautica",
       "title": "Priorizar SUBNAUTICA",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_subnautica.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Subnautica.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_left4dead",
       "title": "Priorizar LEFT4DEAD",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_left4dead.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para left4dead.exe, left4dead2.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_marvelrivals",
       "title": "Priorizar MARVELRIVALS",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_marvelrivals.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para MarvelRivals.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_warface",
       "title": "Priorizar WARFACE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_warface.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Warface.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_deadlock",
       "title": "Priorizar DEADLOCK",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_deadlock.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Deadlock.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_cuphead",
       "title": "Priorizar CUPHEAD",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_cuphead.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Cuphead.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_escapefromtarkov",
       "title": "Priorizar ESCAPEFROMTARKOV",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_escapefromtarkov.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para EscapeFromTarkov.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_deathstranding",
       "title": "Priorizar DEATHSTRANDING",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_deathstranding.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para ds.exe, DeathStranding2.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_poppyplaytime",
       "title": "Priorizar POPPYPLAYTIME",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_poppyplaytime.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Poppy_Playtime.exe, Playtime_Multiplayer.exe, ProjectPlaytime.exe, PoppyPlaytimeChapter4.exe, PoppyPlaytimeChapter5.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_pes",
       "title": "Priorizar PES",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_pes.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para PES2017.exe, PES2018.exe, PES2019.exe, PES2020.exe, eFootball.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_dbd",
       "title": "Priorizar DBD",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_dbd.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para DeadByDaylight-Win64-Shipping.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_fc26",
       "title": "Priorizar FC26",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_fc26.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para FC26.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_ffxiv",
       "title": "Priorizar FFXIV",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_ffxiv.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para ffxiv_dx11.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_marvel",
-      "title": "Priorizar MARVEL",
+      "title": "Priorizar Marvel Rivals (entrada duplicada)",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_marvel.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para MarvelRivals.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_got",
       "title": "Priorizar GOT",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_got.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para GhostOfTsushima.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_skyrim",
       "title": "Priorizar SKYRIM",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_skyrim.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para SkyrimSE.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_daysgone",
       "title": "Priorizar DAYSGONE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_daysgone.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para DaysGone.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_palworld",
       "title": "Priorizar PALWORLD",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_palworld.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Palworld-Win64-Shipping.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_crossfire",
       "title": "Priorizar CROSSFIRE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_crossfire.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para crossfire.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_warframe",
       "title": "Priorizar WARFRAME",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_warframe.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Warframe.x64.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_theisle",
       "title": "Priorizar THEISLE",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_theisle.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para TheIsleClient-Win64-Shipping.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_snowrunner",
       "title": "Priorizar SNOWRUNNER",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_snowrunner.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para SnowRunner.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_rematch",
       "title": "Priorizar REMATCH",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_rematch.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para REMATCH.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "priorizar_meccha",
       "title": "Priorizar MECCHA",
       "category": "Jogos",
-      "warning": "Ajusta a prioridade dos executáveis deste jogo no Registro. Não altera arquivos do jogo nem garante aumento de FPS.",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
       "file": "scripts/actions/priorizar_meccha.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para MecchaChameleon.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "autorun",
-      "title": "Gerenciar inicialização / Autoruns",
+      "title": "Gerenciar inicialização",
       "category": "Windows",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "A escolha do que desativar é feita na janela do utilitário.",
       "file": "scripts/actions/autorun.bat",
       "dependencies": [
         "scripts/Autoruns.exe"
-      ]
+      ],
+      "description": "Abre o Microsoft Autoruns para inspecionar entradas que iniciam com o Windows.",
+      "risk": "Ferramenta",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixbluetooth",
-      "title": "Reparar Bluetooth",
+      "title": "Reativar Bluetooth",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Não instala drivers e não corrige defeitos físicos.",
       "file": "scripts/actions/fixbluetooth.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Configura o serviço de suporte Bluetooth para início automático e tenta iniciá-lo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixreativarwifi",
-      "title": "Reativar Wi-Fi",
+      "title": "Reativar Wi-Fi e serviços de rede",
       "category": "Reparos",
-      "warning": "A conexão será interrompida temporariamente. Pode exigir reconexão ou reinicialização.",
+      "warning": "A conexão pode cair; uma reinicialização pode ser necessária.",
       "file": "scripts/actions/fixreativarwifi.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Reativa WLAN, DHCP e serviços de conexão, e redefine Winsock e a pilha IP.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": true,
+      "conflicts": []
     },
     {
       "id": "fixaudio",
-      "title": "Reparar áudio",
+      "title": "Reiniciar serviços de áudio",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "A reprodução e a gravação serão interrompidas durante o reparo.",
       "file": "scripts/actions/fixaudio.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Configura e reinicia os serviços de áudio e de endpoints do Windows.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixlojadowindows",
-      "title": "Reparar Microsoft Store",
+      "title": "Registrar apps da Microsoft Store",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Não é limitado à Store e não baixa pacotes removidos.",
       "file": "scripts/actions/fixlojadowindows.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Reativa o serviço BITS e tenta registrar manifestos dos aplicativos instalados de todos os usuários.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "desativarxbox",
+        "opcao13",
+        "debloater",
+        "debloat_opcao2",
+        "debloat_opcao3",
+        "debloat_opcao4",
+        "debloat_opcao5",
+        "debloat_opcao6",
+        "debloat_opcao7",
+        "debloat_opcao8",
+        "debloat_opcao9",
+        "debloat_opcao10",
+        "debloat_opcao11",
+        "debloat_opcao12",
+        "debloat_opcao13",
+        "debloat_opcao14",
+        "debloat_opcao15",
+        "debloat_opcao16",
+        "debloat_opcao17",
+        "debloat_opcao18",
+        "debloat_opcao19",
+        "debloat_opcao20",
+        "debloat_opcao21",
+        "debloat_opcao23",
+        "debloat_opcao24",
+        "debloat_opcao25",
+        "debloat_opcao26",
+        "debloat_opcao27",
+        "debloat_opcao28",
+        "debloat_opcao29"
+      ]
     },
     {
       "id": "fixnotebookmodoaviao",
-      "title": "Reparar modo avião",
+      "title": "Reativar gerenciamento de rádio",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode exigir reconectar à rede. Não altera interruptores físicos do dispositivo.",
       "file": "scripts/actions/fixnotebookmodoaviao.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Reativa o serviço de gerenciamento de rádio e o serviço WLAN para tentar recuperar controles de conexão.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixpcnaodesliga",
-      "title": "Desligar computador",
+      "title": "Habilitar hibernação e desligar",
       "category": "Reparos",
-      "warning": "Solicita desligamento ou reinicialização em 30 segundos. Salve os seus arquivos antes de executar.",
+      "warning": "Não é um diagnóstico de falhas de desligamento. Salve arquivos e execute separadamente.",
       "file": "scripts/actions/fixpcnaodesliga.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Ativa a hibernação e agenda o desligamento em 30 segundos.",
+      "risk": "Alto impacto",
+      "standalone": true,
+      "restart": false,
+      "conflicts": [
+        "opcao9"
+      ]
     },
     {
       "id": "fixarquivoscorrompidos",
-      "title": "Reparar arquivos corrompidos",
+      "title": "Verificar arquivos corrompidos",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode demorar e precisar de rede ou mídia de instalação.",
       "file": "scripts/actions/fixarquivoscorrompidos.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Executa SFC e depois DISM RestoreHealth para tentar reparar arquivos protegidos e a imagem do Windows.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixderedeeinternet",
-      "title": "Redefinir rede e internet",
+      "title": "Redefinir conexão de rede",
       "category": "Reparos",
-      "warning": "A conexão será interrompida temporariamente. Pode exigir reconexão ou reinicialização.",
+      "warning": "Interrompe conexões e pode exigir reconfiguração de rede ou reinicialização.",
       "file": "scripts/actions/fixderedeeinternet.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Limpa DNS, renova o IP e redefine a pilha TCP/IP e o catálogo Winsock.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": true,
+      "conflicts": []
     },
     {
       "id": "fixerrodedisco",
       "title": "Verificar disco do sistema",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "O disco pode estar em uso e exigir agendamento interativo, indisponível neste executor. Revise o registro.",
       "file": "scripts/actions/fixerrodedisco.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Executa CHKDSK com correção e busca de setores defeituosos na unidade do Windows.",
+      "risk": "Ajuste",
+      "standalone": true,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixmenuiniciarebarradetarefas",
-      "title": "Reiniciar Explorer e barra de tarefas",
+      "title": "Reiniciar área de trabalho",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Janelas do Explorer serão fechadas.",
       "file": "scripts/actions/fixmenuiniciarebarradetarefas.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Encerra e inicia o Windows Explorer para tentar recuperar o menu, a barra de tarefas e a área de trabalho.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixservicosxbox",
-      "title": "Reparar serviços Xbox",
+      "title": "Reconfigurar serviços Xbox",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Não reinstala aplicativos Xbox removidos.",
       "file": "scripts/actions/fixservicosxbox.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Define início automático para autenticação Xbox Live, salvamento de jogos e rede Xbox.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "desativarxbox",
+        "debloat_opcao7",
+        "debloat_opcao2"
+      ]
     },
     {
       "id": "fixwindowsupdate",
-      "title": "Reparar Windows Update",
+      "title": "Redefinir cache de atualizações",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Pode falhar se as pastas de backup já existirem. As atualizações serão interrompidas.",
       "file": "scripts/actions/fixwindowsupdate.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Interrompe serviços de atualização, renomeia os caches SoftwareDistribution e catroot2 e reinicia os serviços.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "opcao8"
+      ]
     },
     {
       "id": "fixxboxapp",
-      "title": "Reparar aplicativo Xbox",
+      "title": "Registrar aplicativo Xbox",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Não baixa pacotes ausentes. Pode afetar sessões de jogos em andamento.",
       "file": "scripts/actions/fixxboxapp.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Interrompe serviços Xbox, tenta registrar os pacotes instalados e reinicia os serviços.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "desativarxbox",
+        "debloat_opcao7",
+        "debloat_opcao2"
+      ]
     },
     {
       "id": "fixcamera",
-      "title": "Reparar câmera",
+      "title": "Reparar câmera e permissões",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Encerra Teams, Zoom, Discord e OBS. Amplia permissões da câmera e pode demorar.",
       "file": "scripts/actions/fixcamera.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Fecha apps de chamadas, libera acesso à câmera, reinicia dispositivos e serviços e executa DISM/SFC e atualização de componentes.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "fixmicrofone",
-      "title": "Reparar microfone",
+      "title": "Reparar microfone e permissões",
       "category": "Reparos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Interrompe chamadas e gravações e amplia permissões de acesso ao microfone.",
       "file": "scripts/actions/fixmicrofone.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Fecha apps de chamadas, libera permissões do microfone, reinicia dispositivos de áudio e executa DISM/SFC.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "debloat_opcao2",
       "title": "Remover: todos programas inúteis do Windows",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao2.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *Microsoft.Windows.Cortana*, *officehub*, *store*, *xbox*, *photos*, *phone*, *people*, *music*, *messaging*, *maps*, *groove*, *getstarted*, *calendar*, *calculator*, *alarms*, *3dbuilder*, *camera*, *news*, *onedrive*, *FeedbackHub*, *windowscommunicationsapps*, *QuickAssist*, *todos*, *solitaire*, *xboxGamingOverlay*, *Weather*. Também aplica políticas e ajustes no Registro.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterxbox",
+        "fixservicosxbox",
+        "fixxboxapp",
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao3",
       "title": "Remover: Officehub",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao3.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *officehub*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao4",
       "title": "Remover: Cortana",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao4.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *Microsoft.Windows.Cortana*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao5",
       "title": "Remover: Copilot",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao5.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *Copilot*, -AllUsers.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao6",
       "title": "Remover: Loja do Windows",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao6.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *store*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao7",
       "title": "Remover: a Xbox do Windows",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao7.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *xbox*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterxbox",
+        "fixservicosxbox",
+        "fixxboxapp",
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao8",
       "title": "Remover: Windows photo",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao8.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *photos*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao9",
       "title": "Remover: Windows Phone",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao9.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *phone*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao10",
       "title": "Remover: Windows Music",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao10.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *music*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao11",
       "title": "Remover: Windows Messaging",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao11.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *messaging*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao12",
       "title": "Remover: Windows Maps",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao12.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *maps*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao13",
       "title": "Remover: Windows Groove",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao13.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *groove*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao14",
       "title": "Remover: Windows Getstarted",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao14.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *getstarted*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao15",
       "title": "Remover: Windows Calendário",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao15.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *calendar*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao16",
       "title": "Remover: Calculadora Do Windows",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao16.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *calculator*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao17",
       "title": "Remover: Windows Alarmes",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao17.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *alarms*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao18",
       "title": "Remover: Windows 3DBuilder",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao18.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *3dbuilder*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao19",
       "title": "Remover: Windows Câmera",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao19.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *camera*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao20",
       "title": "Remover: Notícias do Windows",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao20.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *news*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao21",
       "title": "Remover: OneDrive",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao21.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *onedrive*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao22",
-      "title": "Remover: Anúncios e sugestões",
+      "title": "Reduzir anúncios e sugestões",
       "category": "Aplicativos",
-      "warning": "Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.",
+      "warning": "Altera a apresentação do menu Iniciar e do Explorer; não remove aplicativos.",
       "file": "scripts/actions/debloat_opcao22.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Desativa sugestões e conteúdo recomendado no Windows, além do rastreamento e exibição de programas e documentos recentes.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
     },
     {
       "id": "debloat_opcao23",
       "title": "Remover: Emails",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao23.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *windowscommunicationsapps*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao24",
       "title": "Remover: Outlook",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao24.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *Outlook*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao25",
       "title": "Remover: Assistência Rápida",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao25.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *QuickAssist*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao26",
       "title": "Remover: Microsoft To Do",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao26.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *todos*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao27",
       "title": "Remover: Solitaire e Jogos Casuais",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao27.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *solitaire*, *xboxGamingOverlay*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao28",
       "title": "Remover: Todos os aplicativos",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao28.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *Weather*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     },
     {
       "id": "debloat_opcao29",
       "title": "Remover: Hub de Comentários",
       "category": "Aplicativos",
-      "warning": "Remove aplicativos; pode remover Store, Xbox ou programas usados por você. A reinstalação pode exigir a Microsoft Store ou mídia do Windows.",
+      "warning": "Pode remover funções em uso. Reinstalar pode exigir a Microsoft Store; não há reversão automática.",
       "file": "scripts/actions/debloat_opcao29.bat",
-      "dependencies": []
+      "dependencies": [],
+      "description": "Tenta remover do usuário os pacotes *FeedbackHub*.",
+      "risk": "Alto impacto",
+      "standalone": false,
+      "restart": false,
+      "conflicts": [
+        "reverterdebloater",
+        "fixlojadowindows"
+      ]
     }
   ],
   "files": {

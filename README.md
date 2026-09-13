@@ -1,14 +1,16 @@
 # ice optimizer
 
-Interface Windows e integração por **Maciota**. Catálogo de 160 ações a partir dos scripts fornecidos: Windows, jogos (incluindo Rust), hardware, reparos, aplicativos e recuperação.
+Interface Windows e integração por **Maciota**. Versão **2.0 — Edição Glacial**: identidade de gelo com logo vetorial, cartões personalizados, animações suaves, descrições das 160 ações, seleção por categoria, revisão de conflitos, execução sequencial e histórico local.
+
+Marque os cartões ou use **Marcar categoria**, depois **Revisar e executar**. A revisão permite desmarcar combinações opostas. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. **Parar após esta ação** encerra a fila entre ações, sem matar um comando do Windows em andamento. Configurações permite reduzir movimento, escolher modo offline e decidir se a fila para após erro informado.
 
 ## Usar
 
 1. Baixe `ice-optimizer.exe` em `downloads` neste repositório.
 2. Abra com **Executar como administrador** para aplicar ajustes.
-3. Escolha a categoria ou busque a ação. Leia seu efeito antes de confirmar.
+3. Escolha a categoria ou busque a ação (Ctrl+F). Marque as ações desejadas, leia seus efeitos em **Ver detalhes** e revise o plano antes de confirmar.
 4. O aplicativo baixa apenas o script selecionado e suas dependências de `kaiquedupix-max/iceoptmizer`, confere o SHA-256 embutido no executável e executa a ação. Não precisa de conta, token, banco de dados ou Heroku.
-5. Acompanhe o registro. Cada execução mantém seus arquivos e `execution.log` na pasta escolhida em **Acesso e pasta**.
+5. Acompanhe o progresso e o **Histórico**. Cada plano mantém `plano.log` e `resultado.json`; cada ação tem seu `execution.log`. A pasta é escolhida em **Configurações**.
 
 A pasta de trabalho armazena downloads e backups. Os comandos afetam o Windows em execução, não uma instalação Windows em outra unidade. A opção de jogos ajusta prioridades dos executáveis conhecidos; não precisa selecionar a pasta do jogo.
 
