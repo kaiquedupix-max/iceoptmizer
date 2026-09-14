@@ -1,4 +1,157 @@
-Warning: truncated output (original token count: 7554)
-Total output lines: 157
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web.Script.Serialization;
+using System.Windows.Forms;
 
-us…7553 tokens truncated…
+public class Preferences {public string root;public string[] selection;public bool offline=false,animations=true,stopOnError=false;}
+public class RunRecord {public string when,summary,folder;public List<BatchResult> results;}
+public class MainWindow:Form {
+ readonly Catalog catalog=Catalog.Load();readonly HashSet<string> selected=new HashSet<string>();readonly Dictionary<string,IceButton> nav=new Dictionary<string,IceButton>();
+ Panel sidebar=new Panel(),content=new Panel(),caption=new Panel(),footer=new Panel(),library=new Panel(),settings=new Panel(),history=new Panel();Hero hero=new Hero();
+ CardDeck cards=new CardDeck();IceSurface inspector=new IceSurface();Panel toolsRow=new Panel();
+ Label categoryTitle=new Label(),categoryHint=new Label(),selectionLabel=new Label(),status=new Label();TextBox search=new SearchField(),rootBox=new TextBox(),logView=new TextBox();
+ IceButton selectAll=new IceButton(),clear=new IceButton(),onlySelected=new IceButton(),run=new IceButton(),cancel=new IceButton(),review=new IceButton(),settingsNav,historyNav;
+ IceProgress progress=new IceProgress();CheckBox offline=new CheckBox(),animations=new CheckBox(),stopErrors=new CheckBox();
+ bool busy,cancelRequested,selectedFilter,layingOut,loading=true;string category="Windows",page="library",currentLog,lastRunFolder;List<RunRecord> records=new List<RunRecord>();readonly object logLock=new object();
+ readonly string dataFolder=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer");Preferences prefs=new Preferences();
+ [DllImport("user32.dll")]static extern bool ReleaseCapture();[DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr h,int msg,IntPtr w,IntPtr l);
+ public MainWindow(){
+  SetStyle(ControlStyles.OptimizedDoubleBuffer|ControlStyles.AllPaintingInWmPaint,true);Text="ice optimizer — por Maciota";FormBorderStyle=FormBorderStyle.None;BackColor=Ice.Bg;ForeColor=Ice.Text;Font=Ice.Font(10);MinimumSize=new Size(960,690);Size=new Size(1380,900);StartPosition=FormStartPosition.CenterScreen;AutoScaleMode=AutoScaleMode.None;
+  if(Screen.PrimaryScreen.WorkingArea.Height<930)Size=new Size(Math.Min(1380,Screen.PrimaryScreen.WorkingArea.Width-40),Math.Max(690,Screen.PrimaryScreen.WorkingArea.Height-40));
+  using(var stream=System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico")){if(stream!=null)Icon=new Icon(stream);}
+  ReadPreferences();Motion.Set(prefs.animations);foreach(var id in prefs.selection??new string[0])if(catalog.actions.Any(a=>a.id==id))selected.Add(id);
+  caption.BackColor=Ice.Bg;Controls.Add(caption);caption.MouseDown+=(s,e)=>{if(e.Button==MouseButtons.Left){ReleaseCapture();SendMessage(Handle,0xA1,(IntPtr)2,IntPtr.Zero);}};caption.DoubleClick+=(s,e)=>ToggleMaximize();
+  caption.Paint+=(s,e)=>Ice.TextAt(e.Graphics,"ICE OPTIMIZER    /    POR MACIOTA",new Rectangle(23,0,500,38),8,Ice.Muted,true);
+  AddWindowButton("—",()=>WindowState=FormWindowState.Minimized,144);AddWindowButton("□",ToggleMaximize,96);AddWindowButton("×",Close,48);
+  sidebar.BackColor=Ice.Side;Controls.Add(sidebar);sidebar.Paint+=DrawSidebar;
+  string[] cats={"Windows","Jogos","Hardware","Reparos","Aplicativos","Recuperação"};int y=154;
+  foreach(string cat in cats){var b=new IceButton{Text=cat+"   "+catalog.actions.Count(a=>a.category==cat),Glyph=cat,BackColor=Ice.Side};b.SetBounds(16,y,180,45);string captured=cat;b.Click+=(s,e)=>{category=captured;selectedFilter=false;search.Clear();SwitchPage("library");Filter();};sidebar.Controls.Add(b);nav[cat]=b;y+=53;}
+  settingsNav=new IceButton{Text="Configurações",Glyph="Configurações",BackColor=Ice.Side};historyNav=new IceButton{Text="Histórico",Glyph="Histórico",BackColor=Ice.Side};sidebar.Controls.Add(settingsNav);sidebar.Controls.Add(historyNav);settingsNav.Click+=(s,e)=>SwitchPage("settings");historyNav.Click+=(s,e)=>{SwitchPage("history");RenderHistory();};
+  Controls.Add(content);content.BackColor=Ice.Bg;content.Controls.Add(hero);content.Controls.Add(library);content.Controls.Add(settings);content.Controls.Add(history);
+  library.Controls.Add(categoryTitle);library.Controls.Add(categoryHint);StyleLabel(categoryTitle,19,Ice.Text,true);StyleLabel(categoryHint,9,Ice.Muted);
+  var searchBox=new IceSurface{Padding=new Padding(40,11,14,8)};searchBox.SetBounds(0,0,290,40);searchBox.Paint+=(s,e)=>Ice.Icon(e.Graphics,"search",new Rectangle(12,11,18,18),Ice.Muted);searchBox.Tag="search";
+  search.BorderStyle=BorderStyle.None;search.BackColor=Ice.Panel;search.ForeColor=Ice.Text;search.Dock=DockStyle.Fill;search.AccessibleName="Buscar ações";searchBox.Controls.Add(search);library.Controls.Add(searchBox);
+  library.Controls.Add(toolsRow);selectAll.Text="Marcar categoria";selectAll.Glyph="check";clear.Text="Limpar categoria";onlySelected.Text="Só selecionadas";toolsRow.Controls.Add(selectAll);toolsRow.Controls.Add(clear);toolsRow.Controls.Add(onlySelected);
+  selectAll.Click+=(s,e)=>{foreach(var a in catalog.actions.Where(a=>a.category==category))selected.Add(a.id);RefreshSelection();};
+  clear.Click+=(s,e)=>{foreach(var a in catalog.actions.Where(a=>a.category==category))selected.Remove(a.id);RefreshSelection();};
+  onlySelected.Click+=(s,e)=>{selectedFilter=!selectedFilter;Filter();};
+  cards.BackColor=Ice.Bg;cards.Padding=new Padding(0);library.Controls.Add(cards);
+  library.Controls.Add(inspector);inspector.Paint+=DrawPlan;review.Text="Revisar plano";review.Glyph="arrow";review.BackColor=Ice.Panel;review.Click+=(s,e)=>ReviewPlan();inspector.Controls.Add(review);
+  Controls.Add(footer);footer.BackColor=Ice.Side;footer.Controls.Add(selectionLabel);footer.Controls.Add(status);StyleLabel(selectionLabel,11,Ice.Text,true);StyleLabel(status,9,Ice.Muted);
+  run.Text="Revisar e executar";run.Primary=true;run.Glyph="play";run.BackColor=Ice.Side;run.Click+=async(s,e)=>await StartBatch();footer.Controls.Add(run);
+  cancel.Text="Parar após esta ação";cancel.BackColor=Ice.Side;cancel.Visible=false;cancel.Click+=(s,e)=>{cancelRequested=true;cancel.Enabled=false;status.Text="Parada solicitada · aguardando a ação atual";};footer.Controls.Add(cancel);footer.Controls.Add(progress);
+  BuildSettings();BuildHistory();search.TextChanged+=(s,e)=>Filter();
+  KeyPreview=true;KeyDown+=(s,e)=>{if(e.Control&&e.KeyCode==Keys.F){SwitchPage("library");search.Focus();e.SuppressKeyPress=true;}};
+  FormClosing+=(s,e)=>{if(busy){e.Cancel=true;Notify("Uma ação está em andamento","Use Parar após esta ação. A fila encerra ao terminar a ação atual.");}};
+  Shown+=(s,e)=>{if(Motion.Enabled){Opacity=.1;var intro=new Timer{Interval=20};intro.Tick+=(o,a)=>{Opacity=Math.Min(1,Opacity+.09);if(Opacity>=1){intro.Stop();intro.Dispose();}};intro.Start();}};
+  loading=false;Filter();SwitchPage("library");LayoutApp();
+ }
+ void AddWindowButton(string text,Action click,int right){var b=new IceButton{Text=text,Width=42,Height=28,Tag=right};b.Click+=(s,e)=>click();caption.Controls.Add(b);}
+ void ToggleMaximize(){if(WindowState==FormWindowState.Maximized)WindowState=FormWindowState.Normal;else{MaximizedBounds=Screen.FromControl(this).WorkingArea;WindowState=FormWindowState.Maximized;}}
+ protected override void WndProc(ref Message m){base.WndProc(ref m);if(m.Msg==0x84&&WindowState==FormWindowState.Normal){Point p=PointToClient(new Point((int)((long)m.LParam&0xffff),(int)(((long)m.LParam>>16)&0xffff)));int edge=6;bool l=p.X<edge,r=p.X>=Width-edge,t=p.Y<edge,b=p.Y>=Height-edge;int hit=t?(l?13:r?14:12):b?(l?16:r?17:15):l?10:r?11:0;if(hit!=0)m.Result=(IntPtr)hit;}}
+ protected override void OnResize(EventArgs e){base.OnResize(e);LayoutApp();}
+ void LayoutApp(){if(loading||layingOut||content==null||sidebar==null||footer==null)return;layingOut=true;try{
+  caption.SetBounds(1,1,ClientSize.Width-2,38);foreach(Control c in caption.Controls)if(c.Tag is int)c.SetBounds(caption.Width-(int)c.Tag,5,42,28);
+  sidebar.SetBounds(1,40,211,ClientSize.Height-41);historyNav.SetBounds(16,sidebar.Height-158,180,42);settingsNav.SetBounds(16,sidebar.Height-109,180,42);
+  content.SetBounds(236,58,Math.Max(500,ClientSize.Width-260),Math.Max(490,ClientSize.Height-154));hero.SetBounds(0,0,content.Width,169);
+  library.SetBounds(0,188,content.Width,Math.Max(275,content.Height-188));settings.SetBounds(0,0,content.Width,content.Height);history.SetBounds(0,0,content.Width,content.Height);
+  bool showPlan=content.Width>=1020;inspector.Visible=showPlan;int gridWidth=showPlan?library.Width-286:library.Width;
+  inspector.SetBounds(library.Width-266,0,266,Math.Min(library.Height-3,490));review.SetBounds(18,inspector.Height-60,230,40);
+  categoryTitle.SetBounds(0,0,gridWidth-305,34);categoryHint.SetBounds(0,37,gridWidth,23);
+  foreach(Control c in library.Controls)if((string)c.Tag=="search")c.SetBounds(gridWidth-285,0,285,39);
+  toolsRow.SetBounds(0,70,gridWidth,40);selectAll.SetBounds(0,0,164,38);clear.SetBounds(173,0,155,38);onlySelected.SetBounds(337,0,155,38);
+  cards.SetBounds(0,124,gridWidth,Math.Max(120,library.Height-124));ResizeCards();
+  footer.SetBounds(212,ClientSize.Height-82,ClientSize.Width-213,81);selectionLabel.SetBounds(24,12,footer.Width-285,25);status.SetBounds(24,39,footer.Width-285,24);run.SetBounds(footer.Width-228,15,204,45);cancel.SetBounds(footer.Width-228,15,204,45);progress.SetBounds(24,72,footer.Width-48,4);
+  LayoutSettings();LayoutHistory();
+ }finally{layingOut=false;}}
+ void ResizeCards(){cards.LayoutCards();}
+ void DrawSidebar(object sender,PaintEventArgs e){var g=e.Graphics;Ice.Crystal(g,new RectangleF(20,24,47,65));Ice.TextAt(g,"ice",new Rectangle(78,18,110,49),30,Ice.Text,true);Ice.TextAt(g,"optimizer",new Rectangle(80,68,116,25),12,Ice.Muted);Ice.TextAt(g,"BIBLIOTECA",new Rectangle(27,119,160,22),8,Ice.Muted,true);using(var pen=new Pen(Ice.Line))g.DrawLine(pen,24,sidebar.Height-180,187,sidebar.Height-180);Ice.TextAt(g,"POR MACIOTA     /     v2.0",new Rectangle(27,sidebar.Height-44,180,24),8,Ice.Muted,true);}
+ void DrawPlan(object sender,PaintEventArgs e){var g=e.Graphics;var plan=Chosen();Ice.TextAt(g,"SEU PLANO",new Rectangle(20,17,230,24),9,Ice.Muted,true);Ice.TextAt(g,plan.Length.ToString("00"),new Rectangle(19,54,210,62),40,Ice.Cyan,true);Ice.TextAt(g,"ações selecionadas",new Rectangle(23,119,216,26),11,Ice.Text);int risks=plan.Count(a=>a.risk=="Alto impacto");Ice.TextAt(g,risks+" de alto impacto  ·  "+plan.Count(a=>a.restart)+" pedem reinício",new Rectangle(23,158,220,42),9,risks>0?Ice.Amber:Ice.Muted,false,true);
+  using(var pen=new Pen(Ice.Line))g.DrawLine(pen,22,214,243,214);if(plan.Length==0)Ice.TextAt(g,"Marque os cartões para montar sua fila de execução.",new Rectangle(23,237,220,70),11,Ice.Muted,false,true);else{int y=235;foreach(var a in plan.Take(3)){Ice.TextAt(g,"• "+a.title,new Rectangle(23,y,218,35),9,Ice.Text,false,true);y+=41;}if(plan.Length>3)Ice.TextAt(g,"+ "+(plan.Length-3)+" ações no plano",new Rectangle(23,y,220,26),9,Ice.Cyan);}
+  var problems=BatchPlan.Problems(plan);if(plan.Length>0&&problems.Count>0)Ice.TextAt(g,"Revise combinações antes de executar.",new Rectangle(23,inspector.Height-105,218,38),9,Ice.Amber,false,true);
+ }
+ void StyleLabel(Label l,float size,Color color,bool bold=false){l.Font=Ice.Font(size,bold);l.ForeColor=color;l.BackColor=Color.Transparent;}
+ Label Label(string text,float size=10,Color? color=null,bool bold=false){var l=new Label{Text=text};StyleLabel(l,size,color??Ice.Text,bold);return l;}
+ ActionItem[] Chosen(){return BatchPlan.Order(catalog.actions.Where(a=>selected.Contains(a.id)));}
+ void SwitchPage(string name){page=name;bool lib=page=="library";hero.Visible=library.Visible=lib;settings.Visible=page=="settings";history.Visible=page=="history";foreach(var pair in nav){pair.Value.Active=lib&&pair.Key==category;pair.Value.Invalidate();}settingsNav.Active=page=="settings";historyNav.Active=page=="history";settingsNav.Invalidate();historyNav.Invalidate();LayoutApp();}
+ void Filter(){cards.SuspendLayout();foreach(Control c in cards.Controls.Cast<Control>().ToArray()){cards.Controls.Remove(c);c.Dispose();}
+  string q=search.Text.Trim();var source=catalog.actions.Where(a=>a.category==category&&(!selectedFilter||selected.Contains(a.id))&&(a.title+" "+a.description).IndexOf(q,StringComparison.CurrentCultureIgnoreCase)>=0).ToArray();
+  foreach(var a in source){var card=new ActionCard(a){Checked=selected.Contains(a.id),Enabled=!busy};card.Toggle+=c=>{if(selected.Contains(c.Item.id))selected.Remove(c.Item.id);else selected.Add(c.Item.id);RefreshSelection(false);};card.Details+=c=>ShowDetails(c.Item);cards.Controls.Add(card);}
+  if(source.Length==0){var empty=Label("Nenhuma ação encontrada.\nTente outro termo ou desative o filtro de selecionadas.",12,Ice.Muted);empty.Height=120;cards.Controls.Add(empty);}
+  cards.ResumeLayout();cards.ResetScroll();categoryTitle.Text=category;categoryHint.Text=source.Length+" ações exibidas · busque por nome ou função";onlySelected.Active=selectedFilter;onlySelected.Invalidate();ResizeCards();RefreshSelection(false);
+ }
+ void RefreshSelection(bool refilter=true){if(refilter){Filter();return;}foreach(var card in cards.Controls.OfType<ActionCard>()){card.Checked=selected.Contains(card.Item.id);card.Invalidate();}var plan=Chosen();selectionLabel.Text=plan.Length==0?"Seu próximo ajuste começa com uma escolha.":plan.Length+" ações no plano  ·  "+plan.Select(a=>a.category).Distinct().Count()+" categorias";if(!busy)status.Text=plan.Length==0?"Marque uma ação ou toda a categoria para começar.":BatchPlan.Problems(plan).Count>0?"Há combinações para revisar antes de executar.":"Pronto para revisar · nenhuma alteração aplicada.";run.Enabled=plan.Length>0&&!busy;review.Enabled=plan.Length>0&&!busy;inspector.Invalidate();}
+ Form Dialog(string title,int width=680,int height=530){var d=new Form{Text=title,Size=new Size(width,height),MinimumSize=new Size(width,height),StartPosition=FormStartPosition.CenterParent,BackColor=Ice.Bg,ForeColor=Ice.Text,Font=Ice.Font(10),FormBorderStyle=FormBorderStyle.FixedDialog,MaximizeBox=false,MinimizeBox=false,ShowInTaskbar=false};if(Icon!=null)d.Icon=Icon;return d;}
+ void Notify(string title,string text){using(var d=Dialog(title,650,410)){var h=Label(title,20,Ice.Cyan,true);h.SetBounds(24,25,590,62);d.Controls.Add(h);var p=Label(text,11,Ice.Text);p.SetBounds(26,110,586,175);d.Controls.Add(p);var ok=new IceButton{Text="Entendi",Primary=true,DialogResult=DialogResult.OK};ok.SetBounds(440,305,166,42);d.Controls.Add(ok);d.AcceptButton=ok;d.ShowDialog(this);}}
+ void ShowDetails(ActionItem a){using(var d=Dialog(a.title,690,560)){var t=Label(a.title,21,Ice.Text,true);t.SetBounds(25,24,623,74);d.Controls.Add(t);var badge=Label(a.category+"  /  "+a.risk+(a.standalone?"  /  Execução separada":""),10,Ice.Cyan,true);badge.SetBounds(27,111,615,35);d.Controls.Add(badge);var desc=Label(a.description,11,Ice.Text);desc.SetBounds(27,163,615,134);d.Controls.Add(desc);var w=Label(a.warning,11,Ice.Amber);w.SetBounds(27,310,615,121);d.Controls.Add(w);var toggle=new IceButton{Text=selected.Contains(a.id)?"Remover do plano":"Adicionar ao plano",Primary=true,Enabled=!busy};toggle.SetBounds(405,454,230,42);toggle.Click+=(s,e)=>{if(selected.Contains(a.id))selected.Remove(a.id);else selected.Add(a.id);RefreshSelection();d.Close();};d.Controls.Add(toggle);var close=new IceButton{Text="Voltar",DialogResult=DialogResult.Cancel};close.SetBounds(27,454,130,42);d.Controls.Add(close);d.CancelButton=close;d.ShowDialog(this);}}
+ bool ReviewPlan(bool confirm=false){var plan=Chosen();using(var d=Dialog("Revise seu plano",820,650)){
+  var title=Label("Revise seu plano",23,Ice.Text,true);title.SetBounds(26,22,735,48);d.Controls.Add(title);var sub=Label("Desmarque itens para ajustar a fila. O ponto de restauração, se escolhido, vem primeiro.",10,Ice.Muted);sub.SetBounds(28,79,740,40);d.Controls.Add(sub);
+  var checklist=new CheckedListBox{BackColor=Ice.Panel,ForeColor=Ice.Text,BorderStyle=BorderStyle.None,CheckOnClick=true,Font=Ice.Font(10)};checklist.SetBounds(28,133,742,230);foreach(var a in plan)checklist.Items.Add(a,true);d.Controls.Add(checklist);
+  var issues=new TextBox{Multiline=true,ReadOnly=true,ScrollBars=ScrollBars.Vertical,BorderStyle=BorderStyle.None,BackColor=Ice.Bg,ForeColor=Ice.Amber,Font=Ice.Font(10)};issues.SetBounds(28,382,742,128);d.Controls.Add(issues);
+  var apply=new IceButton{Text=confirm?"Confirmar execução":"Salvar seleção",Primary=true};apply.SetBounds(535,541,235,44);d.Controls.Add(apply);
+  Action update=()=>{var chosen=checklist.CheckedItems.Cast<ActionItem>().ToArray();var problems=BatchPlan.Problems(chosen);issues.Text=problems.Count>0?string.Join(Environment.NewLine,problems):string.Join(Environment.NewLine,chosen.Where(a=>a.risk=="Alto impacto").Select(a=>a.title+": "+a.warning));if(issues.Text.Length==0)issues.Text="Os scripts serão preparados antes de aplicar mudanças. Revise o registro ao concluir.";apply.Enabled=!confirm||problems.Count==0;};
+  checklist.ItemCheck+=(s,e)=>d.BeginInvoke(update);apply.Click+=(s,e)=>{selected.Clear();foreach(ActionItem a in checklist.CheckedItems)selected.Add(a.id);RefreshSelection();d.DialogResult=DialogResult.OK;d.Close();};
+  var back=new IceButton{Text="Voltar",DialogResult=DialogResult.Cancel};back.SetBounds(28,541,145,44);d.Controls.Add(back);d.CancelButton=back;update();return d.ShowDialog(this)==DialogResult.OK;
+ }}
+ void SetBusy(bool value){busy=value;run.Visible=!value;cancel.Visible=value;cancel.Enabled=true;selectAll.Enabled=clear.Enabled=onlySelected.Enabled=!value;offline.Enabled=rootBox.Enabled=!value;stopErrors.Enabled=false;foreach(var c in cards.Controls.OfType<ActionCard>())c.Enabled=!value;review.Enabled=!value;progress.Running=value;RefreshSelection(false);}
+ async Task StartBatch(){if(busy||Chosen().Length==0)return;if(!ReviewPlan(true))return;
+  if(!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)){Notify("Permissão de administrador","Para aplicar ajustes, abra o ice optimizer como administrador. Você também pode usar o botão em Configurações. Sua seleção foi preservada nesta janela.");return;}
+  try{Payload.SafeRoot(rootBox.Text);}catch(Exception e){Notify("Escolha outra pasta",e.Message);return;}
+  var plan=Chosen();string runRoot=Path.Combine(rootBox.Text,DateTime.Now.ToString("yyyyMMdd-HHmmss")+"-plano-"+Guid.NewGuid().ToString("N").Substring(0,6));bool local=offline.Checked;bool stopOnError=false;
+  cancelRequested=false;progress.Value=0;SetBusy(true);List<BatchResult> results=new List<BatchResult>();string summary="";
+  try{
+   Directory.CreateDirectory(runRoot);lastRunFolder=runRoot;currentLog=Path.Combine(runRoot,"plano.log");Log("ice optimizer 2.0 — por Maciota | "+DateTime.Now.ToString("s"));
+   results=await BatchPlan.Run(plan,a=>Payload.Prepare(catalog,a,runRoot,local,null,Log),async(a,script)=>{
+    foreach(string file in new[]{a.file}.Concat(a.dependencies))Payload.Verify(File.ReadAllBytes(Payload.Destination(Path.GetDirectoryName(script),file)),catalog.files[file]);
+    string actionLog=Path.Combine(Path.GetDirectoryName(script),"execution.log");Log("INICIANDO: "+a.title);
+    int code=await Payload.Execute(script,line=>{lock(logLock)File.AppendAllText(actionLog,line+Environment.NewLine,Encoding.UTF8);Log(line);});
+    Log("ENCERRADO: "+a.title+" | código "+code+". Revise o registro para falhas parciais.");return code;
+   },()=>cancelRequested,(phase,index,total,a)=>{
+    status.Text=(phase=="download"?"Preparando ":phase=="execute"?"Executando ":"Encerradas ")+(phase=="complete"?index:index+1)+"/"+total+" · "+a.title;
+    if(phase=="complete")progress.Value=(float)index/total;
+   },stopOnError);
+   int errors=results.Count(r=>r.code!=0);summary=cancelRequested?"Fila interrompida após a ação atual.":results.Count<plan.Length?"Fila interrompida após falha.":"Fila encerrada. Revise os registros.";summary+=" "+results.Count+"/"+plan.Length+" ações · "+errors+" com erro informado.";Log(summary);
+  }catch(Exception e){summary="Fila interrompida: "+e.Message;Log(summary);}
+  finally{
+   if(Directory.Exists(runRoot)){var record=new RunRecord{when=DateTime.Now.ToString("dd/MM/yyyy HH:mm"),summary=summary,folder=runRoot,results=results};try{File.WriteAllText(Path.Combine(runRoot,"resultado.json"),new JavaScriptSerializer().Serialize(record));records.Insert(0,record);SaveHistory();}catch(Exception e){Log("Não foi possível salvar o histórico: "+e.Message);}}
+   currentLog=null;selected.Clear();SavePreferences();Filter();SetBusy(false);status.Text=summary;RenderHistory();ShowResults(results,plan.Length);
+  }
+ }
+ void ShowResults(List<BatchResult> results,int planned){using(var d=Dialog("Resultado do plano",790,650)){int ok=results.Count(r=>r.code==0),bad=results.Count(r=>r.code!=0),skipped=Math.Max(0,planned-results.Count);var title=Label("Plano concluído",24,Ice.Text,true);title.SetBounds(28,22,700,48);d.Controls.Add(title);var metrics=Label(ok+" funcionaram     "+bad+" deram erro     "+skipped+" não executadas",13,bad>0?Ice.Amber:Ice.Cyan,true);metrics.SetBounds(30,82,710,40);d.Controls.Add(metrics);var list=new ListBox{BackColor=Ice.Panel,ForeColor=Ice.Text,BorderStyle=BorderStyle.None,Font=Ice.Font(10),ItemHeight=31,DrawMode=DrawMode.OwnerDrawFixed};list.SetBounds(30,140,710,355);foreach(var r in results)list.Items.Add(r);list.DrawItem+=(s,e)=>{if(e.Index<0)return;var r=(BatchResult)list.Items[e.Index];e.DrawBackground();Ice.TextAt(e.Graphics,(r.code==0?"✓  ":"×  ")+r.title,new Rectangle(e.Bounds.X+8,e.Bounds.Y,e.Bounds.Width-170,e.Bounds.Height),10,r.code==0?Ice.Text:Ice.Amber,r.code!=0);Ice.TextAt(e.Graphics,r.code==0?"Concluída":"Erro "+r.code,new Rectangle(e.Bounds.Right-150,e.Bounds.Y,135,e.Bounds.Height),9,r.code==0?Ice.Cyan:Ice.Amber);};d.Controls.Add(list);var note=Label("A fila continuou mesmo quando houve erro. Consulte o Histórico para conferir as mensagens de cada comando.",9,Ice.Muted);note.SetBounds(31,512,700,48);d.Controls.Add(note);var done=new IceButton{Text="Concluir",Primary=true,DialogResult=DialogResult.OK};done.SetBounds(565,566,175,43);d.Controls.Add(done);d.AcceptButton=done;d.ShowDialog(this);}}
+ void Log(string text){lock(logLock){try{if(currentLog!=null)File.AppendAllText(currentLog,text+Environment.NewLine,Encoding.UTF8);}catch(IOException e){text+=" [Registro em disco indisponível: "+e.Message+"]";}}if(IsHandleCreated&&!IsDisposed)BeginInvoke((Action)(()=>{if(logView.TextLength>150000)logView.Text=logView.Text.Substring(logView.TextLength-90000);logView.AppendText(text+Environment.NewLine);}));}
+ void ReadPreferences(){try{string p=Path.Combine(dataFolder,"preferences.json");if(File.Exists(p))prefs=new JavaScriptSerializer().Deserialize<Preferences>(File.ReadAllText(p));string h=Path.Combine(dataFolder,"history.json");if(File.Exists(h))records=new JavaScriptSerializer().Deserialize<List<RunRecord>>(File.ReadAllText(h))??new List<RunRecord>();}catch{prefs=new Preferences();}if(prefs==null)prefs=new Preferences();if(string.IsNullOrWhiteSpace(prefs.root))prefs.root=Path.Combine(dataFolder,"Runs");}
+ void SavePreferences(){if(loading)return;prefs.root=rootBox.Text;prefs.selection=selected.ToArray();prefs.offline=offline.Checked;prefs.animations=animations.Checked;prefs.stopOnError=stopErrors.Checked;try{Directory.CreateDirectory(dataFolder);File.WriteAllText(Path.Combine(dataFolder,"preferences.json"),new JavaScriptSerializer().Serialize(prefs));}catch(Exception e){status.Text="Preferências não salvas: "+e.Message;}}
+ void SaveHistory(){Directory.CreateDirectory(dataFolder);File.WriteAllText(Path.Combine(dataFolder,"history.json"),new JavaScriptSerializer().Serialize(records.Take(50).ToList()));}
+ void BuildSettings(){settings.AutoScroll=true;var heading=Label("Do seu jeito.",28,Ice.Text,true);heading.SetBounds(0,8,700,55);settings.Controls.Add(heading);var subtitle=Label("Preferências de aparência e execução",11,Ice.Muted);subtitle.SetBounds(2,68,700,30);settings.Controls.Add(subtitle);
+  string[] texts={"APARÊNCIA","ARQUIVOS E DOWNLOADS","CONTROLE DA EXECUÇÃO"};int[] ys={125,257,442};for(int i=0;i<3;i++){var l=Label(texts[i],9,Ice.Cyan,true);l.SetBounds(2,ys[i],700,24);settings.Controls.Add(l);}
+  animations.Text="Animações suaves";animations.Checked=prefs.animations;animations.SetBounds(2,160,600,30);settings.Controls.Add(animations);animations.CheckedChanged+=(s,e)=>{Motion.Set(animations.Checked);Invalidate(true);SavePreferences();};
+  var reduced=Label("Desative para reduzir movimento, efeitos de foco e transições.",10,Ice.Muted);reduced.SetBounds(23,201,720,30);settings.Controls.Add(reduced);
+  offline.Text="Usar arquivos locais do pacote offline";offline.Checked=prefs.offline;offline.SetBounds(2,291,700,30);settings.Controls.Add(offline);offline.CheckedChanged+=(s,e)=>SavePreferences();
+  rootBox.Text=prefs.root;rootBox.BackColor=Ice.Panel;rootBox.ForeColor=Ice.Text;rootBox.BorderStyle=BorderStyle.FixedSingle;rootBox.SetBounds(2,346,620,29);rootBox.Leave+=(s,e)=>SavePreferences();settings.Controls.Add(rootBox);
+  var browse=new IceButton{Text="Escolher pasta",Tag="browse"};browse.SetBounds(642,340,165,40);browse.Click+=(s,e)=>{if(busy)return;using(var picker=new FolderBrowserDialog{Description="Pasta para downloads, backups e registros"})if(picker.ShowDialog()==DialogResult.OK){rootBox.Text=picker.SelectedPath;SavePreferences();}};settings.Controls.Add(browse);
+  var explanation=Label("A pasta guarda arquivos e registros. Os ajustes afetam o Windows em execução.",10,Ice.Muted);explanation.SetBounds(2,394,780,32);settings.Controls.Add(explanation);
+  stopErrors.Text="Continuar a fila quando alguma ação informar erro";stopErrors.Checked=true;stopErrors.Enabled=false;stopErrors.SetBounds(2,477,760,30);settings.Controls.Add(stopErrors);
+  var admin=new IceButton{Text="Abrir como administrador",Glyph="Recuperação",Tag="admin"};admin.SetBounds(2,533,275,43);admin.Click+=(s,e)=>{if(busy)return;try{SavePreferences();Process.Start(new ProcessStartInfo(Application.ExecutablePath){UseShellExecute=true,Verb="runas"});Close();}catch(System.ComponentModel.Win32Exception){status.Text="A abertura como administrador foi cancelada.";}};settings.Controls.Add(admin);
+  var about=Label("ice optimizer 2.0  ·  Interface e integração por Maciota\nUtilitários externos mantêm suas licenças. Sem banco de dados ou cadastro.",10,Ice.Muted);about.SetBounds(2,611,790,66);settings.Controls.Add(about);
+ }
+ void LayoutSettings(){if(settings==null)return;rootBox.Width=Math.Max(250,settings.ClientSize.Width-205);foreach(Control c in settings.Controls)if((string)c.Tag=="browse")c.Left=rootBox.Right+16;}
+ void BuildHistory(){var title=Label("Histórico de execução",26,Ice.Text,true);title.SetBounds(0,8,700,48);history.Controls.Add(title);var sub=Label("Acompanhe cada fila e mantenha seus registros por perto.",11,Ice.Muted);sub.SetBounds(2,66,800,32);history.Controls.Add(sub);logView.Multiline=true;logView.ReadOnly=true;logView.ScrollBars=ScrollBars.Both;logView.WordWrap=false;logView.BackColor=Ice.Panel;logView.ForeColor=Ice.Muted;logView.BorderStyle=BorderStyle.None;logView.Font=new Font("Consolas",9);history.Controls.Add(logView);
+  var open=new IceButton{Text="Abrir pasta de registros",Glyph="Histórico",Tag="openLogs"};open.Click+=(s,e)=>{var folder=lastRunFolder??(records.Count>0?records[0].folder:rootBox.Text);if(Directory.Exists(folder))Process.Start(new ProcessStartInfo(folder){UseShellExecute=true});else Notify("Nenhum registro ainda","Execute uma ação para criar registros nesta pasta.");};history.Controls.Add(open);
+  RenderHistory();
+ }
+ void RenderHistory(){if(busy)return;logView.Text=records.Count==0?"Nenhuma execução ainda.\r\n\r\nAs ações só são aplicadas depois que você revisa e confirma o plano.":string.Join("\r\n\r\n",records.Take(50).Select(r=>r.when+"\r\n"+r.summary+"\r\n"+r.folder+"\r\n"+string.Join("\r\n",(r.results??new List<BatchResult>()).Select(x=>"  · "+x.title+" — "+x.status))));}
+ void LayoutHistory(){logView.SetBounds(0,119,history.Width,Math.Max(140,history.Height-191));foreach(Control c in history.Controls)if((string)c.Tag=="openLogs")c.SetBounds(0,history.Height-53,263,43);}
+ public void Render(string file,string mode=""){selected.Clear();Motion.Set(false);if(mode=="selected"){foreach(string id in new[]{"opcao19","opcao21","opcao31","opcao32","restore","limparram"})selected.Add(id);Filter();}if(mode=="settings")SwitchPage("settings");ShowInTaskbar=false;Opacity=0;Show();Opacity=0;LayoutApp();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
+ public void UiTest(){selected.Clear();category="Jogos";search.Text="rust";Filter();var match=cards.Controls.OfType<ActionCard>().SingleOrDefault(c=>c.Item.id=="priorizar_rust");if(match==null||cards.Controls.OfType<ActionCard>().Any(c=>!(c.Item.title+" "+c.Item.description).ToLowerInvariant().Contains("rust")))throw new Exception("Search failed");match.Flip();if(!selected.Contains("priorizar_rust"))throw new Exception("Selection failed");category="Windows";search.Clear();Filter();if(!selected.Contains("priorizar_rust"))throw new Exception("Selection lost on category change");
+  foreach(var a in catalog.actions.Where(a=>a.category==category))selected.Add(a.id);RefreshSelection();if(Chosen().Length!=catalog.actions.Count(a=>a.category==category)+1)throw new Exception("Select category failed");if(BatchPlan.Problems(Chosen()).Count==0)throw new Exception("Conflicts not detected");
+  selected.Clear();search.Text="zzzzzzzz";Filter();if(run.Enabled)throw new Exception("Empty selection allowed execution");Size=new Size(980,720);LayoutApp();if(cards.Right>library.Width||footer.Bottom>ClientSize.Height)throw new Exception("Small layout overflow");Size=new Size(1380,900);category="Windows";search.Clear();Filter();}
+}
+
