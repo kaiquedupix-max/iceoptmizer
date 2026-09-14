@@ -34,6 +34,7 @@ public static class Ice {
    else if(name=="Recuperação"){g.DrawPolygon(p,new[]{new Point(12,2),new Point(21,6),new Point(19,16),new Point(12,22),new Point(5,16),new Point(3,6)});g.DrawLine(p,8,12,11,15);g.DrawLine(p,11,15,16,9);}
    else if(name=="Reparos"){g.DrawArc(p,11,2,10,10,40,275);g.DrawLine(p,13,11,3,19);g.DrawLine(p,3,19,5,22);g.DrawLine(p,5,22,16,12);}
    else if(name=="Histórico"){g.DrawEllipse(p,3,3,18,18);g.DrawLine(p,12,6,12,12);g.DrawLine(p,12,12,16,14);}
+   else if(name=="Perfil"){g.DrawEllipse(p,8,3,8,8);g.DrawArc(p,4,12,16,10,180,180);}
    else if(name=="Configurações"){for(int i=5;i<21;i+=7){g.DrawLine(p,3,i,21,i);g.DrawEllipse(p,i-2,i-2,4,4);}}
    else if(name=="search"){g.DrawEllipse(p,3,3,12,12);g.DrawLine(p,14,14,21,21);}
    else if(name=="check"){g.DrawLine(p,5,12,10,17);g.DrawLine(p,10,17,20,6);}
@@ -60,6 +61,14 @@ public class IceButton:Button {
 public class IceSurface:Panel {
  public IceSurface(){DoubleBuffered=true;BackColor=Ice.Bg;Padding=new Padding(18);}
  protected override void OnPaint(PaintEventArgs e){e.Graphics.SmoothingMode=SmoothingMode.AntiAlias;Ice.Box(e.Graphics,new Rectangle(0,0,Width-1,Height-1),Ice.Panel,Ice.Line,14);base.OnPaint(e);}
+}
+public class SnowCanvas:Panel {
+ class Flake {public float x,y,speed,size,drift;}
+ readonly List<Flake> flakes=new List<Flake>();readonly Random random=new Random(2202);
+ public SnowCanvas(){DoubleBuffered=true;BackColor=Ice.Bg;for(int i=0;i<58;i++)flakes.Add(new Flake{x=(float)random.NextDouble(),y=(float)random.NextDouble(),speed=.0015f+(float)random.NextDouble()*.0032f,size=1.2f+(float)random.NextDouble()*2.6f,drift=(float)random.NextDouble()*6});Motion.Tick+=Fall;}
+ void Fall(){if(!Visible)return;foreach(var f in flakes){f.y+=f.speed;if(f.y>1.03f){f.y=-.03f;f.x=(float)random.NextDouble();}}Invalidate();}
+ protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;foreach(var f in flakes){float x=f.x*Width+(float)Math.Sin(Motion.Phase+f.drift)*9,y=f.y*Height;using(var b=new SolidBrush(Color.FromArgb((int)(32+f.size*14),Ice.Text)))g.FillEllipse(b,x,y,f.size,f.size);}}
+ protected override void Dispose(bool d){if(d)Motion.Tick-=Fall;base.Dispose(d);}
 }
 public class Hero:Control {
  public Hero(){DoubleBuffered=true;BackColor=Ice.Bg;Motion.Tick+=Animate;}

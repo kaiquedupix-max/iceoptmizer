@@ -1,18 +1,19 @@
 # ice optimizer
 
-Interface Windows e integração por **Maciota**. Versão **2.1 — Edição Glacial**: identidade de gelo com logo vetorial, cartões personalizados, animações suaves, descrições das 160 ações, seleção por categoria, revisão de conflitos, execução sequencial, histórico local e ativação de licença.
+Interface Windows e integração por **Maciota**. Versão **2.2 — Edição Glacial**: identidade de gelo com flocos animados, cartões personalizados, descrições das 160 ações, seleção por categoria, revisão de conflitos, execução sequencial, histórico local, conta e perfil de licença.
 
 Marque os cartões ou use **Marcar categoria**, depois **Revisar e executar**. A revisão permite desmarcar combinações opostas. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. **Parar após esta ação** encerra a fila entre ações, sem matar um comando do Windows em andamento. A fila continua quando uma ação informa erro, mostra o resultado individual e limpa a seleção ao terminar.
 
-O portal em `portal/` inclui página comercial, painel administrativo e API de licenças. Configure `ADMIN_PASSWORD`, `SESSION_SECRET` e `DATA_PATH=/data/licenses.json` no Railway e monte um volume em `/data`. As chaves são armazenadas somente como SHA-256, aparecem completas uma única vez, começam a contar na primeira ativação e ficam vinculadas a um computador.
+O portal em `portal/` inclui página comercial, painel administrativo e API de contas e licenças. Configure `ADMIN_PASSWORD`, `SESSION_SECRET` e `DATA_PATH=/data/licenses.json` no Railway e monte um volume em `/data`. A key aparece completa uma única vez e cria uma conta com usuário e senha. A validade começa no cadastro e a conta fica vinculada a um computador. Keys e tokens são armazenados como hashes; senhas usam scrypt com salt individual.
 
 ## Usar
 
 1. Baixe `ice-optimizer.exe` em `downloads` neste repositório.
-2. Abra com **Executar como administrador** para aplicar ajustes.
-3. Escolha a categoria ou busque a ação (Ctrl+F). Marque as ações desejadas, leia seus efeitos em **Ver detalhes** e revise o plano antes de confirmar.
-4. O aplicativo baixa apenas o script selecionado e suas dependências de `kaiquedupix-max/iceoptmizer`, confere o SHA-256 embutido no executável e executa a ação. Não precisa de conta, token, banco de dados ou Heroku.
-5. Acompanhe o progresso e o **Histórico**. Cada plano mantém `plano.log` e `resultado.json`; cada ação tem seu `execution.log`. A pasta é escolhida em **Configurações**.
+2. Crie sua conta com uma key ainda não utilizada ou entre com seu usuário e senha.
+3. Abra com **Executar como administrador** para aplicar ajustes.
+4. Escolha a categoria ou busque a ação (Ctrl+F). Marque as ações desejadas, leia seus efeitos em **Ver detalhes** e revise o plano antes de confirmar.
+5. O aplicativo baixa apenas o script selecionado e suas dependências de `kaiquedupix-max/iceoptmizer`, confere o SHA-256 embutido no executável e executa a ação.
+6. Consulte o tempo restante em **Meu perfil** e acompanhe o **Histórico**. Cada plano mantém `plano.log` e `resultado.json`; cada ação tem seu `execution.log`. A pasta é escolhida em **Configurações**.
 
 A pasta de trabalho armazena downloads e backups. Os comandos afetam o Windows em execução, não uma instalação Windows em outra unidade. A opção de jogos ajusta prioridades dos executáveis conhecidos; não precisa selecionar a pasta do jogo.
 

@@ -1,10 +1,7 @@
-Warning: truncated output (original token count: 30459)
-Total output lines: 3167
-
 {
   "name": "ice optimizer",
   "author": "Maciota",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "repository": "kaiquedupix-max/iceoptmizer",
   "ref": "main",
   "licenseApi": "https://ice-optimizer-web-production.up.railway.app",
@@ -1539,7 +1536,50 @@ Total output lines: 3167
       "id": "priorizar_skyrim",
       "title": "Priorizar SKYRIM",
       "category": "Jogos",
-      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; nã…459 tokens truncated…te",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_skyrim.bat",
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para SkyrimSE.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
+    },
+    {
+      "id": "priorizar_daysgone",
+      "title": "Priorizar DAYSGONE",
+      "category": "Jogos",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_daysgone.bat",
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para DaysGone.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
+    },
+    {
+      "id": "priorizar_palworld",
+      "title": "Priorizar PALWORLD",
+      "category": "Jogos",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_palworld.bat",
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para Palworld-Win64-Shipping.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
+      "standalone": false,
+      "restart": false,
+      "conflicts": []
+    },
+    {
+      "id": "priorizar_crossfire",
+      "title": "Priorizar CROSSFIRE",
+      "category": "Jogos",
+      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
+      "file": "scripts/actions/priorizar_crossfire.bat",
+      "dependencies": [],
+      "description": "Define prioridade alta de CPU no Registro para crossfire.exe. Não altera os arquivos do jogo.",
+      "risk": "Ajuste",
       "standalone": false,
       "restart": false,
       "conflicts": []
