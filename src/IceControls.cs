@@ -65,9 +65,9 @@ public class IceSurface:Panel {
 public class SnowCanvas:Panel {
  class Flake {public float x,y,speed,size,drift;}
  readonly List<Flake> flakes=new List<Flake>();readonly Random random=new Random(2202);
- public SnowCanvas(){DoubleBuffered=true;BackColor=Ice.Bg;for(int i=0;i<58;i++)flakes.Add(new Flake{x=(float)random.NextDouble(),y=(float)random.NextDouble(),speed=.0015f+(float)random.NextDouble()*.0032f,size=1.2f+(float)random.NextDouble()*2.6f,drift=(float)random.NextDouble()*6});Motion.Tick+=Fall;}
+ public SnowCanvas(){DoubleBuffered=true;BackColor=Ice.Bg;for(int i=0;i<74;i++)flakes.Add(new Flake{x=(float)random.NextDouble(),y=(float)random.NextDouble(),speed=.0013f+(float)random.NextDouble()*.0034f,size=2.4f+(float)random.NextDouble()*4.8f,drift=(float)random.NextDouble()*6});Motion.Tick+=Fall;}
  void Fall(){if(!Visible)return;foreach(var f in flakes){f.y+=f.speed;if(f.y>1.03f){f.y=-.03f;f.x=(float)random.NextDouble();}}Invalidate();}
- protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;foreach(var f in flakes){float x=f.x*Width+(float)Math.Sin(Motion.Phase+f.drift)*9,y=f.y*Height;using(var b=new SolidBrush(Color.FromArgb((int)(32+f.size*14),Ice.Text)))g.FillEllipse(b,x,y,f.size,f.size);}}
+ protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;foreach(var f in flakes){float x=f.x*Width+(float)Math.Sin(Motion.Phase+f.drift)*13,y=f.y*Height;int alpha=Math.Min(150,(int)(35+f.size*15));using(var b=new SolidBrush(Color.FromArgb(alpha,Ice.Text)))g.FillEllipse(b,x,y,f.size,f.size);if(f.size>5)using(var p=new Pen(Color.FromArgb(alpha/2,Ice.Cyan),1)){g.DrawLine(p,x-f.size*.45f,y+f.size/2,x+f.size*1.45f,y+f.size/2);g.DrawLine(p,x+f.size/2,y-f.size*.45f,x+f.size/2,y+f.size*1.45f);}}}
  protected override void Dispose(bool d){if(d)Motion.Tick-=Fall;base.Dispose(d);}
 }
 public class Hero:Control {
@@ -112,6 +112,25 @@ public class IceProgress:Control {
  public IceProgress(){DoubleBuffered=true;Height=8;Motion.Tick+=Animate;}
  void Animate(){if(!Visible)return;if(Running||Math.Abs(shown-Value)>.001f){shown=Motion.Enabled?shown+(Value-shown)*.12f:Value;Invalidate();}}
  protected override void OnPaint(PaintEventArgs e){var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;Ice.Box(g,new Rectangle(0,0,Width-1,Height-1),Ice.Line,Ice.Line,4);int w=(int)((Width-1)*(Motion.Enabled?shown:Value));if(w>2)Ice.Box(g,new Rectangle(0,0,w,Height-1),Ice.Cyan,Ice.Cyan,4);if(Running){int x=(int)((Math.Sin(Motion.Phase*3)+1)*.5*Math.Max(0,Width-60));using(var b=new SolidBrush(Color.FromArgb(65,Ice.Cyan)))g.FillRectangle(b,x,0,60,Height);}}
+ protected override void Dispose(bool d){if(d)Motion.Tick-=Animate;base.Dispose(d);}
+}
+public class ExecutionOverlay:Control {
+ public float Value;public string Detail="Preparando o ambiente...";float shown;
+ public ExecutionOverlay(){DoubleBuffered=true;Visible=false;Cursor=Cursors.WaitCursor;TabStop=true;Motion.Tick+=Animate;SetStyle(ControlStyles.Selectable|ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);}
+ void Animate(){if(!Visible)return;shown=Motion.Enabled?shown+(Math.Max(0,Math.Min(1,Value))-shown)*.1f:Value;Invalidate();}
+ protected override void OnMouseDown(MouseEventArgs e){Focus();}
+ protected override void OnPaint(PaintEventArgs e){var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;using(var veil=new SolidBrush(Color.FromArgb(242,Ice.Bg)))g.FillRectangle(veil,ClientRectangle);
+  int cw=Math.Min(720,Math.Max(520,Width-80)),ch=430,cx=(Width-cw)/2,cy=(Height-ch)/2;Ice.Box(g,new Rectangle(cx,cy,cw,ch),Color.FromArgb(18,36,55),Color.FromArgb(55,112,140),22);
+  Ice.TextAt(g,"OTIMIZAÇÃO EM ANDAMENTO",new Rectangle(cx+36,cy+30,cw-72,24),9,Ice.Cyan,true);Ice.TextAt(g,"Deixe o gelo trabalhar.",new Rectangle(cx+35,cy+63,cw-70,48),25,Ice.Text,true);
+  Ice.TextAt(g,"Não use o mouse dentro do Ice Optimizer até a ação atual terminar.",new Rectangle(cx+36,cy+112,cw-72,42),10,Ice.Muted,false,true);
+  float p=Math.Max(0,Math.Min(1,shown));int cube=82-(int)(p*38),cubeX=cx+48,cubeY=cy+184+(82-cube);using(var glow=new SolidBrush(Color.FromArgb(22,Ice.Cyan)))g.FillEllipse(glow,cubeX-18,cubeY-20,118,118);
+  PointF[] top={new PointF(cubeX,cubeY+16),new PointF(cubeX+cube*.72f,cubeY),new PointF(cubeX+cube,cubeY+18),new PointF(cubeX+cube*.28f,cubeY+34)};using(var b=new SolidBrush(Color.FromArgb(180,230,250)))g.FillPolygon(b,top);
+  PointF[] left={top[0],top[3],new PointF(cubeX+cube*.28f,cubeY+cube),new PointF(cubeX,cubeY+cube-17)};using(var b=new SolidBrush(Color.FromArgb(52,145,205)))g.FillPolygon(b,left);
+  PointF[] right={top[3],top[2],new PointF(cubeX+cube,cubeY+cube-18),new PointF(cubeX+cube*.28f,cubeY+cube)};using(var b=new SolidBrush(Color.FromArgb(92,210,239)))g.FillPolygon(b,right);
+  using(var pool=new SolidBrush(Color.FromArgb(75+(int)(p*90),Ice.Cyan)))g.FillEllipse(pool,cubeX-10-(int)(p*18),cy+278,cube+25+(int)(p*50),8+(int)(p*8));
+  int bx=cx+163,by=cy+208,bw=cw-210,bh=24;Ice.Box(g,new Rectangle(bx,by,bw,bh),Color.FromArgb(8,20,34),Ice.Line,12);int fill=(int)((bw-4)*p);if(fill>3){using(var path=Ice.Round(new RectangleF(bx+2,by+2,fill,bh-4),10))using(var grad=new LinearGradientBrush(new Rectangle(bx,by,Math.Max(1,bw),bh),Ice.Blue,Ice.Cyan,LinearGradientMode.Horizontal))g.FillPath(grad,path);for(int i=14;i<fill;i+=27)using(var shine=new Pen(Color.FromArgb(65,Color.White),2))g.DrawLine(shine,bx+i,by+5,bx+i+8,by+bh-6);}
+  Ice.TextAt(g,Math.Round(p*100)+"%",new Rectangle(bx,by+35,bw,36),17,Ice.Cyan,true);Ice.TextAt(g,Detail,new Rectangle(bx,by+76,bw,56),10,Ice.Text,false,true);Ice.TextAt(g,"Os cliques estão bloqueados para evitar comandos acidentais. ESC solicita uma parada segura após a ação atual.",new Rectangle(cx+36,cy+365,cw-72,40),9,Ice.Muted,false,true);
+ }
  protected override void Dispose(bool d){if(d)Motion.Tick-=Animate;base.Dispose(d);}
 }
 public class SearchField:TextBox {
