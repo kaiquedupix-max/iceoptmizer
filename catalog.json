@@ -4,7 +4,7 @@
   "version": "2.1.0",
   "repository": "kaiquedupix-max/iceoptmizer",
   "ref": "main",
-  "licenseApi": "https://iceoptmizer-production.up.railway.app",
+  "licenseApi": "https://ice-optimizer-portal-production.up.railway.app",
   "actions": [
     {
       "id": "ping",
