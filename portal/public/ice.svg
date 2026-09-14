@@ -1,4 +1,2 @@
-Warning: truncated output (original token count: 117)
-Total output lines: 2
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none"><rect width="128" height="128" rx="28" fill="#0B1523"/><path d="M64 14 30 48 64 114 98 48Z" fill="#50CFEF"/><path d="m64 14-34 34 34 14Z" fill="#C3F8FF"/><path d="m64 14 34 34-34 14Z" fill="#54D3F0"/><path d="m30 48 34 66V62Z" fill="#286FAB"/><path d="m98 48-34 14v52Z" fill="#82DFF7"/><path d="M64 14v100M30 48h68M64 14 30 48 64 114 98 48 64 14Z" stroke="#A8F0FF" stroke-width="1.5"/></svg>
 
-<s…116 tokens truncated…
