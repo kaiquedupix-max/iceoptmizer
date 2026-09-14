@@ -1,4 +1,7 @@
-Warning: truncated output (original token count: 401)
-Total output lines: 7
+process.env.ADMIN_PASSWORD='test-password';process.env.SESSION_SECRET='12345678901234567890123456789012';process.env.DATA_PATH=require('path').join(require('os').tmpdir(),'ice-license-test-'+process.pid+'.json');
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('fs');const {server,load,save,validateLicense,duration}=require('../server');
+test.after(()=>{server.close();try{fs.unlinkSync(process.env.DATA_PATH)}catch{}});
+test('duration values',()=>{assert.equal(duration('d30'),30);assert.equal(duration('d90'),90);assert.equal(duration('m6'),183);assert.equal(duration('permanent'),null)});
+test('activation binds device and starts expiry',()=>{const crypto=require('crypto'),raw='ICE-ABCDE-FGHIJ-KLMNO-PQRST',db={licenses:[{id:'1',keyHash:crypto.createHash('sha256').update(raw).digest('hex'),plan:'d30',createdAt:new Date().toISOString(),revoked:false}],events:[]};let r=validateLicense(db,raw,'pc-one',true);assert.equal(r.ok,true);assert.ok(r.expiresAt);assert.equal(validateLicense(db,raw,'pc-two',false).ok,false);assert.equal(validateLicense(db,raw,'pc-one',false).ok,true)});
+test('revoked and expired keys fail',()=>{const crypto=require('crypto'),h=x=>crypto.createHash('sha256').update(x).digest('hex'),db={licenses:[{keyHash:h('A'),plan:'permanent',activatedAt:new Date().toISOString(),deviceHash:h('d'),revoked:true},{keyHash:h('B'),plan:'d30',activatedAt:'2020-01-01',expiresAt:'2020-02-01',deviceHash:h('d'),revoked:false}],events:[]};assert.equal(validateLicense(db,'A','d',false).ok,false);assert.equal(validateLicense(db,'B','d',false).ok,false)});
 
-pr…400 tokens truncated…
