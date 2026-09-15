@@ -1,6 +1,6 @@
 # ice optimizer
 
-Interface Windows e integração por **Maciota**. Versão **2.5 — Edição Glacial**: animações com temporização de alta resolução e alvo de 60 FPS, brilho que acompanha o cursor e cartões responsivos, navegação lateral, inputs com foco animado, elevação administrativa automática, ambiente pré-configurado, logout, neve, progresso com cubo de gelo, descrições das 160 ações, seleção por categoria, histórico local, conta e perfil de licença.
+Interface Windows e integração por **Maciota**. Versão **2.6 — Edição Glacial**: animações com temporização de alta resolução e alvo de 60 FPS, brilho que acompanha o cursor e cartões responsivos, navegação lateral, inputs com foco animado, elevação administrativa automática, ambiente pré-configurado, logout, neve, progresso com cubo de gelo, descrições das 160 ações, seleção por categoria, histórico local, conta e perfil de licença.
 
 Marque os cartões ou use **Marcar categoria**, depois **Revisar e executar**. A revisão permite desmarcar combinações opostas. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. Durante a execução, o aplicativo bloqueia os cliques e mostra o progresso em uma tela gelada; **Esc** solicita uma parada segura depois da ação atual, sem interromper um comando do Windows no meio. A fila continua quando uma ação informa erro, mostra o resultado individual e limpa a seleção ao terminar.
 
