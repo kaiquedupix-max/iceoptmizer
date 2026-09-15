@@ -1,6 +1,6 @@
 # ice optimizer
 
-Interface Windows e integração por **Maciota**. Versão **2.3 — Edição Glacial**: login glacial, transições suaves, flocos maiores e progresso com cubo de gelo, cartões personalizados, descrições das 160 ações, seleção por categoria, revisão de conflitos, execução sequencial, histórico local, conta e perfil de licença.
+Interface Windows e integração por **Maciota**. Versão **2.4 — Edição Glacial**: animações a 60 FPS, navegação lateral, inputs com foco animado, elevação administrativa automática, ambiente pré-configurado, logout, neve, progresso com cubo de gelo, descrições das 160 ações, seleção por categoria, histórico local, conta e perfil de licença.
 
 Marque os cartões ou use **Marcar categoria**, depois **Revisar e executar**. A revisão permite desmarcar combinações opostas. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. Durante a execução, o aplicativo bloqueia os cliques e mostra o progresso em uma tela gelada; **Esc** solicita uma parada segura depois da ação atual, sem interromper um comando do Windows no meio. A fila continua quando uma ação informa erro, mostra o resultado individual e limpa a seleção ao terminar.
 
@@ -15,11 +15,11 @@ A key aparece completa na criação administrativa e na entrega do pedido. Ela c
 3. Abra com **Executar como administrador** para aplicar ajustes.
 4. Escolha a categoria ou busque a ação (Ctrl+F). Marque as ações desejadas, leia seus efeitos em **Ver detalhes** e revise o plano antes de confirmar.
 5. O aplicativo baixa apenas o script selecionado e suas dependências de `kaiquedupix-max/iceoptmizer`, confere o SHA-256 embutido no executável e executa a ação.
-6. Consulte o tempo restante em **Meu perfil** e acompanhe o **Histórico**. Cada plano mantém `plano.log` e `resultado.json`; cada ação tem seu `execution.log`. A pasta é escolhida em **Configurações**.
+6. Consulte o tempo restante ou encerre a sessão em **Minha conta** e acompanhe o **Histórico**. Cada plano mantém `plano.log` e `resultado.json`; cada ação tem seu `execution.log`. O aplicativo organiza esses arquivos automaticamente na pasta local do Ice Optimizer.
 
 A pasta de trabalho armazena downloads e backups. Os comandos afetam o Windows em execução, não uma instalação Windows em outra unidade. A opção de jogos ajusta prioridades dos executáveis conhecidos; não precisa selecionar a pasta do jogo.
 
-O pacote `ice-optimizer-offline.zip` permite executar sem internet: extraia tudo e marque **Usar scripts locais**. Nunca mova apenas o executável quando usar esse modo.
+O pacote `ice-optimizer-offline.zip` permite executar sem internet: extraia tudo no mesmo local. O aplicativo identifica os scripts locais automaticamente. Nunca mova apenas o executável quando usar esse modo.
 
 ## Limites dos scripts
 
