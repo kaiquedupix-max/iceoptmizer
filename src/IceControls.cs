@@ -8,11 +8,15 @@ using System.Management;
 using System.Media;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.Reflection;
 using System.Windows.Forms;
 
 public static class Ice {
  public static readonly Color Bg=Color.FromArgb(8,15,26),Side=Color.FromArgb(11,21,35),Panel=Color.FromArgb(15,29,46),Line=Color.FromArgb(32,54,73),Text=Color.FromArgb(231,244,252),Muted=Color.FromArgb(137,162,181),Cyan=Color.FromArgb(112,230,246),Blue=Color.FromArgb(80,153,232),Amber=Color.FromArgb(245,190,114);
  static Dictionary<string,Font> fonts=new Dictionary<string,Font>();
+ static Image scene;
+ public static Image Scene{get{if(scene==null){using(var s=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice-mountains.png"))if(s!=null)scene=new Bitmap(s);}return scene;}}
+ public static void DrawCover(Graphics g,Image image,Rectangle target){if(image==null)return;float scale=Math.Max((float)target.Width/image.Width,(float)target.Height/image.Height);int w=(int)(image.Width*scale),h=(int)(image.Height*scale);g.DrawImage(image,new Rectangle(target.X+(target.Width-w)/2,target.Y+(target.Height-h)/2,w,h));}
  public static Font Font(float size,bool bold=false){string key=size+"/"+bold;if(!fonts.ContainsKey(key))fonts[key]=new Font("Segoe UI",size,bold?FontStyle.Bold:FontStyle.Regular);return fonts[key];}
  public static Color Mix(Color a,Color b,float t){t=Math.Max(0,Math.Min(1,t));return Color.FromArgb((int)(a.R+(b.R-a.R)*t),(int)(a.G+(b.G-a.G)*t),(int)(a.B+(b.B-a.B)*t));}
  public static GraphicsPath Round(RectangleF r,float radius=12){float d=Math.Min(radius*2,Math.Min(r.Width,r.Height));var p=new GraphicsPath();p.AddArc(r.X,r.Y,d,d,180,90);p.AddArc(r.Right-d,r.Y,d,d,270,90);p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90);p.AddArc(r.X,r.Bottom-d,d,d,90,90);p.CloseFigure();return p;}
