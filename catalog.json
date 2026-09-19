@@ -1,7 +1,7 @@
 {
   "name": "ice optimizer",
   "author": "Maciota",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "repository": "kaiquedupix-max/iceoptmizer",
   "ref": "main",
   "licenseApi": "https://ice-optimizer-web-production.up.railway.app",
@@ -104,7 +104,7 @@
     {
       "id": "reverteramdintelnvidia",
       "title": "Restaurar padrões de GPU",
-      "category": "Hardware",
+      "category": "Ativações",
       "warning": "Restaura padrões definidos pelo script; não recupera suas configurações a partir de um backup.",
       "file": "scripts/actions/reverteramdintelnvidia.bat",
       "dependencies": [],
@@ -213,7 +213,7 @@
     {
       "id": "reverterxbox",
       "title": "Reativar recursos Xbox",
-      "category": "Windows",
+      "category": "Ativações",
       "warning": "Não garante recuperar pacotes já removidos; pode exigir reinstalação.",
       "file": "scripts/actions/reverterxbox.bat",
       "dependencies": [],
@@ -288,7 +288,7 @@
     {
       "id": "ativarmemoria",
       "title": "Ativar compressão de RAM",
-      "category": "Windows",
+      "category": "Ativações",
       "warning": "Reverte a desativação deste recurso; não restaura outras configurações.",
       "file": "scripts/actions/ativarmemoria.bat",
       "dependencies": [],
@@ -360,7 +360,7 @@
     {
       "id": "ativarsuper",
       "title": "Reativar Prefetch e SysMain",
-      "category": "Windows",
+      "category": "Ativações",
       "warning": "Restaura valores definidos pelo script; não recupera um backup anterior.",
       "file": "scripts/actions/ativarsuper.bat",
       "dependencies": [],
@@ -407,7 +407,7 @@
     {
       "id": "voltarforeground",
       "title": "Restaurar prioridade de primeiro plano",
-      "category": "Windows",
+      "category": "Ativações",
       "warning": "É uma restauração para valores fixos, não para suas configurações anteriores.",
       "file": "scripts/actions/voltarforeground.bat",
       "dependencies": [],
@@ -452,7 +452,7 @@
     {
       "id": "reverterdebloater",
       "title": "Registrar aplicativos novamente",
-      "category": "Windows",
+      "category": "Ativações",
       "warning": "Não baixa aplicativos ausentes e pode apresentar falhas parciais.",
       "file": "scripts/actions/reverterdebloater.bat",
       "dependencies": [],
@@ -619,7 +619,7 @@
     {
       "id": "opcao26",
       "title": "Iniciar Windows Explorer",
-      "category": "Windows",
+      "category": "Ativações",
       "warning": "Use quando o Explorer estiver fechado ou indisponível.",
       "file": "scripts/actions/opcao26.bat",
       "dependencies": [],
@@ -668,24 +668,7 @@
       "risk": "Ajuste",
       "standalone": false,
       "restart": false,
-      "conflicts": [
-        "opcao30"
-      ]
-    },
-    {
-      "id": "opcao30",
-      "title": "Aplicar política de energia (EcoQoS)",
-      "category": "Windows",
-      "warning": "Não é necessário executar junto da opção Power Throttling.",
-      "file": "scripts/actions/opcao30.bat",
-      "dependencies": [],
-      "description": "Aplica a mesma chave PowerThrottlingOff da opção Power Throttling. Não modifica uma política exclusiva de EcoQoS.",
-      "risk": "Ajuste",
-      "standalone": false,
-      "restart": false,
-      "conflicts": [
-        "opcao29"
-      ]
+      "conflicts": []
     },
     {
       "id": "opcao31",
@@ -1312,19 +1295,6 @@
       "conflicts": []
     },
     {
-      "id": "priorizar_re9",
-      "title": "Priorizar Rust (entrada duplicada)",
-      "category": "Jogos",
-      "warning": "Esta entrada altera RustClient.exe e equivale à ação Priorizar Rust.",
-      "file": "scripts/actions/priorizar_re9.bat",
-      "dependencies": [],
-      "description": "Define prioridade alta de CPU no Registro para RustClient.exe. Não altera os arquivos do jogo.",
-      "risk": "Ajuste",
-      "standalone": false,
-      "restart": false,
-      "conflicts": []
-    },
-    {
       "id": "priorizar_chivalry2",
       "title": "Priorizar CHIVALRY2",
       "category": "Jogos",
@@ -1501,19 +1471,6 @@
       "file": "scripts/actions/priorizar_ffxiv.bat",
       "dependencies": [],
       "description": "Define prioridade alta de CPU no Registro para ffxiv_dx11.exe. Não altera os arquivos do jogo.",
-      "risk": "Ajuste",
-      "standalone": false,
-      "restart": false,
-      "conflicts": []
-    },
-    {
-      "id": "priorizar_marvel",
-      "title": "Priorizar Marvel Rivals (entrada duplicada)",
-      "category": "Jogos",
-      "warning": "O efeito depende do jogo e do sistema. Pode afetar outras tarefas; não garante aumento de FPS.",
-      "file": "scripts/actions/priorizar_marvel.bat",
-      "dependencies": [],
-      "description": "Define prioridade alta de CPU no Registro para MarvelRivals.exe. Não altera os arquivos do jogo.",
       "risk": "Ajuste",
       "standalone": false,
       "restart": false,

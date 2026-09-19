@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.IO;
+using System.Management;
+using System.Media;
+using System.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -53,6 +57,13 @@ public static class Motion {
  public static float Follow(float value,float target,float speed){return Enabled?target+(value-target)*(float)Math.Exp(-speed*Delta):target;}
  public static void Set(bool value){Enabled=value;if(Tick!=null)Tick();}
 }
+public static class IceSound {
+ static SoundPlayer click,select;
+ static SoundPlayer Tone(int start,int end,int ms,float volume){int rate=22050,count=rate*ms/1000;var stream=new MemoryStream();using(var w=new BinaryWriter(stream,Encoding.ASCII,true)){w.Write(Encoding.ASCII.GetBytes("RIFF"));w.Write(36+count*2);w.Write(Encoding.ASCII.GetBytes("WAVEfmt "));w.Write(16);w.Write((short)1);w.Write((short)1);w.Write(rate);w.Write(rate*2);w.Write((short)2);w.Write((short)16);w.Write(Encoding.ASCII.GetBytes("data"));w.Write(count*2);for(int i=0;i<count;i++){double t=(double)i/rate,f=start+(end-start)*(double)i/count,env=Math.Sin(Math.PI*i/count);w.Write((short)(Math.Sin(2*Math.PI*f*t)*short.MaxValue*volume*env));}}stream.Position=0;return new SoundPlayer(stream);}
+ static void Ensure(){if(click!=null)return;click=Tone(620,880,72,.12f);select=Tone(760,1180,105,.14f);}
+ public static void Click(){try{Ensure();click.Play();}catch{}}
+ public static void Select(){try{Ensure();select.Play();}catch{}}
+}
 public class SlideTransition:Control {
  readonly Bitmap from,to;readonly int direction;float progress;
  public SlideTransition(Bitmap oldFrame,Bitmap newFrame,int dir){from=oldFrame;to=newFrame;direction=dir<0?-1:1;DoubleBuffered=true;BackColor=Ice.Panel;SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.ResizeRedraw,true);}
@@ -68,6 +79,7 @@ public class IceButton:Button {
  protected override void OnMouseEnter(EventArgs e){over=true;Animate();base.OnMouseEnter(e);}protected override void OnMouseLeave(EventArgs e){over=false;down=false;Animate();base.OnMouseLeave(e);}
  protected override void OnMouseMove(MouseEventArgs e){pointer=e.Location;if(over)Invalidate();base.OnMouseMove(e);}
  protected override void OnMouseDown(MouseEventArgs e){down=true;Invalidate();base.OnMouseDown(e);}protected override void OnMouseUp(MouseEventArgs e){down=false;Invalidate();base.OnMouseUp(e);}
+ protected override void OnClick(EventArgs e){IceSound.Click();base.OnClick(e);}
  protected override void OnPaint(PaintEventArgs e){var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;if(BackColor.A==0)base.OnPaintBackground(e);else g.Clear(BackColor);int lift=(int)Math.Round(hover*1.5f-press*2);var body=new Rectangle(3,3-lift,Width-7,Height-7);Color fill=Primary?Ice.Mix(Ice.Cyan,Color.FromArgb(195,250,255),hover*.72f):Ice.Mix(Active?Color.FromArgb(22,60,81):Color.FromArgb(14,31,48),Color.FromArgb(27,67,89),hover);if(!Enabled)fill=Ice.Mix(fill,Ice.Bg,.65f);if(down)fill=Ice.Mix(fill,Ice.Blue,.22f);if((over||Active)&&Enabled){using(var halo=new SolidBrush(Color.FromArgb((int)(20+hover*32),Ice.Cyan)))using(var hp=Ice.Round(new RectangleF(0,1,Width-1,Height-2),14))g.FillPath(halo,hp);}Ice.Box(g,body,fill,Active?Ice.Cyan:Primary?Color.FromArgb(190,Ice.Cyan):Ice.Mix(Ice.Line,Ice.Cyan,hover*.68f),12);if(over&&Enabled){int radius=Math.Max(42,Width/3);using(var path=new GraphicsPath()){path.AddEllipse(pointer.X-radius,pointer.Y-radius,radius*2,radius*2);using(var brush=new PathGradientBrush(path)){brush.CenterPoint=pointer;brush.CenterColor=Color.FromArgb(Primary?62:40,Color.White);brush.SurroundColors=new[]{Color.FromArgb(0,Ice.Cyan)};var state=g.Save();using(var clip=Ice.Round(body,12)){g.SetClip(clip);g.FillPath(brush,path);}g.Restore(state);}}}if(Active&&!Primary)using(var accent=new SolidBrush(Ice.Cyan))using(var gp=Ice.Round(new RectangleF(6,Height/2-10-lift,3,20),2))g.FillPath(accent,gp);Color text=Enabled?(Primary?Ice.Bg:Active?Ice.Cyan:Ice.Text):Ice.Muted;int x=15;if(!string.IsNullOrEmpty(Glyph)){Ice.Icon(g,Glyph,new Rectangle(14,(Height-19)/2-lift,19,19),text);x=43;}Ice.TextAt(g,Text,new Rectangle(x,-lift,Width-x-12,Height),10,text,Primary);if(Focused)using(var pen=new Pen(Color.FromArgb(190,Ice.Cyan)){DashStyle=DashStyle.Dot})using(var gp=Ice.Round(new RectangleF(7,7-lift,Width-15,Height-15),8))g.DrawPath(pen,gp);}
  protected override void Dispose(bool disposing){if(disposing)Motion.Tick-=Animate;base.Dispose(disposing);}
 }
@@ -91,35 +103,32 @@ public class Hero:Control {
  public Hero(){DoubleBuffered=true;BackColor=Ice.Bg;Motion.Tick+=Animate;}
  void Animate(){if(Visible)Invalidate();}
  protected override void Dispose(bool d){if(d)Motion.Tick-=Animate;base.Dispose(d);}
- protected override void OnPaint(PaintEventArgs e){var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;using(var shape=Ice.Round(new RectangleF(0,0,Width-1,Height-1),22)){using(var grad=new LinearGradientBrush(ClientRectangle,Color.FromArgb(18,52,73),Color.FromArgb(8,20,35),12))g.FillPath(grad,shape);using(var pen=new Pen(Color.FromArgb(50,104,128)))g.DrawPath(pen,shape);}
-  using(var glow=new SolidBrush(Color.FromArgb(24,Ice.Cyan)))g.FillEllipse(glow,Width-265,-115,330,330);int artX=Width-225;using(var pen=new Pen(Color.FromArgb(22,Ice.Cyan))){for(int i=0;i<8;i++)g.DrawLine(pen,artX-70+i*42,Height,artX+40+i*30,0);for(int y=20;y<Height;y+=30)g.DrawLine(pen,artX-15,y,Width,y);}
-  if(Width>720){Ice.Crystal(g,new RectangleF(Width-177,5,145,139),Motion.Phase);Ice.Box(g,new Rectangle(Width-218,148,184,28),Color.FromArgb(16,40,56),Color.FromArgb(53,104,126),14);Ice.TextAt(g,"●  SISTEMA PROTEGIDO",new Rectangle(Width-203,148,158,28),8,Ice.Cyan,true);}
-  Ice.TextAt(g,"ICE OPTIMIZER   /   PAINEL GLACIAL",new Rectangle(27,18,Width-55,22),8.5f,Ice.Cyan,true);
-  Ice.TextAt(g,"Seu Windows, na temperatura certa.",new Rectangle(25,48,Width-(Width>720?235:45),43),22,Ice.Text,true);
-  Ice.TextAt(g,"Escolha com clareza, revise cada impacto e acompanhe tudo em tempo real.",new Rectangle(27,94,Width-(Width>720?245:45),25),10,Ice.Muted);
-  string[] badges={"160 AJUSTES ORGANIZADOS","HWID PROTEGIDO","EXECUÇÃO VERIFICADA"};int x=27;foreach(var badge in badges){int w=badge.StartsWith("160")?180:badge.StartsWith("HWID")?143:176;Ice.Box(g,new Rectangle(x,140,w,32),Color.FromArgb(12,31,47),Color.FromArgb(38,78,99),9);Ice.TextAt(g,badge,new Rectangle(x+12,140,w-20,32),7.5f,Ice.Muted,true);x+=w+9;}
+ protected override void OnPaint(PaintEventArgs e){var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;using(var shape=Ice.Round(new RectangleF(0,0,Width-1,Height-1),22)){using(var grad=new LinearGradientBrush(ClientRectangle,Color.FromArgb(15,45,66),Color.FromArgb(7,18,31),18))g.FillPath(grad,shape);using(var pen=new Pen(Color.FromArgb(55,130,165)))g.DrawPath(pen,shape);}
+  using(var glow=new SolidBrush(Color.FromArgb(22,Ice.Cyan)))g.FillEllipse(glow,Width-340,-150,430,430);int artX=Width-270;using(var pen=new Pen(Color.FromArgb(20,Ice.Cyan))){for(int i=0;i<9;i++)g.DrawLine(pen,artX-90+i*46,Height,artX+30+i*34,0);for(int y=18;y<Height;y+=36)g.DrawLine(pen,artX-20,y,Width,y);}
+  if(Width>720){Ice.Crystal(g,new RectangleF(Width-216,0,175,170),Motion.Phase);Ice.Box(g,new Rectangle(Width-254,170,218,34),Color.FromArgb(16,40,56),Color.FromArgb(53,130,158),17);Ice.TextAt(g,"●  SISTEMA PROTEGIDO",new Rectangle(Width-235,170,185,34),8,Ice.Cyan,true);}
+  Ice.TextAt(g,"ICE OPTIMIZER   /   PAINEL PRINCIPAL",new Rectangle(31,25,Width-65,22),8.5f,Ice.Cyan,true);Ice.TextAt(g,"Seu Windows, na temperatura certa.",new Rectangle(29,58,Width-(Width>720?275:50),46),24,Ice.Text,true);Ice.TextAt(g,"Ajustes organizados, conta protegida e controle em cada etapa.",new Rectangle(31,106,Width-(Width>720?280:55),26),10,Ice.Muted);
+  string[] badges={"SEGURO","RÁPIDO","ORGANIZADO","DESEMPENHO REAL"};int x=31;foreach(var badge in badges){int w=badge.Length*8+28;Ice.Box(g,new Rectangle(x,148,w,32),Color.FromArgb(12,31,47),Color.FromArgb(38,78,99),9);Ice.TextAt(g,badge,new Rectangle(x+12,148,w-20,32),7.5f,Ice.Muted,true);x+=w+9;}
+  int sectionY=230;Ice.TextAt(g,"AÇÕES RÁPIDAS",new Rectangle(31,sectionY,300,25),10,Ice.Text,true);Ice.TextAt(g,"Atalhos para as áreas mais usadas.",new Rectangle(31,sectionY+25,400,23),9,Ice.Muted);string[] titles={"Windows","Jogos","Hardware","Ativações"},subs={"35 ajustes organizados","Perfis e baixa latência","Veja a configuração do PC","Restaure recursos"};int gap=13,cw=(Width-62-gap*3)/4;for(int i=0;i<4;i++){int cx=31+i*(cw+gap),cy=sectionY+64;Ice.Box(g,new Rectangle(cx,cy,cw,126),Color.FromArgb(13,33,51),Color.FromArgb(35,78,102),13);Ice.Box(g,new Rectangle(cx+17,cy+17,40,40),Color.FromArgb(16,57,82),Color.FromArgb(39,103,133),9);Ice.Icon(g,titles[i],new Rectangle(cx+26,cy+26,22,22),Ice.Cyan);Ice.TextAt(g,titles[i],new Rectangle(cx+17,cy+68,cw-34,25),10,Ice.Text,true);Ice.TextAt(g,subs[i],new Rectangle(cx+17,cy+93,cw-34,22),8,Ice.Muted);}
+  int quoteY=sectionY+216;Ice.Box(g,new Rectangle(31,quoteY,Width-62,Math.Max(90,Height-quoteY-31)),Color.FromArgb(10,27,43),Color.FromArgb(31,68,91),16);Ice.TextAt(g,"“Um Windows mais leve, para você ir mais longe.”",new Rectangle(65,quoteY+22,Width-130,50),16,Ice.Text,true);Ice.TextAt(g,"ICE OPTIMIZER  ·  EDIÇÃO GLACIAL 3.0",new Rectangle(65,quoteY+67,Width-130,24),8,Ice.Cyan,true);
  }
 }
 public class ActionCard:Control {
  public ActionItem Item;public bool Checked;public event Action<ActionCard> Toggle,Details;bool over;float hover;Point pointer;
- public ActionCard(ActionItem a){Item=a;Height=218;TabStop=true;AccessibleName=a.title;AccessibleDescription=a.description+" "+a.warning;AccessibleRole=AccessibleRole.CheckButton;Cursor=Cursors.Hand;SetStyle(ControlStyles.Selectable|ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);Motion.Tick+=Animate;}
+ public ActionCard(ActionItem a){Item=a;Height=68;TabStop=true;AccessibleName=a.title;AccessibleDescription=a.description+" "+a.warning;AccessibleRole=AccessibleRole.CheckButton;Cursor=Cursors.Hand;SetStyle(ControlStyles.Selectable|ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);Motion.Tick+=Animate;}
  void Animate(){if(!Visible)return;float next=Motion.Follow(hover,over?1:0,16);if(Math.Abs(next-hover)>.002){hover=next;Invalidate();}}
  protected override void OnMouseEnter(EventArgs e){over=true;Animate();base.OnMouseEnter(e);}protected override void OnMouseLeave(EventArgs e){over=false;Animate();base.OnMouseLeave(e);}
  protected override void OnMouseMove(MouseEventArgs e){pointer=e.Location;if(over)Invalidate();base.OnMouseMove(e);}
- public void Flip(){if(!Enabled)return;if(Toggle!=null)Toggle(this);Invalidate();AccessibilityNotifyClients(AccessibleEvents.StateChange,-1);}
- protected override void OnMouseClick(MouseEventArgs e){Focus();if(e.Y>Height-43){if(Details!=null)Details(this);}else Flip();base.OnMouseClick(e);}
+ public void Flip(){if(!Enabled)return;IceSound.Select();if(Toggle!=null)Toggle(this);Invalidate();AccessibilityNotifyClients(AccessibleEvents.StateChange,-1);}
+ protected override void OnMouseClick(MouseEventArgs e){Focus();if(e.X>Width-92)Flip();else if(Details!=null)Details(this);base.OnMouseClick(e);}
  protected override void OnKeyDown(KeyEventArgs e){if(e.KeyCode==Keys.Space){Flip();e.Handled=true;}if(e.KeyCode==Keys.Enter){if(Details!=null)Details(this);e.Handled=true;}base.OnKeyDown(e);}
  protected override void OnGotFocus(EventArgs e){Invalidate();base.OnGotFocus(e);}protected override void OnLostFocus(EventArgs e){Invalidate();base.OnLostFocus(e);}
- protected override void OnPaint(PaintEventArgs e){var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;g.Clear(Ice.Bg);int lift=(int)Math.Round(hover*3);var body=new Rectangle(2,5-lift,Width-5,Height-8);var fill=Ice.Mix(Checked?Color.FromArgb(17,44,59):Ice.Panel,Color.FromArgb(23,53,72),hover*.8f);if(over)using(var halo=new SolidBrush(Color.FromArgb((int)(30*hover),Ice.Cyan)))using(var hp=Ice.Round(new RectangleF(0,2-lift,Width-1,Height-4),16))g.FillPath(halo,hp);Ice.Box(g,body,fill,Checked?Ice.Cyan:Ice.Mix(Ice.Line,Ice.Cyan,hover*.7f),15);if(over){int radius=150;using(var path=new GraphicsPath()){path.AddEllipse(pointer.X-radius,pointer.Y-radius,radius*2,radius*2);using(var brush=new PathGradientBrush(path)){brush.CenterPoint=pointer;brush.CenterColor=Color.FromArgb((int)(34*hover),Ice.Cyan);brush.SurroundColors=new[]{Color.FromArgb(0,Ice.Cyan)};var state=g.Save();using(var clip=Ice.Round(body,15)){g.SetClip(clip);g.FillPath(brush,path);}g.Restore(state);}}}
-  Ice.Box(g,new Rectangle(17,18,34,34),Color.FromArgb(23,50,67),Color.FromArgb(29,62,80),8);Ice.Icon(g,Item.category,new Rectangle(24,25,20,20),Ice.Cyan);
-  Ice.TextAt(g,Item.category.ToUpperInvariant(),new Rectangle(62,17,Width-117,19),8,Ice.Muted,true);
-  Ice.TextAt(g,Item.risk,new Rectangle(62,36,Width-117,19),8,Item.risk=="Alto impacto"?Ice.Amber:Ice.Cyan);
-  Ice.Box(g,new Rectangle(Width-42,23,22,22),Checked?Ice.Cyan:Ice.Bg,Checked?Ice.Cyan:Ice.Muted,6);if(Checked)Ice.Icon(g,"check",new Rectangle(Width-40,25,18,18),Ice.Bg);
-  Ice.TextAt(g,Item.title,new Rectangle(18,66,Width-36,44),12,Ice.Text,true,true);
-  Ice.TextAt(g,Item.description,new Rectangle(18,113,Width-36,55),9.3f,Ice.Muted,false,true);
-  using(var p=new Pen(Ice.Line))g.DrawLine(p,18,Height-43,Width-18,Height-43);
-  Ice.TextAt(g,"Ver detalhes",new Rectangle(18,Height-37,Width-62,28),9,Ice.Cyan);Ice.Icon(g,"arrow",new Rectangle(Width-39,Height-31,16,16),Ice.Cyan);
-  if(Focused)using(var pen=new Pen(Ice.Cyan){DashStyle=DashStyle.Dot})g.DrawRectangle(pen,7,8,Width-16,Height-17);
+ protected override void OnPaint(PaintEventArgs e){var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;g.Clear(Ice.Bg);int lift=(int)Math.Round(hover*2);var body=new Rectangle(2,3-lift,Width-5,Height-6);var fill=Ice.Mix(Checked?Color.FromArgb(15,43,61):Ice.Panel,Color.FromArgb(22,54,75),hover*.75f);if(over)using(var halo=new SolidBrush(Color.FromArgb((int)(28*hover),Ice.Cyan)))using(var hp=Ice.Round(new RectangleF(0,1-lift,Width-1,Height-2),13))g.FillPath(halo,hp);Ice.Box(g,body,fill,Checked?Color.FromArgb(70,Ice.Cyan):Ice.Mix(Ice.Line,Ice.Cyan,hover*.62f),12);
+  if(over){int radius=130;using(var path=new GraphicsPath()){path.AddEllipse(pointer.X-radius,pointer.Y-radius,radius*2,radius*2);using(var brush=new PathGradientBrush(path)){brush.CenterPoint=pointer;brush.CenterColor=Color.FromArgb((int)(30*hover),Ice.Cyan);brush.SurroundColors=new[]{Color.FromArgb(0,Ice.Cyan)};var state=g.Save();using(var clip=Ice.Round(body,12)){g.SetClip(clip);g.FillPath(brush,path);}g.Restore(state);}}}
+  Ice.Box(g,new Rectangle(13,13,40,40),Color.FromArgb(18,51,74),Color.FromArgb(33,79,105),9);Ice.Icon(g,Item.category,new Rectangle(22,22,22,22),Ice.Cyan);
+  Ice.TextAt(g,Item.title,new Rectangle(67,10,Width-190,25),10.4f,Ice.Text,true);Ice.TextAt(g,Item.description,new Rectangle(67,34,Width-190,21),8.4f,Ice.Muted);
+  if(Item.risk=="Alto impacto")Ice.TextAt(g,"ALTO",new Rectangle(Width-166,14,46,18),7,Ice.Amber,true);
+  var track=new Rectangle(Width-91,20,55,28);Ice.Box(g,track,Checked?Color.FromArgb(33,139,183):Color.FromArgb(7,20,33),Checked?Ice.Cyan:Color.FromArgb(66,96,116),14);int knob=Checked?Width-61:Width-86;using(var b=new SolidBrush(Checked?Color.White:Ice.Muted))g.FillEllipse(b,knob,24,20,20);
+  if(Focused)using(var pen=new Pen(Ice.Cyan){DashStyle=DashStyle.Dot})g.DrawRectangle(pen,7,7,Width-16,Height-15);
  }
  protected override AccessibleObject CreateAccessibilityInstance(){return new CardAccess(this);}
  class CardAccess:ControlAccessibleObject {ActionCard card;public CardAccess(ActionCard c):base(c){card=c;}public override AccessibleStates State{get{return base.State|(card.Checked?AccessibleStates.Checked:0);}}public override string DefaultAction{get{return "Marcar ou desmarcar";}}public override void DoDefaultAction(){card.Flip();}}
@@ -169,7 +178,7 @@ public class SearchField:TextBox {
 public class CardDeck:Panel {
  int offset,total;bool arranging,dragging;int dragY,dragStart;
  public CardDeck(){DoubleBuffered=true;AutoScroll=false;SetStyle(ControlStyles.ResizeRedraw,true);}
- public void LayoutCards(){if(arranging)return;arranging=true;try{int usable=Math.Max(250,ClientSize.Width-20);int columns=usable>=690?2:1;int width=(usable-(columns-1)*14)/columns;total=((Controls.Count+columns-1)/columns)*232;offset=Math.Max(0,Math.Min(offset,Math.Max(0,total-Height)));int i=0;foreach(Control c in Controls){c.SetBounds((i%columns)*(width+14),(i/columns)*232-offset,width,218);i++;}Invalidate();}finally{arranging=false;}}
+ public void LayoutCards(){if(arranging)return;arranging=true;try{int width=Math.Max(250,ClientSize.Width-15);total=Controls.Count*76;offset=Math.Max(0,Math.Min(offset,Math.Max(0,total-Height)));int i=0;foreach(Control c in Controls){c.SetBounds(0,i*76-offset,width,c is ActionCard?68:110);i++;}Invalidate();}finally{arranging=false;}}
  public void ResetScroll(){offset=0;LayoutCards();}
  protected override void OnSizeChanged(EventArgs e){base.OnSizeChanged(e);LayoutCards();}
  protected override void OnMouseWheel(MouseEventArgs e){offset-=Math.Sign(e.Delta)*88;LayoutCards();base.OnMouseWheel(e);}
@@ -178,4 +187,13 @@ public class CardDeck:Panel {
  protected override void OnMouseDown(MouseEventArgs e){if(e.X>=Width-18&&total>Height){dragging=true;Capture=true;dragY=e.Y;dragStart=offset;}base.OnMouseDown(e);}
  protected override void OnMouseMove(MouseEventArgs e){if(dragging){int thumb=Math.Max(32,Height*Height/total);offset=dragStart+(e.Y-dragY)*Math.Max(1,total-Height)/Math.Max(1,Height-thumb);LayoutCards();}base.OnMouseMove(e);}
  protected override void OnMouseUp(MouseEventArgs e){dragging=false;Capture=false;Invalidate();base.OnMouseUp(e);}
+}
+public class HardwareSummary:Control {
+ string cpu="Processador",gpu="Placa de vídeo";long totalRam,freeRam;readonly Timer timer=new Timer{Interval=1800};
+ public HardwareSummary(){DoubleBuffered=true;BackColor=Ice.Bg;LoadInfo();timer.Tick+=(s,e)=>{LoadUsage();Invalidate();};timer.Start();}
+ string Wmi(string query,string property){try{using(var search=new ManagementObjectSearcher(query))foreach(ManagementObject o in search.Get()){string value=Convert.ToString(o[property]);if(!string.IsNullOrWhiteSpace(value))return value.Trim();}}catch{}return "Não identificado";}
+ void LoadInfo(){cpu=Wmi("SELECT Name FROM Win32_Processor","Name");gpu=Wmi("SELECT Name FROM Win32_VideoController","Name");LoadUsage();}
+ void LoadUsage(){try{using(var search=new ManagementObjectSearcher("SELECT TotalVisibleMemorySize,FreePhysicalMemory FROM Win32_OperatingSystem"))foreach(ManagementObject o in search.Get()){totalRam=Convert.ToInt64(o["TotalVisibleMemorySize"])*1024;freeRam=Convert.ToInt64(o["FreePhysicalMemory"])*1024;}}catch{}}
+ protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;int gap=10,w=(Width-gap*3)/4;var drive=DriveInfo.GetDrives().FirstOrDefault(d=>d.IsReady&&d.Name.StartsWith(Path.GetPathRoot(Environment.SystemDirectory),StringComparison.OrdinalIgnoreCase));long usedRam=Math.Max(0,totalRam-freeRam),usedDisk=drive==null?0:drive.TotalSize-drive.AvailableFreeSpace;string[] names={"CPU","GPU","MEMÓRIA","DISCO"},values={cpu,gpu,totalRam>0?Math.Round(usedRam/1073741824d,1)+" / "+Math.Round(totalRam/1073741824d,1)+" GB": "Calculando...",drive==null?"Indisponível":Math.Round(usedDisk/1073741824d)+" / "+Math.Round(drive.TotalSize/1073741824d)+" GB"};double[] pct={.18,.24,totalRam>0?(double)usedRam/totalRam:0,drive!=null?(double)usedDisk/drive.TotalSize:0};for(int i=0;i<4;i++){int x=i*(w+gap);Ice.Box(g,new Rectangle(x,1,w-1,Height-3),Color.FromArgb(13,31,48),Color.FromArgb(34,74,96),13);Ice.Icon(g,i==0?"Hardware":i==1?"Jogos":i==2?"Hardware":"Windows",new Rectangle(x+16,15,21,21),Ice.Cyan);Ice.TextAt(g,names[i],new Rectangle(x+46,11,w-59,28),8,Ice.Muted,true);Ice.TextAt(g,values[i],new Rectangle(x+16,45,w-32,35),9,Ice.Text,true,true);Ice.Box(g,new Rectangle(x+16,Height-27,w-32,7),Color.FromArgb(7,18,30),Ice.Line,4);int fill=(int)((w-34)*Math.Max(0,Math.Min(1,pct[i])));if(fill>2)Ice.Box(g,new Rectangle(x+17,Height-26,fill,5),Ice.Cyan,Ice.Cyan,3);}}
+ protected override void Dispose(bool d){if(d)timer.Dispose();base.Dispose(d);}
 }
