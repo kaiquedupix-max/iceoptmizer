@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -76,27 +78,39 @@ sealed class HomeCanvas:Panel {
 
 // The interface is rebuilt one page at a time from the approved references.
 public sealed class MainWindow:Form {
- readonly Catalog catalog=Catalog.Load();readonly HomeCanvas home=new HomeCanvas();readonly AccountCanvas account=new AccountCanvas();Control current;
+ readonly Catalog catalog=Catalog.Load();readonly HomeCanvas home=new HomeCanvas();readonly AccountCanvas account=new AccountCanvas();readonly Dictionary<string,IcePageCanvas> pages=new Dictionary<string,IcePageCanvas>();Control current;
  [DllImport("user32.dll")]static extern bool ReleaseCapture();[DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr h,int msg,IntPtr w,IntPtr l);
  public MainWindow(){Text="Ice Optimizer";StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(3,13,24);using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);
   home.MouseDown+=DragWindow;account.MouseDown+=DragWindow;
   AddHit(home,1028,5,43,34,()=>WindowState=FormWindowState.Minimized);AddHit(home,1071,5,43,34,()=>{});AddHit(home,1114,5,50,34,Close);
-  AddHit(home,11,85,174,41,ShowHome);AddHit(home,14,507,164,42,ShowAccount);
-  AddHit(home,228,388,180,31,()=>{});AddHit(home,450,388,179,31,()=>{});AddHit(home,670,388,180,31,()=>{});
-  AddHit(home,228,577,180,31,()=>{});AddHit(home,450,577,179,31,()=>{});AddHit(home,670,577,180,31,()=>{});
-  AddHit(home,889,552,248,51,()=>{});
+  foreach(string page in new[]{"Windows","Jogos","Hardware","Reparos","Aplicativos","Ativações","Recuperação","Configurações"}){pages[page]=new IcePageCanvas(catalog,page,Navigate,ExecuteItems);pages[page].MouseDown+=DragWindow;}
+  AddHit(home,11,85,174,41,ShowHome);AddHit(home,14,130,164,39,()=>ShowPage("Windows"));AddHit(home,14,175,164,39,()=>ShowPage("Jogos"));AddHit(home,14,220,164,39,()=>ShowPage("Hardware"));AddHit(home,14,265,164,39,()=>ShowPage("Reparos"));AddHit(home,14,310,164,39,()=>ShowPage("Aplicativos"));AddHit(home,14,355,164,39,()=>ShowPage("Recuperação"));AddHit(home,14,507,164,42,ShowAccount);AddHit(home,14,553,164,42,()=>ShowPage("Configurações"));
+  AddHit(home,228,388,180,31,()=>ShowPage("Windows"));AddHit(home,450,388,179,31,()=>ShowPage("Jogos"));AddHit(home,670,388,180,31,()=>ShowPage("Hardware"));
+  AddHit(home,228,577,180,31,()=>ShowPage("Reparos"));AddHit(home,450,577,179,31,()=>ShowPage("Aplicativos"));AddHit(home,670,577,180,31,()=>ShowPage("Recuperação"));
+  AddHit(home,889,552,248,51,()=>ShowPage("Windows"));
   AddHit(account,628,4,35,28,()=>WindowState=FormWindowState.Minimized);AddHit(account,664,4,37,28,()=>{});AddHit(account,701,4,41,28,Close);
-  AddHit(account,9,48,118,36,ShowHome);AddHit(account,165,325,135,35,OpenAccount);AddHit(account,304,325,133,35,Logout);AddHit(account,478,367,236,32,OpenPlans);
+  AddHit(account,9,48,118,36,ShowHome);AddHit(account,9,84,118,30,()=>ShowPage("Windows"));AddHit(account,9,114,118,30,()=>ShowPage("Jogos"));AddHit(account,9,144,118,30,()=>ShowPage("Hardware"));AddHit(account,9,174,118,30,()=>ShowPage("Reparos"));AddHit(account,9,204,118,30,()=>ShowPage("Aplicativos"));AddHit(account,9,234,118,30,()=>ShowPage("Recuperação"));AddHit(account,9,352,118,33,()=>ShowPage("Configurações"));AddHit(account,165,325,135,35,OpenAccount);AddHit(account,304,325,133,35,Logout);AddHit(account,478,367,236,32,OpenPlans);
   ShowHome();
  }
- void DragWindow(object sender,MouseEventArgs e){if(e.Button==MouseButtons.Left){ReleaseCapture();SendMessage(Handle,0xA1,(IntPtr)2,IntPtr.Zero);}}
+ void DragWindow(object sender,MouseEventArgs e){if(e.Button==MouseButtons.Left&&e.Y<58){ReleaseCapture();SendMessage(Handle,0xA1,(IntPtr)2,IntPtr.Zero);}}
  void AddHit(Control surface,int x,int y,int w,int h,Action action){var hit=new HitArea{Glow=true};hit.SetBounds(x,y,w,h);hit.Click+=(s,e)=>action();surface.Controls.Add(hit);hit.BringToFront();}
  void Switch(Control page,Size size,string title){SuspendLayout();if(current!=null)Controls.Remove(current);current=page;page.Dock=DockStyle.Fill;MinimumSize=Size.Empty;MaximumSize=Size.Empty;ClientSize=size;MinimumSize=MaximumSize=Size;Text=title;Controls.Add(page);page.BringToFront();ResumeLayout(true);page.Invalidate();}
  void ShowHome(){Switch(home,new Size(1168,705),"Ice Optimizer — Início");}
  void ShowAccount(){Switch(account,new Size(744,444),"Ice Optimizer — Minha conta");}
+ void ShowPage(string name){IcePageCanvas page;if(pages.TryGetValue(name,out page))Switch(page,new Size(1168,705),"Ice Optimizer — "+name);}
+ void Navigate(string name){if(name=="home")ShowHome();else if(name=="account")ShowAccount();else ShowPage(name);}
+ async void ExecuteItems(ActionItem[] items){
+  var problems=BatchPlan.Problems(items);if(problems.Count>0){MessageBox.Show(string.Join("\n",problems),"Revise sua seleção",MessageBoxButtons.OK,MessageBoxIcon.Warning);return;}
+  if(MessageBox.Show("Você selecionou "+items.Length+" ação(ões). O mouse ficará bloqueado durante a execução. Deseja continuar?","Revisar plano",MessageBoxButtons.YesNo,MessageBoxIcon.Question)!=DialogResult.Yes)return;
+  var progress=new IceProgressForm();Enabled=false;UseWaitCursor=true;progress.Show(this);try{
+   string root=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","runs");
+   var results=await BatchPlan.Run(items,a=>Payload.Prepare(catalog,a,root,true,LicenseGate.Current==null?null:LicenseGate.Current.token,x=>{}),(a,path)=>Payload.Execute(path,x=>{}),()=>false,(phase,index,total,item)=>progress.Report(phase,index,total,item),true);
+   progress.Complete();await Task.Delay(550);int failed=results.Count(x=>x.code!=0);MessageBox.Show(failed==0?"As ações selecionadas foram concluídas.":failed+" ação(ões) terminaram com erro. Revise o resultado antes de continuar.","Ice Optimizer",MessageBoxButtons.OK,failed==0?MessageBoxIcon.Information:MessageBoxIcon.Warning);
+  }catch(Exception ex){MessageBox.Show(ex.Message,"Não foi possível concluir",MessageBoxButtons.OK,MessageBoxIcon.Error);}finally{progress.Close();progress.Dispose();Enabled=true;UseWaitCursor=false;Activate();}
+ }
  void OpenAccount(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/"){UseShellExecute=true});}catch{}}
  void OpenPlans(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/#planos"){UseShellExecute=true});}catch{}}
  void Logout(){LicenseGate.Logout();Close();}
  public void UiTest(){if(catalog.actions==null||catalog.actions.Length<100)throw new Exception("Catálogo indisponível.");}
- public void Render(string file,string mode=""){LicenseGate.UsePreview();if(mode=="profile")ShowAccount();else ShowHome();current.Invalidate();ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
+ public void Render(string file,string mode=""){LicenseGate.UsePreview();if(mode=="profile")ShowAccount();else if(mode=="hardware")ShowPage("Hardware");else if(mode=="games")ShowPage("Jogos");else if(mode=="selected"||mode=="windows")ShowPage("Windows");else if(mode=="progress"||mode=="repairs")ShowPage("Reparos");else if(mode=="apps")ShowPage("Aplicativos");else if(mode=="activations")ShowPage("Ativações");else if(mode=="recovery")ShowPage("Recuperação");else if(mode=="settings")ShowPage("Configurações");else ShowHome();current.Invalidate();ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
 }
