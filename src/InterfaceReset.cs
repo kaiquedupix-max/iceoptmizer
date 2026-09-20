@@ -52,10 +52,29 @@ public sealed class AccountForm:Form {
  sealed class HiddenAcceptButton:Button {readonly Func<Task> run;public HiddenAcceptButton(Func<Task> action){run=action;SetBounds(-100,-100,1,1);TabStop=false;}protected override async void OnClick(EventArgs e){await run();base.OnClick(e);}}
 }
 
-// Remaining pages stay intentionally blank until they are rebuilt one at a time.
+sealed class AccountCanvas:Panel {
+ static Image artwork;public AccountCanvas(){DoubleBuffered=true;SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);}
+ protected override void OnPaint(PaintEventArgs e){if(artwork==null){using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("account-reference.jpg"))using(var source=Image.FromStream(stream))artwork=new Bitmap(source);}e.Graphics.DrawImage(artwork,ClientRectangle);DrawAccount(e.Graphics);}
+ void DrawAccount(Graphics g){var state=LicenseGate.Current;if(state==null)return;string user=string.IsNullOrWhiteSpace(state.username)?"usuário":state.username,plan=LicenseGate.PlanName(state.plan),remaining=LicenseGate.Remaining(state);DateTime value;string expiry=DateTime.TryParse(state.expiresAt,out value)?value.ToLocalTime().ToString("dd/MM/yyyy HH:mm"):"Permanente",seen=DateTime.TryParse(state.lastValidated,out value)?value.ToLocalTime().ToString("dd/MM/yyyy HH:mm"):"Agora";
+  CoverText(g,user,new Rectangle(557,18,59,18),8.5f,true,Color.FromArgb(5,17,30),Color.White);CoverText(g,"Plano "+plan,new Rectangle(557,39,67,15),7,false,Color.FromArgb(4,16,28),Color.FromArgb(150,181,205));
+  CoverText(g,user,new Rectangle(210,119,105,20),11.5f,true,Color.FromArgb(8,22,39),Color.White);CoverText(g,"Plano "+plan,new Rectangle(210,141,110,16),7.5f,false,Color.FromArgb(8,23,40),Color.FromArgb(174,200,217));
+  CoverText(g,remaining,new Rectangle(164,175,132,18),8.5f,true,Color.FromArgb(7,22,41),Color.FromArgb(57,212,255));CoverText(g,"Válida até "+expiry,new Rectangle(164,208,178,17),7.2f,false,Color.FromArgb(7,22,38),Color.FromArgb(191,215,229));
+  CoverText(g,user,new Rectangle(588,138,108,18),7.8f,false,Color.FromArgb(7,23,39),Color.FromArgb(202,224,237));CoverText(g,plan,new Rectangle(588,162,108,18),7.8f,false,Color.FromArgb(6,22,38),Color.FromArgb(202,224,237));CoverText(g,"Ativa",new Rectangle(588,186,108,18),7.8f,false,Color.FromArgb(8,22,39),Color.FromArgb(70,224,174));CoverText(g,expiry,new Rectangle(588,210,122,18),7.8f,false,Color.FromArgb(8,23,39),Color.FromArgb(202,224,237));CoverText(g,"Protegido",new Rectangle(588,234,108,18),7.8f,false,Color.FromArgb(7,22,38),Color.White);CoverText(g,seen,new Rectangle(588,258,122,18),7.8f,false,Color.FromArgb(7,22,38),Color.FromArgb(202,224,237));
+ }
+ void CoverText(Graphics g,string text,Rectangle r,float size,bool bold,Color back,Color fore){using(var b=new SolidBrush(back))g.FillRectangle(b,r);using(var font=new Font("Segoe UI",size,bold?FontStyle.Bold:FontStyle.Regular))TextRenderer.DrawText(g,text,font,r,fore,TextFormatFlags.Left|TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|TextFormatFlags.NoPadding);}
+}
+
+// Only the account page has been rebuilt. Other navigation targets remain inactive until their own step.
 public sealed class MainWindow:Form {
- readonly Catalog catalog=Catalog.Load();
- public MainWindow(){Text="Ice Optimizer — reconstrução";ClientSize=new Size(1100,720);StartPosition=FormStartPosition.CenterScreen;BackColor=Color.FromArgb(5,14,24);}
+ readonly Catalog catalog=Catalog.Load();readonly AccountCanvas canvas=new AccountCanvas();
+ [DllImport("user32.dll")]static extern bool ReleaseCapture();[DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr h,int msg,IntPtr w,IntPtr l);
+ public MainWindow(){Text="Ice Optimizer — Minha conta";ClientSize=new Size(744,444);MinimumSize=MaximumSize=new Size(744,444);StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(5,14,24);using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);canvas.Dock=DockStyle.Fill;Controls.Add(canvas);canvas.MouseDown+=(s,e)=>{if(e.Button==MouseButtons.Left){ReleaseCapture();SendMessage(Handle,0xA1,(IntPtr)2,IntPtr.Zero);}};
+  AddHit(628,4,35,28,()=>WindowState=FormWindowState.Minimized);AddHit(664,4,37,28,()=>{});AddHit(701,4,41,28,Close);AddHit(165,325,135,35,OpenAccount);AddHit(304,325,133,35,Logout);AddHit(478,367,236,32,OpenPlans);
+ }
+ void AddHit(int x,int y,int w,int h,Action action){var hit=new HitArea{Glow=true};hit.SetBounds(x,y,w,h);hit.Click+=(s,e)=>action();canvas.Controls.Add(hit);hit.BringToFront();}
+ void OpenAccount(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/"){UseShellExecute=true});}catch{}}
+ void OpenPlans(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/#planos"){UseShellExecute=true});}catch{}}
+ void Logout(){LicenseGate.Logout();Close();}
  public void UiTest(){if(catalog.actions==null||catalog.actions.Length<100)throw new Exception("Catálogo indisponível.");}
- public void Render(string file,string mode=""){ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
+ public void Render(string file,string mode=""){LicenseGate.UsePreview();canvas.Invalidate();ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
 }
