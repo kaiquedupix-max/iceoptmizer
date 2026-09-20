@@ -64,17 +64,39 @@ sealed class AccountCanvas:Panel {
  void CoverText(Graphics g,string text,Rectangle r,float size,bool bold,Color back,Color fore){using(var b=new SolidBrush(back))g.FillRectangle(b,r);using(var font=new Font("Segoe UI",size,bold?FontStyle.Bold:FontStyle.Regular))TextRenderer.DrawText(g,text,font,r,fore,TextFormatFlags.Left|TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|TextFormatFlags.NoPadding);}
 }
 
-// Only the account page has been rebuilt. Other navigation targets remain inactive until their own step.
-public sealed class MainWindow:Form {
- readonly Catalog catalog=Catalog.Load();readonly AccountCanvas canvas=new AccountCanvas();
- [DllImport("user32.dll")]static extern bool ReleaseCapture();[DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr h,int msg,IntPtr w,IntPtr l);
- public MainWindow(){Text="Ice Optimizer — Minha conta";ClientSize=new Size(744,444);MinimumSize=MaximumSize=new Size(744,444);StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(5,14,24);using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);canvas.Dock=DockStyle.Fill;Controls.Add(canvas);canvas.MouseDown+=(s,e)=>{if(e.Button==MouseButtons.Left){ReleaseCapture();SendMessage(Handle,0xA1,(IntPtr)2,IntPtr.Zero);}};
-  AddHit(628,4,35,28,()=>WindowState=FormWindowState.Minimized);AddHit(664,4,37,28,()=>{});AddHit(701,4,41,28,Close);AddHit(165,325,135,35,OpenAccount);AddHit(304,325,133,35,Logout);AddHit(478,367,236,32,OpenPlans);
+sealed class HomeCanvas:Panel {
+ static Image artwork;
+ public HomeCanvas(){DoubleBuffered=true;SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);}
+ protected override void OnPaint(PaintEventArgs e){
+  if(artwork==null){using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("home-reference.png"))using(var source=Image.FromStream(stream))artwork=new Bitmap(source);}
+  e.Graphics.InterpolationMode=System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+  e.Graphics.DrawImage(artwork,ClientRectangle);
  }
- void AddHit(int x,int y,int w,int h,Action action){var hit=new HitArea{Glow=true};hit.SetBounds(x,y,w,h);hit.Click+=(s,e)=>action();canvas.Controls.Add(hit);hit.BringToFront();}
+}
+
+// The interface is rebuilt one page at a time from the approved references.
+public sealed class MainWindow:Form {
+ readonly Catalog catalog=Catalog.Load();readonly HomeCanvas home=new HomeCanvas();readonly AccountCanvas account=new AccountCanvas();Control current;
+ [DllImport("user32.dll")]static extern bool ReleaseCapture();[DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr h,int msg,IntPtr w,IntPtr l);
+ public MainWindow(){Text="Ice Optimizer";StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(3,13,24);using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);
+  home.MouseDown+=DragWindow;account.MouseDown+=DragWindow;
+  AddHit(home,1028,5,43,34,()=>WindowState=FormWindowState.Minimized);AddHit(home,1071,5,43,34,()=>{});AddHit(home,1114,5,50,34,Close);
+  AddHit(home,11,85,174,41,ShowHome);AddHit(home,14,507,164,42,ShowAccount);
+  AddHit(home,228,388,180,31,()=>{});AddHit(home,450,388,179,31,()=>{});AddHit(home,670,388,180,31,()=>{});
+  AddHit(home,228,577,180,31,()=>{});AddHit(home,450,577,179,31,()=>{});AddHit(home,670,577,180,31,()=>{});
+  AddHit(home,889,552,248,51,()=>{});
+  AddHit(account,628,4,35,28,()=>WindowState=FormWindowState.Minimized);AddHit(account,664,4,37,28,()=>{});AddHit(account,701,4,41,28,Close);
+  AddHit(account,9,48,118,36,ShowHome);AddHit(account,165,325,135,35,OpenAccount);AddHit(account,304,325,133,35,Logout);AddHit(account,478,367,236,32,OpenPlans);
+  ShowHome();
+ }
+ void DragWindow(object sender,MouseEventArgs e){if(e.Button==MouseButtons.Left){ReleaseCapture();SendMessage(Handle,0xA1,(IntPtr)2,IntPtr.Zero);}}
+ void AddHit(Control surface,int x,int y,int w,int h,Action action){var hit=new HitArea{Glow=true};hit.SetBounds(x,y,w,h);hit.Click+=(s,e)=>action();surface.Controls.Add(hit);hit.BringToFront();}
+ void Switch(Control page,Size size,string title){SuspendLayout();if(current!=null)Controls.Remove(current);current=page;page.Dock=DockStyle.Fill;MinimumSize=Size.Empty;MaximumSize=Size.Empty;ClientSize=size;MinimumSize=MaximumSize=Size;Text=title;Controls.Add(page);page.BringToFront();ResumeLayout(true);page.Invalidate();}
+ void ShowHome(){Switch(home,new Size(1168,705),"Ice Optimizer — Início");}
+ void ShowAccount(){Switch(account,new Size(744,444),"Ice Optimizer — Minha conta");}
  void OpenAccount(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/"){UseShellExecute=true});}catch{}}
  void OpenPlans(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/#planos"){UseShellExecute=true});}catch{}}
  void Logout(){LicenseGate.Logout();Close();}
  public void UiTest(){if(catalog.actions==null||catalog.actions.Length<100)throw new Exception("Catálogo indisponível.");}
- public void Render(string file,string mode=""){LicenseGate.UsePreview();canvas.Invalidate();ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
+ public void Render(string file,string mode=""){LicenseGate.UsePreview();if(mode=="profile")ShowAccount();else ShowHome();current.Invalidate();ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
 }
