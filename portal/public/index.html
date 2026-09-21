@@ -6,11 +6,11 @@
 <meta name="description" content="Ice Optimizer: central de otimização para Windows 10 e 11 com ajustes de desempenho, jogos, limpeza, rede, hardware e correções em um só lugar.">
 <title>Ice Optimizer — deixe o Windows trabalhar a favor do seu jogo</title>
 <link rel="icon" href="/ice.svg">
-<link rel="stylesheet" href="/styles.css?v=5.0">
-<link rel="stylesheet" href="/polish.css?v=5.0">
+<link rel="stylesheet" href="/styles.css?v=5.2">
+<link rel="stylesheet" href="/polish.css?v=5.2">
 <script src="https://sdk.mercadopago.com/js/v2" defer></script>
 <script src="https://www.mercadopago.com/v2/security.js" view="checkout" defer></script>
-<script src="/site.js?v=5.0" defer></script>
+<script src="/site.js?v=5.2" defer></script>
 </head>
 <body>
 <div class="snow" aria-hidden="true"></div><div class="aurora" aria-hidden="true"></div>
@@ -128,29 +128,50 @@
 
 <section id="planos" class="section pricing">
   <div class="wrap">
-    <div class="eyebrow reveal">ESCOLHA COMO QUER OTIMIZAR</div>
-    <h2 class="reveal">Acesso ao Ice do jeito que faz sentido para você.</h2>
-    <p class="section-intro reveal">Crie sua conta, pague pelo site e, após a aprovação, o download é liberado na sua área de cliente.</p>
-    <div class="plans sale-plans">
+    <div class="eyebrow reveal">ESCOLHA O TEMPO DE ACESSO</div>
+    <h2 class="reveal">Quanto mais tempo, maior o desconto.</h2>
+    <p class="section-intro reveal">Todos os planos liberam o Ice Optimizer completo. Em qualquer um deles você pode adicionar o Suporte Premium por mais R$ 50.</p>
+    <div class="plans sale-plans plan-grid-v2">
       <article class="plan reveal">
-        <div class="plan-tag">PARA COMEÇAR</div><h3>Ice Mensal</h3>
+        <div class="plan-tag">MENSAL</div><h3>30 dias</h3>
         <div class="price"><span>R$</span><strong>29,90</strong></div>
-        <p>30 dias para usar todos os recursos do Ice Optimizer.</p>
-        <ul><li>Aplicativo completo</li><li>157 ações organizadas</li><li>Otimizações para Windows e jogos</li><li>Hardware, correções e atualizações</li></ul>
-        <button class="btn primary simulate" data-plan="d30">Quero 30 dias de Ice</button>
+        <p>Acesso completo por 30 dias.</p>
+        <ul><li>Ice Optimizer completo</li><li>157 ações organizadas</li><li>Windows, jogos, rede e correções</li><li>Atualizações durante o plano</li></ul>
+        <label class="premium-option"><input type="checkbox" class="premium-toggle"><span><b>Adicionar Suporte Premium + R$ 50</b><small>Atendimento profissional, otimização manual do Windows e BIOS e chat direto com o suporte.</small></span></label>
+        <button class="btn primary simulate" data-plan="d30">Escolher plano mensal</button>
+      </article>
+      <article class="plan reveal">
+        <div class="popular">ECONOMIZE R$ 9,80</div><div class="plan-tag">TRIMESTRAL</div><h3>3 meses</h3>
+        <div class="price"><span>R$</span><strong>79,90</strong></div>
+        <p>Três meses de acesso por menos que três mensalidades.</p>
+        <ul><li>Economia de cerca de 11%</li><li>Ice Optimizer completo</li><li>Otimizações para Windows e jogos</li><li>Atualizações durante o plano</li></ul>
+        <label class="premium-option"><input type="checkbox" class="premium-toggle"><span><b>Adicionar Suporte Premium + R$ 50</b><small>Atendimento profissional, otimização manual do Windows e BIOS e chat direto com o suporte.</small></span></label>
+        <button class="btn primary simulate" data-plan="d90">Escolher plano trimestral</button>
       </article>
       <article class="plan highlight reveal">
-        <div class="popular">MAIS COMPLETO</div><div class="plan-tag">OTIMIZAÇÃO + ATENDIMENTO</div><h3>Otimização Completa</h3>
-        <div class="price"><span>R$</span><strong>100</strong><small>,00</small></div>
-        <p>Acesso permanente ao Ice mais atendimento personalizado por AnyDesk.</p>
-        <ul><li>Ice Optimizer permanente</li><li>Suporte profissional por AnyDesk</li><li>Ajustes personalizados para o seu PC</li><li>Otimização manual de Windows e BIOS</li></ul>
-        <button class="btn primary simulate" data-plan="permanent">Quero a otimização completa</button>
+        <div class="popular">ECONOMIZE R$ 29,50</div><div class="plan-tag">SEMESTRAL · MELHOR EQUILÍBRIO</div><h3>6 meses</h3>
+        <div class="price"><span>R$</span><strong>149,90</strong></div>
+        <p>Seis meses com um desconto maior para quem usa o PC todos os dias.</p>
+        <ul><li>Economia de cerca de 16%</li><li>Ice Optimizer completo</li><li>Otimizações e correções centralizadas</li><li>Atualizações durante o plano</li></ul>
+        <label class="premium-option"><input type="checkbox" class="premium-toggle"><span><b>Adicionar Suporte Premium + R$ 50</b><small>Atendimento profissional, otimização manual do Windows e BIOS e chat direto com o suporte.</small></span></label>
+        <button class="btn primary simulate" data-plan="d180">Escolher plano semestral</button>
       </article>
+      <article class="plan reveal">
+        <div class="popular">MAIOR DESCONTO · R$ 88,90</div><div class="plan-tag">ANUAL</div><h3>12 meses</h3>
+        <div class="price"><span>R$</span><strong>269,90</strong></div>
+        <p>Um ano inteiro de Ice com o menor custo por mês.</p>
+        <ul><li>Economia de cerca de 25%</li><li>Ice Optimizer completo</li><li>Todos os recursos e rotinas</li><li>Atualizações durante o plano</li></ul>
+        <label class="premium-option"><input type="checkbox" class="premium-toggle"><span><b>Adicionar Suporte Premium + R$ 50</b><small>Atendimento profissional, otimização manual do Windows e BIOS e chat direto com o suporte.</small></span></label>
+        <button class="btn primary simulate" data-plan="d365">Escolher plano anual</button>
+      </article>
+    </div>
+    <div class="premium-explainer reveal">
+      <div class="premium-icon">✦</div>
+      <div><div class="eyebrow">SUPORTE PREMIUM · + R$ 50</div><h3>O aplicativo otimiza. O Premium vai além dele.</h3><p>Com o Premium, o atendimento é feito diretamente no seu PC: análise da máquina, ajustes manuais no Windows, drivers, configurações e BIOS quando aplicável, além de acompanhamento pelo chat interno. O serviço é voltado a extrair o melhor desempenho possível dentro dos limites do seu hardware.</p></div>
     </div>
     <p id="checkout-message" class="checkout-message"></p>
   </div>
 </section>
-
 <section id="duvidas" class="section faq-section">
   <div class="wrap">
     <div class="eyebrow reveal">ANTES DE COMPRAR</div>
@@ -175,8 +196,27 @@
 
 <footer class="wrap foot"><span>© 2026 Maciota · Ice Optimizer</span><span>Suporte: kaiquedupix@gmail.com</span></footer>
 
-<div class="account-modal hidden" id="account-modal"><div class="account-backdrop" data-close></div><section class="account-card"><button class="modal-close" data-close>×</button><img src="/ice.svg" alt=""><div class="eyebrow">CENTRAL DO CLIENTE</div><h2 id="account-title">Entre na sua conta</h2><div class="account-tabs"><button class="active" data-mode="login">Entrar</button><button data-mode="register">Criar conta</button></div><form id="account-form"><label class="field register-only hidden"><span>Nome de usuário</span><input id="account-username" autocomplete="username"></label><label class="field register-only hidden"><span>E-mail</span><input id="account-email" type="email" autocomplete="email"></label><label class="field"><span id="login-label">Usuário ou e-mail</span><input id="account-login" autocomplete="username"></label><label class="field password-field"><span>Senha</span><input id="account-password" type="password" autocomplete="current-password" minlength="8"></label><button class="password-link" type="button" id="forgot-password">Esqueci minha senha</button><button class="btn primary" id="account-submit">Entrar</button><p id="account-message"></p></form><div id="customer-panel" class="hidden"><h3>Olá, <span id="customer-name"></span></h3><p id="customer-status"></p><div id="customer-plans" class="customer-plans hidden"><article><span>MENSAL</span><strong>R$ 29,90</strong><small>30 dias de acesso completo</small><button class="btn primary simulate" data-plan="d30">Comprar plano mensal</button></article><article class="complete"><span>OTIMIZAÇÃO COMPLETA</span><strong>R$ 100,00</strong><small>Acesso permanente + suporte profissional</small><button class="btn primary simulate" data-plan="permanent">Comprar plano completo</button></article></div><p id="customer-message" class="checkout-message"></p><form id="change-password-form" class="change-password-box hidden"><strong>Alterar senha</strong><label class="field"><span>Senha atual</span><input id="current-password" type="password" autocomplete="current-password" required></label><label class="field"><span>Nova senha</span><input id="changed-password" type="password" autocomplete="new-password" minlength="8" required></label><label class="field"><span>Confirmar nova senha</span><input id="changed-password-confirm" type="password" autocomplete="new-password" minlength="8" required></label><button class="btn primary full">Salvar nova senha</button><button class="password-link" type="button" id="cancel-password-change">Cancelar</button><p id="change-password-message" class="reset-message"></p></form><div class="customer-actions"><button class="btn primary hidden" id="download-app" type="button">Baixar Ice Optimizer</button><button class="btn" id="open-password-change">Alterar senha</button><button class="btn" id="account-logout">Sair</button></div><p id="download-message" class="download-message"></p></div></section></div>
-
+<div class="account-modal hidden" id="account-modal"><div class="account-backdrop" data-close></div><section class="account-card"><button class="modal-close" data-close>×</button><img src="/ice.svg" alt=""><div class="eyebrow">CENTRAL DO CLIENTE</div><h2 id="account-title">Entre na sua conta</h2><div class="account-tabs"><button class="active" data-mode="login">Entrar</button><button data-mode="register">Criar conta</button></div><form id="account-form"><label class="field register-only hidden"><span>Nome de usuário</span><input id="account-username" autocomplete="username"></label><label class="field register-only hidden"><span>E-mail</span><input id="account-email" type="email" autocomplete="email"></label><label class="field"><span id="login-label">Usuário ou e-mail</span><input id="account-login" autocomplete="username"></label><label class="field password-field"><span>Senha</span><input id="account-password" type="password" autocomplete="current-password" minlength="8"></label><button class="password-link" type="button" id="forgot-password">Esqueci minha senha</button><button class="btn primary" id="account-submit">Entrar</button><p id="account-message"></p></form>
+<div id="customer-panel" class="hidden">
+  <div id="customer-main">
+    <h3>Olá, <span id="customer-name"></span></h3><p id="customer-status"></p>
+    <div id="customer-plans" class="customer-plans customer-plan-grid hidden">
+      <article><span>MENSAL</span><strong>R$ 29,90</strong><small>30 dias de acesso completo</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d30">Comprar mensal</button></article>
+      <article><span>TRIMESTRAL</span><strong>R$ 79,90</strong><small>3 meses · economize R$ 9,80</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d90">Comprar trimestral</button></article>
+      <article><span>SEMESTRAL</span><strong>R$ 149,90</strong><small>6 meses · economize R$ 29,50</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d180">Comprar semestral</button></article>
+      <article class="complete"><span>ANUAL</span><strong>R$ 269,90</strong><small>12 meses · economize R$ 88,90</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d365">Comprar anual</button></article>
+    </div>
+    <p id="customer-message" class="checkout-message"></p>
+    <form id="change-password-form" class="change-password-box hidden"><strong>Alterar senha</strong><label class="field"><span>Senha atual</span><input id="current-password" type="password" autocomplete="current-password" required></label><label class="field"><span>Nova senha</span><input id="changed-password" type="password" autocomplete="new-password" minlength="8" required></label><label class="field"><span>Confirmar nova senha</span><input id="changed-password-confirm" type="password" autocomplete="new-password" minlength="8" required></label><button class="btn primary full">Salvar nova senha</button><button class="password-link" type="button" id="cancel-password-change">Cancelar</button><p id="change-password-message" class="reset-message"></p></form>
+    <div class="customer-actions"><button class="btn primary hidden" id="download-app" type="button">Baixar Ice Optimizer</button><button class="btn premium-support-button" id="open-support" type="button">Suporte Premium</button><button class="btn" id="open-password-change">Alterar senha</button><button class="btn" id="account-logout">Sair</button></div><p id="download-message" class="download-message"></p>
+  </div>
+  <section id="support-panel" class="support-panel hidden">
+    <button class="support-back" id="back-support" type="button">← Voltar para minha conta</button>
+    <div class="support-title"><div><div class="eyebrow">SUPORTE PREMIUM</div><h3>Atendimento profissional</h3></div><span id="support-badge">PREMIUM</span></div>
+    <div id="support-locked" class="support-locked hidden"><div class="premium-icon">✦</div><h3>Este chat é exclusivo do Suporte Premium.</h3><p>Por mais R$ 50, você libera atendimento direto pelo site. O suporte entra no seu PC para realizar uma otimização completa, incluindo Windows, configurações avançadas e BIOS quando aplicável, indo além das automações do aplicativo.</p><button class="btn primary" id="buy-premium-support" type="button">Liberar Suporte Premium por R$ 50</button></div>
+    <div id="support-chat" class="support-chat hidden"><div id="support-messages" class="support-messages"></div><form id="support-form"><textarea id="support-text" maxlength="2000" placeholder="Escreva sua mensagem para o suporte..." required></textarea><button class="btn primary" type="submit">Enviar mensagem</button></form><small class="support-hint">Use este chat para combinar o atendimento e enviar informações sobre sua máquina. Nunca envie senhas.</small></div>
+  </section>
+</div></section></div>
 <div class="checkout-modal hidden" id="checkout-modal"><div class="checkout-backdrop" data-checkout-close></div><section class="checkout-shell"><header><div><div class="eyebrow">PAGAMENTO · MERCADO PAGO</div><h2>Finalize sua compra</h2><p>Pix ou cartão sem sair do Ice Optimizer.</p></div><button class="modal-close" data-checkout-close aria-label="Fechar">×</button></header><div class="payment-form"><div id="payment-loading" class="checkout-loading">Carregando pagamento…</div><div id="paymentBrick_container"></div><p id="pay-message" class="checkout-message"></p><section id="pix-result" class="pix-result hidden"><strong>Pix gerado com sucesso</strong><img id="pix-qr" alt="QR Code Pix"><textarea id="pix-code" readonly></textarea><button type="button" class="btn full" id="copy-pix">Copiar código Pix</button><small>A ativação acontece automaticamente após a confirmação.</small></section></div><footer>O pagamento é processado pelo Mercado Pago.</footer></section></div>
 </body>
 </html>
