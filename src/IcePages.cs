@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Media;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -22,7 +24,7 @@ sealed class IcePageCanvas : Panel {
   MouseWheel+=(s,e)=>{if(page=="Hardware"||page=="Configurações")return;int total=Filtered().Count;if(e.Delta<0&&offset+6<total)offset+=6;if(e.Delta>0&&offset>0)offset=Math.Max(0,offset-6);Invalidate();};
  }
  List<ActionItem> Filtered(){string q=search.Text.Trim();IEnumerable<ActionItem> result=string.IsNullOrEmpty(q)?items:items.Where(a=>(a.title+" "+a.description).IndexOf(q,StringComparison.OrdinalIgnoreCase)>=0);if(onlySelected)result=result.Where(a=>selected.Contains(a.id));return result.ToList();}
- protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;g.Clear(Bg);DrawChrome(g);if(page=="Hardware")DrawHardware(g);else if(page=="Configurações")DrawSettings(g);else DrawActions(g);}
+ protected override void OnPaint(PaintEventArgs e){base.OnPaint(e);var g=e.Graphics;g.SmoothingMode=SmoothingMode.AntiAlias;g.TextRenderingHint=System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;g.Clear(Bg);DrawChrome(g);if(page=="Hardware")DrawHardware(g);else if(page=="Configurações")DrawSettings(g);else DrawActions(g);IceEffects.DrawSnow(g,Width,Height);}
  void DrawChrome(Graphics g){
   using(var p=new Pen(Color.FromArgb(110,55,211,255),2))g.DrawRoundedRectangle(p,new Rectangle(1,1,Width-3,Height-3),13);
   using(var b=new LinearGradientBrush(new Rectangle(0,0,194,Height),Color.FromArgb(5,25,43),Color.FromArgb(2,14,27),LinearGradientMode.Horizontal))g.FillRectangle(b,0,0,194,Height);
@@ -70,7 +72,7 @@ sealed class IcePageCanvas : Panel {
  void Setting(Graphics g,Rectangle r,string title,string description,bool enabled){Round(g,r,11,Panel,Line);DrawText(g,title,new Rectangle(r.X+18,r.Y+17,r.Width-100,24),10,true,White);DrawText(g,description,new Rectangle(r.X+18,r.Y+47,r.Width-100,25),8,false,Muted);Round(g,new Rectangle(r.Right-67,r.Y+27,45,24),12,enabled?Color.FromArgb(18,147,225):Color.FromArgb(8,37,58),enabled?Cyan:Line);using(var b=new SolidBrush(Color.White))g.FillEllipse(b,enabled?r.Right-45:r.Right-64,r.Y+30,18,18);}
  protected override void OnMouseMove(MouseEventArgs e){base.OnMouseMove(e);mouseX=e.X;mouseY=e.Y;string old=hoverNav;hoverNav="";for(int i=0;i<NavY.Length;i++)if(new Rectangle(10,NavY[i],174,40).Contains(e.Location))hoverNav=NavKeys[i];if(new Rectangle(10,507,174,40).Contains(e.Location))hoverNav="account";if(new Rectangle(10,553,174,40).Contains(e.Location))hoverNav="Configurações";int hc=-1;if(page!="Hardware"&&page!="Configurações")for(int i=0;i<6;i++){int col=i%2,row=i/2;if(new Rectangle(222+col*326,213+row*137,314,125).Contains(e.Location))hc=i;}if(old!=hoverNav||hc!=hoverCard||hc>=0){hoverCard=hc;Invalidate();}Cursor=hoverNav!=""||hoverCard>=0?Cursors.Hand:Cursors.Default;}
  protected override void OnMouseLeave(EventArgs e){hoverNav="";hoverCard=-1;Invalidate();base.OnMouseLeave(e);}
- protected override void OnMouseClick(MouseEventArgs e){base.OnMouseClick(e);if(new Rectangle(1026,5,43,34).Contains(e.Location)){FindForm().WindowState=FormWindowState.Minimized;return;}if(new Rectangle(1113,5,50,34).Contains(e.Location)){FindForm().Close();return;}for(int i=0;i<NavY.Length;i++)if(new Rectangle(10,NavY[i],174,40).Contains(e.Location)){navigate(NavKeys[i]);return;}if(new Rectangle(10,507,174,40).Contains(e.Location)){navigate("account");return;}if(new Rectangle(10,553,174,40).Contains(e.Location)){navigate("Configurações");return;}if(page=="Configurações"){Rectangle[] boxes={new Rectangle(222,158,444,92),new Rectangle(680,158,456,92),new Rectangle(222,264,444,92),new Rectangle(680,264,456,92),new Rectangle(222,370,444,92),new Rectangle(680,370,456,92)};for(int i=0;i<boxes.Length;i++)if(boxes[i].Contains(e.Location)){settings[i]=!settings[i];Invalidate();return;}if(new Rectangle(902,534,210,45).Contains(e.Location)){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/"){UseShellExecute=true});}catch{}return;}return;}if(page=="Hardware")return;
+ protected override void OnMouseClick(MouseEventArgs e){base.OnMouseClick(e);IceAudio.Click();if(new Rectangle(1026,5,43,34).Contains(e.Location)){FindForm().WindowState=FormWindowState.Minimized;return;}if(new Rectangle(1113,5,50,34).Contains(e.Location)){FindForm().Close();return;}for(int i=0;i<NavY.Length;i++)if(new Rectangle(10,NavY[i],174,40).Contains(e.Location)){navigate(NavKeys[i]);return;}if(new Rectangle(10,507,174,40).Contains(e.Location)){navigate("account");return;}if(new Rectangle(10,553,174,40).Contains(e.Location)){navigate("Configurações");return;}if(page=="Configurações"){Rectangle[] boxes={new Rectangle(222,158,444,92),new Rectangle(680,158,456,92),new Rectangle(222,264,444,92),new Rectangle(680,264,456,92),new Rectangle(222,370,444,92),new Rectangle(680,370,456,92)};for(int i=0;i<boxes.Length;i++)if(boxes[i].Contains(e.Location)){settings[i]=!settings[i];if(i==0)IceAudio.Enabled=settings[i];if(i==1)IceEffects.AnimationsEnabled=settings[i];Invalidate();return;}if(new Rectangle(902,534,210,45).Contains(e.Location)){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/"){UseShellExecute=true});}catch{}return;}return;}if(page=="Hardware")return;
   if(new Rectangle(222,163,144,36).Contains(e.Location)){foreach(var a in Filtered().Skip(offset).Take(6))selected.Add(a.id);Invalidate();return;}if(new Rectangle(374,163,139,36).Contains(e.Location)){selected.Clear();onlySelected=false;offset=0;Invalidate();return;}if(new Rectangle(521,163,130,36).Contains(e.Location)){onlySelected=!onlySelected;offset=0;Invalidate();return;}if(new Rectangle(889,641,247,45).Contains(e.Location)&&selected.Count>0){execute(items.Where(a=>selected.Contains(a.id)).ToArray());return;}
   var filtered=Filtered();for(int i=0;i<6&&offset+i<filtered.Count;i++){int col=i%2,row=i/2;if(new Rectangle(222+col*326,213+row*137,314,125).Contains(e.Location)){var a=filtered[offset+i];if(!selected.Add(a.id))selected.Remove(a.id);Invalidate();return;}}
  }
@@ -80,6 +82,16 @@ sealed class IcePageCanvas : Panel {
  static void Round(Graphics g,Rectangle r,int radius,Brush fill,Color stroke,int width=1){using(var path=Path(r,radius)){g.FillPath(fill,path);if(stroke.A>0)using(var p=new Pen(stroke,width))g.DrawPath(p,path);}}
  static GraphicsPath Path(Rectangle r,int d){var p=new GraphicsPath();p.AddArc(r.X,r.Y,d,d,180,90);p.AddArc(r.Right-d,r.Y,d,d,270,90);p.AddArc(r.Right-d,r.Bottom-d,d,d,0,90);p.AddArc(r.X,r.Bottom-d,d,d,90,90);p.CloseFigure();return p;}
  static void DrawText(Graphics g,string value,Rectangle r,float size,bool bold,Color color,ContentAlignment align=ContentAlignment.MiddleLeft){using(var f=new Font("Segoe UI",size,bold?FontStyle.Bold:FontStyle.Regular)){var flags=TextFormatFlags.EndEllipsis|TextFormatFlags.NoPadding;if(align==ContentAlignment.MiddleCenter)flags|=TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter;else flags|=TextFormatFlags.Left|TextFormatFlags.VerticalCenter;TextRenderer.DrawText(g,value,f,r,color,flags);}}
+}
+
+static class IceAudio {
+ public static bool Enabled=true;static SoundPlayer player;
+ public static void Click(){if(!Enabled)return;try{if(player==null){var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice-click.wav");if(stream==null)return;player=new SoundPlayer(stream);player.Load();}player.Play();}catch{}}
+}
+
+static class IceEffects {
+ public static bool AnimationsEnabled=true;
+ public static void DrawSnow(Graphics g,int width,int height){if(!AnimationsEnabled)return;long t=Environment.TickCount&0x7fffffff;for(int i=0;i<26;i++){float speed=.018f+(i%5)*.005f;float x=(float)((i*173+(t*speed*(1+(i%3)*.12)))%Math.Max(1,width));float y=(float)((i*89+(t*(.025f+(i%4)*.007f)))%Math.Max(1,height));int size=1+i%3;using(var b=new SolidBrush(Color.FromArgb(35+(i%4)*15,190,235,255)))g.FillEllipse(b,x,y,size,size);}}
 }
 
 sealed class IceProgressForm : Form {

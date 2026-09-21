@@ -18,14 +18,14 @@ sealed class LoginCanvas:Panel {
 sealed class HitArea:Control {
  bool over,down;public bool Glow;
  public HitArea(){Cursor=Cursors.Hand;SetStyle(ControlStyles.SupportsTransparentBackColor|ControlStyles.UserPaint|ControlStyles.OptimizedDoubleBuffer,true);BackColor=Color.Transparent;}
- protected override void OnMouseEnter(EventArgs e){over=true;Invalidate();base.OnMouseEnter(e);}protected override void OnMouseLeave(EventArgs e){over=down=false;Invalidate();base.OnMouseLeave(e);}protected override void OnMouseDown(MouseEventArgs e){down=true;Invalidate();base.OnMouseDown(e);}protected override void OnMouseUp(MouseEventArgs e){down=false;Invalidate();base.OnMouseUp(e);}
+ protected override void OnMouseEnter(EventArgs e){over=true;Invalidate();base.OnMouseEnter(e);}protected override void OnMouseLeave(EventArgs e){over=down=false;Invalidate();base.OnMouseLeave(e);}protected override void OnMouseDown(MouseEventArgs e){down=true;IceAudio.Click();Invalidate();base.OnMouseDown(e);}protected override void OnMouseUp(MouseEventArgs e){down=false;Invalidate();base.OnMouseUp(e);}
  protected override void OnPaint(PaintEventArgs e){if(!over&&!down)return;using(var b=new SolidBrush(Color.FromArgb(down?38:18,105,225,255)))e.Graphics.FillRectangle(b,ClientRectangle);if(Glow)using(var p=new Pen(Color.FromArgb(150,111,232,255)))e.Graphics.DrawRectangle(p,0,0,Width-1,Height-1);}
 }
 
 sealed class RememberToggle:Control {
  public bool Checked;
  public RememberToggle(){Cursor=Cursors.Hand;SetStyle(ControlStyles.SupportsTransparentBackColor|ControlStyles.UserPaint|ControlStyles.OptimizedDoubleBuffer,true);BackColor=Color.Transparent;}
- protected override void OnMouseClick(MouseEventArgs e){Checked=!Checked;Invalidate();base.OnMouseClick(e);}
+ protected override void OnMouseClick(MouseEventArgs e){Checked=!Checked;IceAudio.Click();Invalidate();base.OnMouseClick(e);}
  protected override void OnPaint(PaintEventArgs e){if(!Checked)return;using(var b=new SolidBrush(Color.FromArgb(42,158,224)))e.Graphics.FillRectangle(b,1,1,11,11);using(var p=new Pen(Color.White,1.5f)){e.Graphics.DrawLine(p,3,6,5,9);e.Graphics.DrawLine(p,5,9,10,3);}}
 }
 
@@ -56,14 +56,14 @@ public sealed class AccountForm:Form {
 
 sealed class AccountCanvas:Panel {
  static Image artwork;public AccountCanvas(){DoubleBuffered=true;SetStyle(ControlStyles.UserPaint|ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer,true);}
- protected override void OnPaint(PaintEventArgs e){if(artwork==null){using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("account-reference.jpg"))using(var source=Image.FromStream(stream))artwork=new Bitmap(source);}e.Graphics.DrawImage(artwork,ClientRectangle);DrawAccount(e.Graphics);}
+ protected override void OnPaint(PaintEventArgs e){if(artwork==null){using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("account-reference.jpg"))using(var source=Image.FromStream(stream))artwork=new Bitmap(source);}e.Graphics.InterpolationMode=System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;e.Graphics.DrawImage(artwork,ClientRectangle);DrawAccount(e.Graphics);IceEffects.DrawSnow(e.Graphics,Width,Height);}
  void DrawAccount(Graphics g){var state=LicenseGate.Current;if(state==null)return;string user=string.IsNullOrWhiteSpace(state.username)?"usuário":state.username,plan=LicenseGate.PlanName(state.plan),remaining=LicenseGate.Remaining(state);DateTime value;string expiry=DateTime.TryParse(state.expiresAt,out value)?value.ToLocalTime().ToString("dd/MM/yyyy HH:mm"):"Permanente",seen=DateTime.TryParse(state.lastValidated,out value)?value.ToLocalTime().ToString("dd/MM/yyyy HH:mm"):"Agora";
   CoverText(g,user,new Rectangle(557,18,59,18),8.5f,true,Color.FromArgb(5,17,30),Color.White);CoverText(g,"Plano "+plan,new Rectangle(557,39,67,15),7,false,Color.FromArgb(4,16,28),Color.FromArgb(150,181,205));
   CoverText(g,user,new Rectangle(210,119,105,20),11.5f,true,Color.FromArgb(8,22,39),Color.White);CoverText(g,"Plano "+plan,new Rectangle(210,141,110,16),7.5f,false,Color.FromArgb(8,23,40),Color.FromArgb(174,200,217));
   CoverText(g,remaining,new Rectangle(164,175,132,18),8.5f,true,Color.FromArgb(7,22,41),Color.FromArgb(57,212,255));CoverText(g,"Válida até "+expiry,new Rectangle(164,208,178,17),7.2f,false,Color.FromArgb(7,22,38),Color.FromArgb(191,215,229));
   CoverText(g,user,new Rectangle(588,138,108,18),7.8f,false,Color.FromArgb(7,23,39),Color.FromArgb(202,224,237));CoverText(g,plan,new Rectangle(588,162,108,18),7.8f,false,Color.FromArgb(6,22,38),Color.FromArgb(202,224,237));CoverText(g,"Ativa",new Rectangle(588,186,108,18),7.8f,false,Color.FromArgb(8,22,39),Color.FromArgb(70,224,174));CoverText(g,expiry,new Rectangle(588,210,122,18),7.8f,false,Color.FromArgb(8,23,39),Color.FromArgb(202,224,237));CoverText(g,"Protegido",new Rectangle(588,234,108,18),7.8f,false,Color.FromArgb(7,22,38),Color.White);CoverText(g,seen,new Rectangle(588,258,122,18),7.8f,false,Color.FromArgb(7,22,38),Color.FromArgb(202,224,237));
  }
- void CoverText(Graphics g,string text,Rectangle r,float size,bool bold,Color back,Color fore){using(var b=new SolidBrush(back))g.FillRectangle(b,r);using(var font=new Font("Segoe UI",size,bold?FontStyle.Bold:FontStyle.Regular))TextRenderer.DrawText(g,text,font,r,fore,TextFormatFlags.Left|TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|TextFormatFlags.NoPadding);}
+ void CoverText(Graphics g,string text,Rectangle r,float size,bool bold,Color back,Color fore){float sx=Width/744f,sy=Height/444f;var scaled=new Rectangle((int)Math.Round(r.X*sx),(int)Math.Round(r.Y*sy),(int)Math.Ceiling(r.Width*sx),(int)Math.Ceiling(r.Height*sy));using(var b=new SolidBrush(back))g.FillRectangle(b,scaled);using(var font=new Font("Segoe UI",size*Math.Min(sx,sy),bold?FontStyle.Bold:FontStyle.Regular))TextRenderer.DrawText(g,text,font,scaled,fore,TextFormatFlags.Left|TextFormatFlags.VerticalCenter|TextFormatFlags.EndEllipsis|TextFormatFlags.NoPadding);}
 }
 
 sealed class HomeCanvas:Panel {
@@ -73,14 +73,16 @@ sealed class HomeCanvas:Panel {
   if(artwork==null){using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("home-reference.png"))using(var source=Image.FromStream(stream))artwork=new Bitmap(source);}
   e.Graphics.InterpolationMode=System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
   e.Graphics.DrawImage(artwork,ClientRectangle);
+  IceEffects.DrawSnow(e.Graphics,Width,Height);
  }
 }
 
 // The interface is rebuilt one page at a time from the approved references.
 public sealed class MainWindow:Form {
- readonly Catalog catalog=Catalog.Load();readonly HomeCanvas home=new HomeCanvas();readonly AccountCanvas account=new AccountCanvas();readonly Dictionary<string,IcePageCanvas> pages=new Dictionary<string,IcePageCanvas>();Control current;
+ readonly Catalog catalog=Catalog.Load();readonly HomeCanvas home=new HomeCanvas();readonly AccountCanvas account=new AccountCanvas();readonly Dictionary<string,IcePageCanvas> pages=new Dictionary<string,IcePageCanvas>();readonly Timer transition=new Timer{Interval=16},ambient=new Timer{Interval=16};Control current,outgoing,incoming;int transitionFrame;
  [DllImport("user32.dll")]static extern bool ReleaseCapture();[DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr h,int msg,IntPtr w,IntPtr l);
- public MainWindow(){Text="Ice Optimizer";StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(3,13,24);using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);
+ public MainWindow(){Text="Ice Optimizer";StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(3,13,24);DoubleBuffered=true;ClientSize=new Size(1168,705);MinimumSize=MaximumSize=Size;using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);
+  transition.Tick+=AnimateTransition;ambient.Tick+=(s,e)=>{if(WindowState!=FormWindowState.Minimized&&current!=null&&!transition.Enabled)current.Invalidate();};ambient.Start();
   home.MouseDown+=DragWindow;account.MouseDown+=DragWindow;
   AddHit(home,1028,5,43,34,()=>WindowState=FormWindowState.Minimized);AddHit(home,1071,5,43,34,()=>{});AddHit(home,1114,5,50,34,Close);
   foreach(string page in new[]{"Windows","Jogos","Hardware","Reparos","Aplicativos","Ativações","Recuperação","Configurações"}){pages[page]=new IcePageCanvas(catalog,page,Navigate,ExecuteItems);pages[page].MouseDown+=DragWindow;}
@@ -88,16 +90,18 @@ public sealed class MainWindow:Form {
   AddHit(home,228,388,180,31,()=>ShowPage("Windows"));AddHit(home,450,388,179,31,()=>ShowPage("Jogos"));AddHit(home,670,388,180,31,()=>ShowPage("Hardware"));
   AddHit(home,228,577,180,31,()=>ShowPage("Reparos"));AddHit(home,450,577,179,31,()=>ShowPage("Aplicativos"));AddHit(home,670,577,180,31,()=>ShowPage("Recuperação"));
   AddHit(home,889,552,248,51,()=>ShowPage("Windows"));
-  AddHit(account,628,4,35,28,()=>WindowState=FormWindowState.Minimized);AddHit(account,664,4,37,28,()=>{});AddHit(account,701,4,41,28,Close);
-  AddHit(account,9,48,118,36,ShowHome);AddHit(account,9,84,118,30,()=>ShowPage("Windows"));AddHit(account,9,114,118,30,()=>ShowPage("Jogos"));AddHit(account,9,144,118,30,()=>ShowPage("Hardware"));AddHit(account,9,174,118,30,()=>ShowPage("Reparos"));AddHit(account,9,204,118,30,()=>ShowPage("Aplicativos"));AddHit(account,9,234,118,30,()=>ShowPage("Recuperação"));AddHit(account,9,352,118,33,()=>ShowPage("Configurações"));AddHit(account,165,325,135,35,OpenAccount);AddHit(account,304,325,133,35,Logout);AddHit(account,478,367,236,32,OpenPlans);
+  AddScaledHit(account,628,4,35,28,()=>WindowState=FormWindowState.Minimized);AddScaledHit(account,664,4,37,28,()=>{});AddScaledHit(account,701,4,41,28,Close);
+  AddScaledHit(account,9,48,118,36,ShowHome);AddScaledHit(account,9,84,118,30,()=>ShowPage("Windows"));AddScaledHit(account,9,114,118,30,()=>ShowPage("Jogos"));AddScaledHit(account,9,144,118,30,()=>ShowPage("Hardware"));AddScaledHit(account,9,174,118,30,()=>ShowPage("Reparos"));AddScaledHit(account,9,204,118,30,()=>ShowPage("Aplicativos"));AddScaledHit(account,9,234,118,30,()=>ShowPage("Recuperação"));AddScaledHit(account,9,352,118,33,()=>ShowPage("Configurações"));AddScaledHit(account,165,325,135,35,OpenAccount);AddScaledHit(account,304,325,133,35,Logout);AddScaledHit(account,478,367,236,32,OpenPlans);
   ShowHome();
  }
  void DragWindow(object sender,MouseEventArgs e){if(e.Button==MouseButtons.Left&&e.Y<58){ReleaseCapture();SendMessage(Handle,0xA1,(IntPtr)2,IntPtr.Zero);}}
  void AddHit(Control surface,int x,int y,int w,int h,Action action){var hit=new HitArea{Glow=true};hit.SetBounds(x,y,w,h);hit.Click+=(s,e)=>action();surface.Controls.Add(hit);hit.BringToFront();}
- void Switch(Control page,Size size,string title){SuspendLayout();if(current!=null)Controls.Remove(current);current=page;page.Dock=DockStyle.Fill;MinimumSize=Size.Empty;MaximumSize=Size.Empty;ClientSize=size;MinimumSize=MaximumSize=Size;Text=title;Controls.Add(page);page.BringToFront();ResumeLayout(true);page.Invalidate();}
- void ShowHome(){Switch(home,new Size(1168,705),"Ice Optimizer — Início");}
- void ShowAccount(){Switch(account,new Size(744,444),"Ice Optimizer — Minha conta");}
- void ShowPage(string name){IcePageCanvas page;if(pages.TryGetValue(name,out page))Switch(page,new Size(1168,705),"Ice Optimizer — "+name);}
+ void AddScaledHit(Control surface,int x,int y,int w,int h,Action action){AddHit(surface,(int)Math.Round(x*1168d/744d),(int)Math.Round(y*705d/444d),(int)Math.Round(w*1168d/744d),(int)Math.Round(h*705d/444d),action);}
+ void Switch(Control page,string title){if(page==current||transition.Enabled)return;Text=title;if(current==null){current=page;page.Dock=DockStyle.Fill;Controls.Add(page);page.Invalidate();return;}if(!IceEffects.AnimationsEnabled){Controls.Remove(current);current=page;page.Dock=DockStyle.Fill;Controls.Add(page);page.BringToFront();page.Invalidate();return;}outgoing=current;incoming=page;current=page;outgoing.Dock=DockStyle.None;outgoing.Bounds=new Rectangle(0,0,ClientSize.Width,ClientSize.Height);incoming.Dock=DockStyle.None;incoming.Bounds=new Rectangle(ClientSize.Width,0,ClientSize.Width,ClientSize.Height);incoming.Enabled=outgoing.Enabled=false;Controls.Add(incoming);incoming.BringToFront();transitionFrame=0;transition.Start();}
+ void AnimateTransition(object sender,EventArgs e){transitionFrame++;double p=Math.Min(1,transitionFrame/15d),ease=1-Math.Pow(1-p,3);incoming.Left=(int)Math.Round(ClientSize.Width*(1-ease));outgoing.Left=(int)Math.Round(-ClientSize.Width*.14*ease);incoming.Invalidate();outgoing.Invalidate();if(p>=1){transition.Stop();Controls.Remove(outgoing);outgoing.Left=0;outgoing.Enabled=true;incoming.Dock=DockStyle.Fill;incoming.Enabled=true;incoming.Focus();incoming=null;outgoing=null;}}
+ void ShowHome(){Switch(home,"Ice Optimizer — Início");}
+ void ShowAccount(){Switch(account,"Ice Optimizer — Minha conta");}
+ void ShowPage(string name){IcePageCanvas page;if(pages.TryGetValue(name,out page))Switch(page,"Ice Optimizer — "+name);}
  void Navigate(string name){if(name=="home")ShowHome();else if(name=="account")ShowAccount();else ShowPage(name);}
  async void ExecuteItems(ActionItem[] items){
   var problems=BatchPlan.Problems(items);if(problems.Count>0){MessageBox.Show(string.Join("\n",problems),"Revise sua seleção",MessageBoxButtons.OK,MessageBoxIcon.Warning);return;}
@@ -111,6 +115,6 @@ public sealed class MainWindow:Form {
  void OpenAccount(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/"){UseShellExecute=true});}catch{}}
  void OpenPlans(){try{Process.Start(new ProcessStartInfo("https://ice-optimizer-web-production.up.railway.app/#planos"){UseShellExecute=true});}catch{}}
  void Logout(){LicenseGate.Logout();Close();}
- public void UiTest(){if(catalog.actions==null||catalog.actions.Length<100)throw new Exception("Catálogo indisponível.");}
- public void Render(string file,string mode=""){LicenseGate.UsePreview();if(mode=="profile")ShowAccount();else if(mode=="hardware")ShowPage("Hardware");else if(mode=="games")ShowPage("Jogos");else if(mode=="selected"||mode=="windows")ShowPage("Windows");else if(mode=="progress"||mode=="repairs")ShowPage("Reparos");else if(mode=="apps")ShowPage("Aplicativos");else if(mode=="activations")ShowPage("Ativações");else if(mode=="recovery")ShowPage("Recuperação");else if(mode=="settings")ShowPage("Configurações");else ShowHome();current.Invalidate();ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
+ public void UiTest(){if(catalog.actions==null||catalog.actions.Length<100)throw new Exception("Catálogo indisponível.");var resources=Assembly.GetExecutingAssembly().GetManifestResourceNames();if(!resources.Contains("ice-click.wav")||!resources.Contains("home-reference.png")||!resources.Contains("account-reference.jpg"))throw new Exception("Recursos visuais ou sonoros ausentes.");if(pages.Count!=8)throw new Exception("Páginas incompletas.");}
+ public void Render(string file,string mode=""){ambient.Stop();LicenseGate.UsePreview();if(current!=null){Controls.Remove(current);current=null;}if(mode=="profile")ShowAccount();else if(mode=="hardware")ShowPage("Hardware");else if(mode=="games")ShowPage("Jogos");else if(mode=="selected"||mode=="windows")ShowPage("Windows");else if(mode=="progress"||mode=="repairs")ShowPage("Reparos");else if(mode=="apps")ShowPage("Aplicativos");else if(mode=="activations")ShowPage("Ativações");else if(mode=="recovery")ShowPage("Recuperação");else if(mode=="settings")ShowPage("Configurações");else ShowHome();current.Invalidate();ShowInTaskbar=false;Show();Application.DoEvents();using(var bmp=new Bitmap(Width,Height)){DrawToBitmap(bmp,new Rectangle(0,0,Width,Height));bmp.Save(file);}Hide();}
 }
