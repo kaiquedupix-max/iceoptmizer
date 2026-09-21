@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/polish.css?v=5.4">
 <script src="https://sdk.mercadopago.com/js/v2" defer></script>
 <script src="https://www.mercadopago.com/v2/security.js" view="checkout" defer></script>
-<script src="/site.js?v=5.6" defer></script>
+<script src="/site.js?v=5.7" defer></script>
 </head>
 <body>
 <div class="snow" aria-hidden="true"></div><div class="aurora" aria-hidden="true"></div>
@@ -208,6 +208,7 @@
         <button class="active" type="button" data-customer-view="overview">▣ <span>Visão geral</span></button>
         <button type="button" data-customer-view="plan">◇ <span>Plano e download</span></button>
         <button type="button" data-customer-view="support">✦ <span>Suporte Premium</span><i id="customer-support-unread" class="hidden">0</i></button>
+        <button id="customer-partner-tab" class="hidden" type="button" data-customer-view="partner">◈ <span>Parceiro</span></button>
         <button type="button" data-customer-view="security">⌁ <span>Segurança</span></button>
       </nav>
       <button class="customer-logout" id="account-logout" type="button">↪ Sair da conta</button>
@@ -251,6 +252,22 @@
           <form id="support-form"><textarea id="support-text" maxlength="2000" placeholder="Escreva sua mensagem para o suporte..." required></textarea><button class="btn primary" type="submit">Enviar</button></form>
           <small class="support-hint">✓ enviada · ✓✓ lida pelo suporte. Nunca envie senhas pelo chat.</small>
         </div>
+      </section>
+
+      <section id="customer-partner-panel" class="customer-view hidden" data-customer-section="partner">
+        <div class="customer-view-head"><div><div class="eyebrow">PROGRAMA DE PARCEIROS</div><h3>Seu painel de comissão</h3><p>Divulgue seu link, acompanhe vendas e solicite saques pelo mesmo acesso da sua conta.</p></div><span class="partner-role-badge">PARCEIRO</span></div>
+        <div class="account-partner-stats">
+          <article><span>VENDAS</span><strong id="account-partner-sales">0</strong><small>Compras aprovadas</small></article>
+          <article><span>VALOR VENDIDO</span><strong id="account-partner-revenue">R$ 0</strong><small>Faturamento indicado</small></article>
+          <article><span>COMISSÃO TOTAL</span><strong id="account-partner-commission">R$ 0</strong><small id="account-partner-rate">30% por venda</small></article>
+          <article><span>SALDO DISPONÍVEL</span><strong id="account-partner-available">R$ 0</strong><small id="account-partner-pending">R$ 0 em validação</small></article>
+        </div>
+        <div class="account-partner-grid">
+          <section class="account-partner-card"><div class="eyebrow">SEU LINK</div><h3>Link para divulgação</h3><p>As compras feitas pelo seu link ficam atribuídas a você e geram comissão após aprovação.</p><div class="copy-line"><input id="account-partner-link" readonly><button id="account-copy-partner-link" class="btn primary" type="button">Copiar</button></div><small>A indicação fica registrada por 30 dias.</small></section>
+          <section class="account-partner-card"><div class="eyebrow">RECEBIMENTO</div><h3>Dados para saque</h3><form id="account-partner-payout-form"><label class="field"><span>Nome do titular</span><input id="account-partner-beneficiary" required></label><label class="field"><span>Tipo da chave Pix</span><select id="account-partner-pix-type" required><option value="">Selecione</option><option value="cpf">CPF</option><option value="cnpj">CNPJ</option><option value="email">E-mail</option><option value="phone">Celular</option><option value="random">Chave aleatória</option></select></label><label class="field"><span>Chave Pix</span><input id="account-partner-pix-key" required></label><button class="btn full" type="submit">Salvar dados Pix</button></form></section>
+        </div>
+        <section class="account-partner-card account-partner-withdraw"><div><div class="eyebrow">SAQUE</div><h3>Solicitar pagamento</h3><p>O saque mínimo é R$ 20. Comissões entram no saldo depois do período de validação.</p></div><form id="account-partner-withdraw-form" class="copy-line"><input id="account-partner-withdraw-amount" type="number" min="20" step="0.01" placeholder="Valor do saque" required><button class="btn primary" type="submit">Solicitar saque</button></form></section>
+        <section class="account-partner-card"><div class="panel-head"><div><h3>Histórico de saques</h3><p class="muted">Acompanhe os pagamentos solicitados.</p></div></div><div class="table-wrap"><table><thead><tr><th>Data</th><th>Valor</th><th>Status</th></tr></thead><tbody id="account-partner-withdraw-rows"></tbody></table></div></section>
       </section>
 
       <section id="customer-security-panel" class="customer-view hidden" data-customer-section="security">
