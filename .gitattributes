@@ -4,3 +4,5 @@
 *.sys binary
 *.zip binary
 *.png binary
+# Preserve exact bytes for every catalog-managed file.
+scripts/** -text

@@ -65,6 +65,24 @@ jobs:
             throw 'Legacy branding still exists in repository text files.'
           }
 
+      - name: Verify catalog bytes match Git-published bytes
+        shell: powershell
+        run: |
+          $catalog = Get-Content catalog.json -Raw | ConvertFrom-Json
+          $bad = @()
+          foreach ($entry in $catalog.files.PSObject.Properties) {
+            $path = $entry.Name
+            $working = (git hash-object --no-filters -- "$path").Trim()
+            $published = (git hash-object --path="$path" -- "$path").Trim()
+            if ($working -ne $published) {
+              $bad += "$path : working=$working published=$published"
+            }
+          }
+          if ($bad.Count -gt 0) {
+            $bad | ForEach-Object { Write-Host $_ }
+            throw 'Catalog files would be transformed by Git after hashing.'
+          }
+
       - name: Build Windows executable
         shell: powershell
         run: .\build.ps1

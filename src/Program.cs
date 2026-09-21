@@ -55,7 +55,7 @@ public class Catalog {
 public static class Payload {
  static string onlineRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","online-scripts");
  public static string Hash(byte[] bytes){using(var h=SHA256.Create())return BitConverter.ToString(h.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();}
- public static void Verify(byte[] bytes, FileInfoEntry entry){if(bytes.LongLength!=entry.size||Hash(bytes)!=entry.sha256)throw new InvalidDataException("Os arquivos online mudaram durante a sincronização. Feche e abra o Ice Optimizer novamente. Se continuar, baixe a versão mais recente no site.");}
+ public static void Verify(byte[] bytes, FileInfoEntry entry){string actual=Hash(bytes);if(bytes.LongLength!=entry.size||actual!=entry.sha256)throw new InvalidDataException("Falha de integridade. Esperado: "+entry.size+" bytes / "+entry.sha256+". Recebido: "+bytes.LongLength+" bytes / "+actual+".");}
  public static string SafeRoot(string root){
   if(string.IsNullOrWhiteSpace(root)||root.IndexOfAny(new[]{'"','%','!','\r','\n','&','^','|','<','>'})>=0)throw new ArgumentException("Escolha uma pasta local sem caracteres especiais de comando.");
   root=Path.GetFullPath(root);if(root.StartsWith(@"\\"))throw new ArgumentException("Escolha uma pasta em disco local.");return root;
