@@ -8,6 +8,8 @@ using System.Linq;
 using System.Media;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 sealed class IcePageCanvas : Panel {
@@ -105,6 +107,20 @@ sealed class IceProgressForm : Form {
  }
  public void Report(string phase,int index,int total,ActionItem item){if(InvokeRequired){BeginInvoke(new Action<string,int,int,ActionItem>(Report),phase,index,total,item);return;}value=total<=0?0:(int)Math.Round(index*100d/total);title.Text=phase=="download"?"PREPARANDO ARQUIVOS":phase=="execute"?"APLICANDO AJUSTES":"FINALIZANDO";status.Text=item==null?"Concluindo...":item.title+"  ·  "+value+"%";fill.Width=Math.Max(2,(track.Width*value)/100);Refresh();}
  public void Complete(){if(InvokeRequired){BeginInvoke(new Action(Complete));return;}value=100;title.Text="OTIMIZAÇÃO CONCLUÍDA";status.Text="100%  ·  Todas as etapas foram finalizadas.";fill.Width=track.Width;Refresh();}
+}
+
+sealed class ScriptSyncForm : Form {
+ readonly Label title=new Label(),status=new Label(),percent=new Label();readonly Panel track=new Panel(),fill=new Panel();
+ ScriptSyncForm(){Text="Ice Optimizer — atualização";ClientSize=new Size(550,280);FormBorderStyle=FormBorderStyle.None;StartPosition=FormStartPosition.CenterScreen;BackColor=Color.FromArgb(3,15,28);ShowInTaskbar=false;TopMost=true;
+  Paint+=(s,e)=>{e.Graphics.SmoothingMode=SmoothingMode.AntiAlias;using(var p=new Pen(Color.FromArgb(65,216,255),2))e.Graphics.DrawRoundedRectangle(p,new Rectangle(1,1,Width-3,Height-3),14);using(var b=new LinearGradientBrush(new Rectangle(2,2,Width-4,102),Color.FromArgb(8,58,91),Color.FromArgb(3,15,28),LinearGradientMode.Vertical))e.Graphics.FillRectangle(b,2,2,Width-4,100);};
+  title.Text="SINCRONIZANDO AJUSTES";title.Font=new Font("Segoe UI",14,FontStyle.Bold);title.ForeColor=Color.White;title.BackColor=Color.Transparent;title.TextAlign=ContentAlignment.MiddleCenter;title.SetBounds(30,35,490,34);Controls.Add(title);
+  status.Text="Conectando ao servidor seguro...";status.Font=new Font("Segoe UI",8.5f);status.ForeColor=Color.FromArgb(154,199,225);status.TextAlign=ContentAlignment.MiddleCenter;status.SetBounds(35,91,480,25);Controls.Add(status);
+  track.BackColor=Color.FromArgb(7,42,67);track.SetBounds(46,139,458,15);Controls.Add(track);fill.BackColor=Color.FromArgb(49,212,255);fill.SetBounds(0,0,2,15);track.Controls.Add(fill);
+  percent.Text="0%";percent.Font=new Font("Segoe UI",18,FontStyle.Bold);percent.ForeColor=Color.FromArgb(65,218,255);percent.TextAlign=ContentAlignment.MiddleCenter;percent.SetBounds(215,170,120,38);Controls.Add(percent);
+  var note=new Label{Text="Uma cópia nova e verificada dos scripts é baixada sempre que o aplicativo abre.",Font=new Font("Segoe UI",7.5f),ForeColor=Color.FromArgb(103,179,213),TextAlign=ContentAlignment.MiddleCenter};note.SetBounds(35,219,480,32);Controls.Add(note);
+ }
+ void ReportFile(string file,int current,int total){if(InvokeRequired){BeginInvoke(new Action<string,int,int>(ReportFile),file,current,total);return;}int value=total<=0?0:(int)Math.Round(current*100d/total);status.Text="Verificando "+file+"  ·  "+current+" de "+total;percent.Text=value+"%";fill.Width=Math.Max(2,track.Width*value/100);Refresh();}
+ public static bool Sync(Catalog catalog){using(var form=new ScriptSyncForm()){form.Show();Application.DoEvents();Exception failure=null;var task=Task.Run(async()=>{try{await Payload.RefreshOnline(catalog,LicenseGate.Current==null?null:LicenseGate.Current.token,form.ReportFile);}catch(Exception ex){failure=ex;}});while(!task.IsCompleted){Application.DoEvents();Thread.Sleep(15);}task.GetAwaiter().GetResult();if(failure!=null){form.Close();MessageBox.Show("Não foi possível baixar os scripts verificados.\n\n"+failure.Message,"Conexão necessária",MessageBoxButtons.OK,MessageBoxIcon.Error);return false;}form.ReportFile("Concluído",1,1);Application.DoEvents();Thread.Sleep(180);form.Close();return true;}}
 }
 
 static class GraphicsIceExtensions {

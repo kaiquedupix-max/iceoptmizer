@@ -108,7 +108,7 @@ public sealed class MainWindow:Form {
   if(MessageBox.Show("Você selecionou "+items.Length+" ação(ões). O mouse ficará bloqueado durante a execução. Deseja continuar?","Revisar plano",MessageBoxButtons.YesNo,MessageBoxIcon.Question)!=DialogResult.Yes)return;
   var progress=new IceProgressForm();Enabled=false;UseWaitCursor=true;progress.Show(this);try{
    string root=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","runs");
-   var results=await BatchPlan.Run(items,a=>Payload.Prepare(catalog,a,root,true,LicenseGate.Current==null?null:LicenseGate.Current.token,x=>{}),(a,path)=>Payload.Execute(path,x=>{}),()=>false,(phase,index,total,item)=>progress.Report(phase,index,total,item),true);
+   var results=await BatchPlan.Run(items,a=>Payload.Prepare(catalog,a,root,LicenseGate.Current==null?null:LicenseGate.Current.token,x=>{}),(a,path)=>Payload.Execute(path,x=>{}),()=>false,(phase,index,total,item)=>progress.Report(phase,index,total,item),true);
    progress.Complete();await Task.Delay(550);int failed=results.Count(x=>x.code!=0);MessageBox.Show(failed==0?"As ações selecionadas foram concluídas.":failed+" ação(ões) terminaram com erro. Revise o resultado antes de continuar.","Ice Optimizer",MessageBoxButtons.OK,failed==0?MessageBoxIcon.Information:MessageBoxIcon.Warning);
   }catch(Exception ex){MessageBox.Show(ex.Message,"Não foi possível concluir",MessageBoxButtons.OK,MessageBoxIcon.Error);}finally{progress.Close();progress.Dispose();Enabled=true;UseWaitCursor=false;Activate();}
  }

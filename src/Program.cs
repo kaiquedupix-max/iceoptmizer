@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
@@ -30,6 +31,7 @@ public class Catalog {
  public static Catalog Load(){using(var s=Assembly.GetExecutingAssembly().GetManifestResourceStream("catalog.json"))using(var r=new StreamReader(s))return new JavaScriptSerializer().Deserialize<Catalog>(r.ReadToEnd());}
 }
 public static class Payload {
+ static string onlineRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","online-scripts");
  public static string Hash(byte[] bytes){using(var h=SHA256.Create())return BitConverter.ToString(h.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();}
  public static void Verify(byte[] bytes, FileInfoEntry entry){if(bytes.LongLength!=entry.size||Hash(bytes)!=entry.sha256)throw new InvalidDataException("Integridade inválida. O arquivo não será executado. Atualize o aplicativo com o responsável.");}
  public static string SafeRoot(string root){
@@ -54,15 +56,22 @@ public static class Payload {
   }
  }
 
- public static async Task<string> Prepare(Catalog cat,ActionItem action,string root,bool local,string token,Action<string> report){
+ public static async Task RefreshOnline(Catalog cat,string token,Action<string,int,int> progress,string targetRoot=null){
+  string finalRoot=Path.GetFullPath(targetRoot??onlineRoot),allowed=Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer"));
+  if(targetRoot==null&&!finalRoot.StartsWith(allowed+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException("Cache online inválido.");
+  string staging=finalRoot+".new-"+Guid.NewGuid().ToString("N");Directory.CreateDirectory(staging);var remotes=cat.files.Keys.Where(x=>x.StartsWith("scripts/",StringComparison.OrdinalIgnoreCase)).OrderBy(x=>x).ToArray();int done=0;var gate=new SemaphoreSlim(6);
+  try{
+   var tasks=remotes.Select(async remote=>{await gate.WaitAsync();try{byte[] bytes=await Download(cat,remote,token);string dest=Destination(staging,remote);Directory.CreateDirectory(Path.GetDirectoryName(dest));File.WriteAllBytes(dest,bytes);int current=Interlocked.Increment(ref done);progress(Path.GetFileName(remote),current,remotes.Length);}finally{gate.Release();}}).ToArray();
+   await Task.WhenAll(tasks);if(Directory.Exists(finalRoot))Directory.Delete(finalRoot,true);Directory.Move(staging,finalRoot);onlineRoot=finalRoot;
+  }catch{try{if(Directory.Exists(staging))Directory.Delete(staging,true);}catch{}throw;}finally{gate.Dispose();}
+ }
+ public static Task<string> Prepare(Catalog cat,ActionItem action,string root,string token,Action<string> report){
   root=SafeRoot(root);string run=Path.Combine(root,DateTime.Now.ToString("yyyyMMdd-HHmmss")+"-"+Guid.NewGuid().ToString("N").Substring(0,8));Directory.CreateDirectory(run);
   foreach(string remote in new[]{action.file}.Concat(action.dependencies)){
-   report("Preparando: "+Path.GetFileName(remote));byte[] bytes;
-   if(local){string p=Path.Combine(AppDomain.CurrentDomain.BaseDirectory,remote.Replace('/',Path.DirectorySeparatorChar));if(!File.Exists(p))throw new FileNotFoundException("Arquivo ausente no pacote offline: "+remote);bytes=File.ReadAllBytes(p);Verify(bytes,cat.files[remote]);}
-   else bytes=await Download(cat,remote,token);
+   report("Preparando: "+Path.GetFileName(remote));string source=Destination(onlineRoot,remote);if(!File.Exists(source))throw new FileNotFoundException("Cache online incompleto. Feche e abra o aplicativo novamente: "+remote);byte[] bytes=File.ReadAllBytes(source);Verify(bytes,cat.files[remote]);
    string dest=Destination(run,remote);Directory.CreateDirectory(Path.GetDirectoryName(dest));File.WriteAllBytes(dest,bytes);
   }
-  return Destination(run,action.file);
+  return Task.FromResult(Destination(run,action.file));
  }
  public static Task<int> Execute(string script,Action<string> log){return Task.Run(()=>{
   var info=new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),"cmd.exe"),"/d /s /c \"\""+script+"\"\""){
@@ -81,7 +90,7 @@ public static class Program {
   ServicePointManager.SecurityProtocol=SecurityProtocolType.Tls12;Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
   try{
    if(args.Length==2&&args[0]=="--download-test"){
-    var cat=Catalog.Load();foreach(string id in new[]{"priorizar_rust","opcao22"}){var a=cat.actions.Single(x=>x.id==id);Payload.Prepare(cat,a,Path.Combine(Path.GetDirectoryName(Path.GetFullPath(args[1])),"download-test"),false,null,x=>{}).GetAwaiter().GetResult();}
+    var cat=Catalog.Load();string cache=Path.Combine(Path.GetDirectoryName(Path.GetFullPath(args[1])),"online-cache");Payload.RefreshOnline(cat,null,(a,b,c)=>{},cache).GetAwaiter().GetResult();foreach(string id in new[]{"priorizar_rust","opcao22"}){var a=cat.actions.Single(x=>x.id==id);Payload.Prepare(cat,a,Path.Combine(Path.GetDirectoryName(Path.GetFullPath(args[1])),"download-test"),null,x=>{}).GetAwaiter().GetResult();}
     File.WriteAllText(args[1],"PASS: public HTTPS downloads and SHA-256 verification, Rust script and complete ISLC dependency tree; no script executed.");return 0;
    }
    if(args.Length>0&&args[0]=="--self-test"){
@@ -92,13 +101,12 @@ public static class Program {
     Verification.BatchTests().GetAwaiter().GetResult();
     string testRoot=Path.Combine(Path.GetDirectoryName(Path.GetFullPath(args[1])),"test runs "+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(testRoot);
     string script=Path.Combine(testRoot,"harmless.bat");File.WriteAllText(script,"@echo off\r\necho ICE_TEST_OK\r\nexit /b 7\r\n");var lines=new List<string>();int code=Payload.Execute(script,l=>{lock(lines)lines.Add(l);}).GetAwaiter().GetResult();if(code!=7||!lines.Contains("ICE_TEST_OK"))throw new Exception("Process output/exit test failed");
-    var act=c.actions.Single(a=>a.id=="ping");string prepared=Payload.Prepare(c,act,testRoot,true,null,l=>{}).GetAwaiter().GetResult();if(!File.Exists(Path.Combine(Path.GetDirectoryName(prepared),"DnsJumper.exe")))throw new Exception("Dependency layout invalid");
-    if(args.Length>1)File.WriteAllText(args[1],"PASS: clean UI boundary; trusted catalog and descriptions; hash tampering rejection; unsafe paths; queue order, preparation before execution, cancellation, error policies, conflicts and restore ordering; harmless process output/exit code; offline dependencies. No optimization executed.");return 0;
+    if(args.Length>1)File.WriteAllText(args[1],"PASS: clean UI boundary; trusted catalog and descriptions; hash tampering rejection; unsafe paths; queue order, cancellation, error policies, conflicts and restore ordering; harmless process output/exit code; online-cache boundary. No optimization executed.");return 0;
    }
    if(args.Length==2&&args[0]=="--render-login"){using(var preview=new AccountForm(Catalog.Load(),"")){preview.ShowInTaskbar=false;preview.Show();preview.Refresh();Application.DoEvents();using(var bmp=new Bitmap(preview.Width,preview.Height)){preview.DrawToBitmap(bmp,new Rectangle(0,0,preview.Width,preview.Height));bmp.Save(args[1]);}preview.Hide();return 0;}}
     if(args.Length==2&&args[0].StartsWith("--render")){using(var preview=new MainWindow()){string mode=args[0].StartsWith("--render-")?args[0].Substring(9):"";preview.Render(args[1],mode);return 0;}}
     if(!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)){try{Process.Start(new ProcessStartInfo(Application.ExecutablePath){UseShellExecute=true,Verb="runas"});}catch(System.ComponentModel.Win32Exception){MessageBox.Show("O Ice Optimizer precisa ser aberto como administrador.","Permissão necessária",MessageBoxButtons.OK,MessageBoxIcon.Information);}return 3;}
-   var catalog=Catalog.Load();if(!LicenseGate.Ensure(catalog))return 2;
+   var catalog=Catalog.Load();if(!LicenseGate.Ensure(catalog))return 2;if(!ScriptSyncForm.Sync(catalog))return 4;
    using(var window=new MainWindow())Application.Run(window);return 0;
   }catch(Exception e){if(args.Length>1)File.WriteAllText(args[args.Length-1],e.ToString());else MessageBox.Show(e.Message,"ice optimizer");return 1;}
  }

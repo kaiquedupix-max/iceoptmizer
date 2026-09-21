@@ -19,7 +19,7 @@ O cliente cria a conta no site, ativa um plano e entra no aplicativo com o mesmo
 
 A pasta de trabalho armazena downloads e backups. Os comandos afetam o Windows em execução, não uma instalação Windows em outra unidade. A opção de jogos ajusta prioridades dos executáveis conhecidos; não precisa selecionar a pasta do jogo.
 
-O pacote `ice-optimizer-offline.zip` permite executar sem internet: extraia tudo no mesmo local. O aplicativo identifica os scripts locais automaticamente. Nunca mova apenas o executável quando usar esse modo.
+O aplicativo baixa e valida uma cópia nova dos scripts a cada abertura. É necessário estar conectado à internet para entrar. Cada arquivo é conferido por tamanho e SHA-256 antes de ficar disponível para execução.
 
 ## Limites dos scripts
 
