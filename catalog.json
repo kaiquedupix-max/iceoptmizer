@@ -1,7 +1,7 @@
 {
   "name": "ice optimizer",
   "author": "Ice Optimizer",
-  "version": "3.1.0",
+  "version": "3.0.0",
   "repository": "kaiquedupix-max/iceoptmizer",
   "ref": "main",
   "licenseApi": "https://ice-optimizer-web-production.up.railway.app",
@@ -2313,644 +2313,644 @@
   ],
   "files": {
     "scripts/actions/amd.bat": {
-      "sha256": "ff44935b6ed92c81c6294cb34ecfe3d8dac96d3e03894a1e92d0efb808510044",
-      "size": 1794
+      "sha256": "84a38b4bb88accc6312f85a8d609b5b9bf09024083c0ef0e0ade0447d85a4aee",
+      "size": 1799
     },
     "scripts/actions/ativarmemoria.bat": {
-      "sha256": "0ef5ddb8d8c541d67b12717dc584890ff9926d331c26615f4078af33c162ca24",
-      "size": 249
-    },
-    "scripts/actions/ativarsuper.bat": {
-      "sha256": "5c11be1c341f5a7ae302d9b2abed4b5bbda71d2c6ec087fead8f23023a572c04",
-      "size": 550
-    },
-    "scripts/actions/autorun.bat": {
-      "sha256": "5653ef56f03c98e8da16d0411880d884f4261a2bb218aad0f3b8c02ae665fec7",
-      "size": 271
-    },
-    "scripts/actions/debloater.bat": {
-      "sha256": "87407f2160b7e396e4712ed99145a28ea91afe9e9dd88cb9ab870d818e47c35a",
-      "size": 1623
-    },
-    "scripts/actions/debloat_opcao10.bat": {
-      "sha256": "b78c8d57749cd10e04376818bab572877bf0483b83ab5b20562bb68c99bdd93e",
-      "size": 350
-    },
-    "scripts/actions/debloat_opcao11.bat": {
-      "sha256": "b4393447c3a009daa8a95c62428c149190dfa8781ae2fb61b474c3c6246521b4",
-      "size": 358
-    },
-    "scripts/actions/debloat_opcao12.bat": {
-      "sha256": "ed3d191cc98d34155849ae5ad67d4f31aabaa88dc419c9d591009006a53c901d",
-      "size": 348
-    },
-    "scripts/actions/debloat_opcao13.bat": {
-      "sha256": "64619061640cc0b84254611dec724710c857a2c4814722e26c59330c9dc4f690",
-      "size": 352
-    },
-    "scripts/actions/debloat_opcao14.bat": {
-      "sha256": "f6391074fb2a6d18bad258296d53a5084dfc2abc9a5df0aefbc445a3fcee8f23",
-      "size": 360
-    },
-    "scripts/actions/debloat_opcao15.bat": {
-      "sha256": "b9b6ca596307bade86e7efcbb3504f2685cb1f4553b1e8d7da0bb82ec779f569",
-      "size": 359
-    },
-    "scripts/actions/debloat_opcao16.bat": {
-      "sha256": "7d831d7e703cc9bdadb098e447b97a195859df599e8e41e6e4d9ee39b76b18f5",
-      "size": 364
-    },
-    "scripts/actions/debloat_opcao17.bat": {
-      "sha256": "f4c670e97affdf35be4f945a219f265f7db414b3f2c9aca26fa3b5a88d993015",
-      "size": 353
-    },
-    "scripts/actions/debloat_opcao18.bat": {
-      "sha256": "f16bda0fe9e19ee3a584817b88295346d4ac2cd6a06ff934e9bf920d3c77d221",
-      "size": 358
-    },
-    "scripts/actions/debloat_opcao19.bat": {
-      "sha256": "63e3677b9d65c77795f731faa724846bbca5e19784c485c5c5a013c8507fcd26",
-      "size": 353
-    },
-    "scripts/actions/debloat_opcao2.bat": {
-      "sha256": "ffd53ee609f3a303209abdd92b1984f6d905762a5c9f02fb5a3e2b160d1bd62e",
-      "size": 2817
-    },
-    "scripts/actions/debloat_opcao20.bat": {
-      "sha256": "d3d6ba9cdbd9d5cf10085bb2343f63b02f45a623c45c903f921de981a04bc60b",
-      "size": 356
-    },
-    "scripts/actions/debloat_opcao21.bat": {
-      "sha256": "a59c3a703cbb0df2976c06fbe69f879038fba78a13abc75af3bdfc10cb16a5a1",
-      "size": 348
-    },
-    "scripts/actions/debloat_opcao22.bat": {
-      "sha256": "72d8fa3db8d3e6544e6bded4a48d4fca7003e73890852080bc023d000ad8d9a9",
-      "size": 1925
-    },
-    "scripts/actions/debloat_opcao23.bat": {
-      "sha256": "7bda35c6e3702169a4eeb763ae64bd385c8a43a0d29dcb78a566058d3bcb3066",
-      "size": 362
-    },
-    "scripts/actions/debloat_opcao24.bat": {
-      "sha256": "69a6ebfc4fd26ca1acd3034806e3f29edbe27c76d6d345d7ead928d7af2eefd7",
-      "size": 344
-    },
-    "scripts/actions/debloat_opcao25.bat": {
-      "sha256": "fd71dc65472cc725a32d5758c690c3b43e7a5752e5b21b915d6a9fb4e161a760",
-      "size": 361
-    },
-    "scripts/actions/debloat_opcao26.bat": {
-      "sha256": "decf5026b1ccc7aaccd3401dcf038093d8f9cba62bbb1fb03389c394981982b1",
-      "size": 350
-    },
-    "scripts/actions/debloat_opcao27.bat": {
-      "sha256": "81ff58512048234e38d3e80aa4a92e994d97150920af60c6d6d5a78b5686b74b",
-      "size": 444
-    },
-    "scripts/actions/debloat_opcao28.bat": {
-      "sha256": "656bbdee0cda5018824960a78cbee6442f9e1f865ab7c31e35b27be616c0950f",
-      "size": 337
-    },
-    "scripts/actions/debloat_opcao29.bat": {
-      "sha256": "540116916814455253a2abcb2911867559ad39ec134a53216ecdb108cec6aac7",
-      "size": 360
-    },
-    "scripts/actions/debloat_opcao3.bat": {
-      "sha256": "519412c2360ccaae110d5e88b4a1802e7d57ab765579823a4d2cf6c3c243095f",
-      "size": 350
-    },
-    "scripts/actions/debloat_opcao4.bat": {
-      "sha256": "9739bdeffe2a5df49ae25b1dd8b0ee1f928ee0ca2fe3f555e45f5d73347cbb13",
-      "size": 364
-    },
-    "scripts/actions/debloat_opcao5.bat": {
-      "sha256": "9458bde08fd837827e5eaebd1322f33b7647de9c45d350d3c36776497e5c1874",
-      "size": 574
-    },
-    "scripts/actions/debloat_opcao6.bat": {
-      "sha256": "a8d847a73cd8ed3bf6dd14146de4285669e0e411a038ba5623d44e72faf2a7c8",
-      "size": 352
-    },
-    "scripts/actions/debloat_opcao7.bat": {
-      "sha256": "0a56b43660d986f2b5939af534025aaac9a4f69942db6b3553853fa21101d769",
-      "size": 353
-    },
-    "scripts/actions/debloat_opcao8.bat": {
-      "sha256": "40a5461a6fb3946eb94b2f206f7b884312d4fc295026cccaa8fd85ebd56c6a83",
-      "size": 351
-    },
-    "scripts/actions/debloat_opcao9.bat": {
-      "sha256": "d2744d8f16495e868e98fe00f3f8c34fb411ba4f75ac58531f8822b69a3af6fb",
-      "size": 350
-    },
-    "scripts/actions/desativarmemoria.bat": {
-      "sha256": "671567dd5930a3bf8c6e669d47690b2bb938706bb799933893005a55ac3e5e92",
-      "size": 250
-    },
-    "scripts/actions/desativarsuper.bat": {
-      "sha256": "3d7f6cae1e3de69fdb0f83f30e406350670f80e0c789c31fee868dc571b45511",
-      "size": 553
-    },
-    "scripts/actions/desativarxbox.bat": {
-      "sha256": "590d0fc3909e7b2aa674cb0de3ceb8d643d9fc10e54ab3677f101b05a4f658d4",
-      "size": 986
-    },
-    "scripts/actions/fixarquivoscorrompidos.bat": {
-      "sha256": "de47af602723ba0820d1579d75f4961316ba9e1222f27b95628dc145aa33b0cf",
-      "size": 345
-    },
-    "scripts/actions/fixaudio.bat": {
-      "sha256": "87e01dc93e298517aecbee7a1da8ae0d714adf4576e8728c5316676f9789e77f",
-      "size": 374
-    },
-    "scripts/actions/fixbluetooth.bat": {
-      "sha256": "be7b138d760d13af9aee9c9c2375415930aa0e7d67d739d365bd8c37815685fa",
-      "size": 258
-    },
-    "scripts/actions/fixcamera.bat": {
-      "sha256": "6f06a12e4a1e65dc2877e8766381cc61fc774006e81e4ac7ac4b07de6b151dad",
-      "size": 5432
-    },
-    "scripts/actions/fixderedeeinternet.bat": {
-      "sha256": "d4d0852627b823ba2f06781b95ee38d0e3c3af94807d6e634076649d7c437313",
-      "size": 306
-    },
-    "scripts/actions/fixerrodedisco.bat": {
-      "sha256": "239dcb72798cfe0bef5a24e61945e790ec19a1106d975ca34be57054e08d2491",
-      "size": 237
-    },
-    "scripts/actions/fixlojadowindows.bat": {
-      "sha256": "14f967d2643cfb10fae862ef3d4dbba40a84980f559d68dfc5f258c23bf19930",
-      "size": 403
-    },
-    "scripts/actions/fixmenuiniciarebarradetarefas.bat": {
-      "sha256": "f91b6e91d22b4e76e76697bb4a54b52bb00b6f8c05741f0a7e34f2538028a62d",
-      "size": 259
-    },
-    "scripts/actions/fixmicrofone.bat": {
-      "sha256": "f62d3c57bb15b6697d87af69cad32aa7fe952e84b8b20b04b9bc69431a395160",
-      "size": 5043
-    },
-    "scripts/actions/fixnotebookmodoaviao.bat": {
-      "sha256": "9ca42c68c03df9a69d447283071b4e7929342875238536ca0dfcd9cb324773c2",
-      "size": 303
-    },
-    "scripts/actions/fixpcnaodesliga.bat": {
-      "sha256": "6cbd4393f46bd159fc2e8abeab66be62390aa40527bdabfef309ffbca1498d25",
-      "size": 244
-    },
-    "scripts/actions/fixreativarwifi.bat": {
-      "sha256": "36b7ca80aebcde8d1188ce2c3875e0cf41508a19b919438017723ef3cbb318a7",
-      "size": 436
-    },
-    "scripts/actions/fixservicosxbox.bat": {
-      "sha256": "3460335de3236cd50c707da87780b8b3c059532cda9eb11207d7bd2e5c848701",
-      "size": 538
-    },
-    "scripts/actions/fixwindowsupdate.bat": {
-      "sha256": "717289f0e1e21cba378ab71550bdb9baed284a712ace96d06f87449db4668578",
-      "size": 431
-    },
-    "scripts/actions/fixxboxapp.bat": {
-      "sha256": "fea9c57f1090b274a2bfaf2cf516363f101d37cfcc06883c40c4659981df29d9",
-      "size": 545
-    },
-    "scripts/actions/intel.bat": {
-      "sha256": "bf57e2fa296c86d85b2c7aced665b9cc5a870d005fa4a39d714edc13511d420e",
-      "size": 1798
-    },
-    "scripts/actions/limparram.bat": {
-      "sha256": "a3f652b4aeca96083decbb810f0f23719dd57677d34f2c82971b2727f3235a14",
-      "size": 659
-    },
-    "scripts/actions/nvidia.bat": {
-      "sha256": "42d1ff83bacf6d8b4f71d7bdb40be7a9cfd4e777e6dc2630ffd2156ce367fda1",
-      "size": 1957
-    },
-    "scripts/actions/opcao1.bat": {
-      "sha256": "0ccfcd5084336e8814f18f0371a06a78947b952859fca7af03f95bfe85445cb9",
-      "size": 412
-    },
-    "scripts/actions/opcao11.bat": {
-      "sha256": "499cee1544b759841559b35f6ce7b256c2ee1191799b3e9113f5936be2061c36",
-      "size": 336
-    },
-    "scripts/actions/opcao12.bat": {
-      "sha256": "fe2fb7ced065b46dc7cb29d7002253b3c3051c42528096e3714a60bd2e762cc8",
-      "size": 707
-    },
-    "scripts/actions/opcao13.bat": {
-      "sha256": "bf4c8b7b052e1cf5a398a04f135890749c06b09888cc8d8b642d6df54f43d361",
-      "size": 459
-    },
-    "scripts/actions/opcao15.bat": {
-      "sha256": "9f4f2bf7692f42051362f43b32d54ae285128eda4ff973ae4f3bc29548f0bb86",
-      "size": 930
-    },
-    "scripts/actions/opcao17.bat": {
-      "sha256": "5b3913269a962550bfa44f74b30519975a383b9bf5e20353f0b0287d71fa4322",
-      "size": 617
-    },
-    "scripts/actions/opcao19.bat": {
-      "sha256": "76cb12587145e60d1b179c1128b01389722bbd1cdf27f8a9a5db5469bec1d0b1",
-      "size": 395
-    },
-    "scripts/actions/opcao2.bat": {
-      "sha256": "86c4fa59cb3feb207541c146b662c37331e4ef12b72b7f615afda83291aa4784",
-      "size": 646
-    },
-    "scripts/actions/opcao20.bat": {
-      "sha256": "d804bde7d9cf54070d1cb66651e44accdddf3ca7a181903d547fed2f0b7a04a1",
-      "size": 423
-    },
-    "scripts/actions/opcao21.bat": {
-      "sha256": "4bdbe944e930d53309ff9a854cdad24d4e64c7077e4a7ea03cc1747b27bcf5e5",
-      "size": 449
-    },
-    "scripts/actions/opcao22.bat": {
-      "sha256": "ef8e181c24662b2b28e1fd1fb4798f26ddf9e6b26aa9663ccfa949cdbf534423",
-      "size": 486
-    },
-    "scripts/actions/opcao23.bat": {
-      "sha256": "defc9d37ba46e4c56c09321fa6899b8f191e8db592a581549225eff6d149f559",
-      "size": 739
-    },
-    "scripts/actions/opcao24.bat": {
-      "sha256": "66b2f364298834e2b182cae0574915825200bd03fdbf99b098cb2af01a1b936f",
-      "size": 606
-    },
-    "scripts/actions/opcao25.bat": {
-      "sha256": "bd4b420d6d62f55839b45b49ced7b1d9cc003bfc63d3f863d5dba771fdc9c3e8",
-      "size": 249
-    },
-    "scripts/actions/opcao26.bat": {
-      "sha256": "56afdef5da6312d9a004b98bde670aff6c880f26f22724753f7c864973e29c29",
-      "size": 240
-    },
-    "scripts/actions/opcao27.bat": {
-      "sha256": "a239866506d4779851978bdba833f9b9b95b59aa2614212481d2e29dd777e47d",
-      "size": 780
-    },
-    "scripts/actions/opcao28.bat": {
-      "sha256": "54707250a9ab162a70e94ac1b10329b1bba7dc7a11b03cc5074fabe11c13a36e",
-      "size": 305
-    },
-    "scripts/actions/opcao29.bat": {
-      "sha256": "949d37e1a2057d6301a65b3d48ec0bc7266a58127f04fa9f6da1e3a4e9c63d7f",
-      "size": 460
-    },
-    "scripts/actions/opcao3.bat": {
-      "sha256": "1a40c5ca7b1d44aedcc63f0db18a6b44682db73afbfda48255bbb763db0bb603",
-      "size": 482
-    },
-    "scripts/actions/opcao30.bat": {
-      "sha256": "294e592fb7dc5f155174c93b82d2ff29995f09f42b4b12bdba8fa1b8cc578cfa",
-      "size": 565
-    },
-    "scripts/actions/opcao31.bat": {
-      "sha256": "0e1ac6a8ea273790f9b4cb27a3a839294208b138e090733227a92ae4a2f38d98",
-      "size": 524
-    },
-    "scripts/actions/opcao32.bat": {
-      "sha256": "d8459dcf6ef6f76cc7d9c2b29d091368e5ddc8556e732445904c4ee9906c5ce9",
-      "size": 659
-    },
-    "scripts/actions/opcao33.bat": {
-      "sha256": "f629d59ccd33580a10cee171bdc4c54ee4db4795af25a9061d7a37d294e0448a",
-      "size": 553
-    },
-    "scripts/actions/opcao34.bat": {
-      "sha256": "0c738314449ad018511e993110b8c56fb27e9d8941d85abc8e098c382e625066",
-      "size": 337
-    },
-    "scripts/actions/opcao4.bat": {
-      "sha256": "001861ab51fff56a82725c24f54beb0efe8ab45ad6f059246732f05641b3bef5",
-      "size": 513
-    },
-    "scripts/actions/opcao5.bat": {
-      "sha256": "3eee0e946300f0a5ba75f463ba07b79d305b7965ca46a3901a308e26fac2601c",
-      "size": 671
-    },
-    "scripts/actions/opcao7.bat": {
-      "sha256": "a915e2ca1c3f1a1a39bc0b843e74267678db0183b78848eb50678d2199b84412",
-      "size": 413
-    },
-    "scripts/actions/opcao8.bat": {
-      "sha256": "de92674369c214a11e7bb38095936d214403f15793528620ce7591f6a381fb58",
-      "size": 978
-    },
-    "scripts/actions/opcao9.bat": {
-      "sha256": "3498430b875ace82dab70589f594e544635f13cadec85b61839d762fe9a406b3",
+      "sha256": "b3123743007e83fb020c290f1d4232c144bb393aa4e149c6613c09277ecc8cdd",
       "size": 254
     },
-    "scripts/actions/otimizarforeground.bat": {
-      "sha256": "ca53b33ad143d95d133d2d0fcb7a61652d6d82a9921d7929c48308bf5fb1c843",
-      "size": 780
+    "scripts/actions/ativarsuper.bat": {
+      "sha256": "817a8b46a5317ac78d98427baf1b0b5c62fa1cce0c76539dd5383d0181943694",
+      "size": 555
     },
-    "scripts/actions/ping.bat": {
-      "sha256": "e6c0b1719ac158e50f2db0ecdeed456da944d0aa9c4bcc0b9d51b9a5297fb707",
-      "size": 362
+    "scripts/actions/autorun.bat": {
+      "sha256": "33f5f4da2518a1b01299f66cde5a47944194edf47b51477bb1d1d2c86c4e464e",
+      "size": 276
     },
-    "scripts/actions/priorizar_apex.bat": {
-      "sha256": "4c456d51cfa6fbcabff2263c6faf807bd1efd6dbd06dabbde5a0eb65c44545aa",
-      "size": 653
+    "scripts/actions/debloater.bat": {
+      "sha256": "2883194980b949249830edd9c06bf25c967e47eda281f899032b57abcec3ca56",
+      "size": 1628
     },
-    "scripts/actions/priorizar_arenabreakout.bat": {
-      "sha256": "0175812f1a1a977b19012426232b3424e918ab488c4a3a90c9e0209e11dc5b5d",
-      "size": 687
+    "scripts/actions/debloat_opcao10.bat": {
+      "sha256": "a910cff4323c11c6c0e848e8cd4e62232bb40e6a51299a82aba7c4e598194233",
+      "size": 355
     },
-    "scripts/actions/priorizar_battlefield2042.bat": {
-      "sha256": "52f197d8b1177ae4be017d2b3cb8a7968ab8247ce7d74df5bb81c05d9ea8a474",
-      "size": 668
+    "scripts/actions/debloat_opcao11.bat": {
+      "sha256": "b9d716d552a4ec338837bceeac312eeb35eb33f839df783d8b3c27426f8ce52e",
+      "size": 363
     },
-    "scripts/actions/priorizar_battlefield4.bat": {
-      "sha256": "d1fef6a66635603eee23303578510cd9440b1b6bfce475dbd19fd7950baf420f",
-      "size": 656
+    "scripts/actions/debloat_opcao12.bat": {
+      "sha256": "ae51f44697fac8b438163dbea8f1ef9d4996b61db1e7eaf95bd4046c70c39168",
+      "size": 353
     },
-    "scripts/actions/priorizar_battlefield6.bat": {
-      "sha256": "60f9b95e958aee9a68d0172742145dd101ef8017becf695d14a7e62d247f75f8",
-      "size": 603
+    "scripts/actions/debloat_opcao13.bat": {
+      "sha256": "e87428b70bef564edd5fe56b5fbee24585b609da50dcde0afb17ce037fad4335",
+      "size": 357
     },
-    "scripts/actions/priorizar_bloodstrike.bat": {
-      "sha256": "dcf12cdb3894ba1df7d8f902e3dfb3006a27db8c82fe518e1a976acd81a67337",
-      "size": 678
+    "scripts/actions/debloat_opcao14.bat": {
+      "sha256": "4faecbd272cca70decd728227615629f0c5f5fd448cea62cbfef7e7e52d3f9d4",
+      "size": 365
     },
-    "scripts/actions/priorizar_chivalry2.bat": {
-      "sha256": "5b4e68d33d2f49034cbbe773d3fc1bd938608d3e402576b3a193919bce46cc07",
-      "size": 705
+    "scripts/actions/debloat_opcao15.bat": {
+      "sha256": "1ab95d565bc9f6f53fc02576fce2fa568292168bc4a173580e229d38e1d91aec",
+      "size": 364
     },
-    "scripts/actions/priorizar_choochoo.bat": {
-      "sha256": "a43fe404eb10c3ead83175791eb92b3246fe78cf752bd01dcbe47eb92695e43f",
-      "size": 619
+    "scripts/actions/debloat_opcao16.bat": {
+      "sha256": "944c12a62ed50273f1ca910976c54a0ec84067280be913efb4e83de0f42542c4",
+      "size": 369
     },
-    "scripts/actions/priorizar_crossfire.bat": {
-      "sha256": "a974a521610076eff43b9c1b6292144809ff57db9420d898ea83973bbac34470",
-      "size": 617
+    "scripts/actions/debloat_opcao17.bat": {
+      "sha256": "b557e5c23f6b09addc099cec472700dce6f6142488b8dc20d00f09a7dc87166b",
+      "size": 358
     },
-    "scripts/actions/priorizar_cs2.bat": {
-      "sha256": "655491649956e915acd4f2df6f9dab88a5693e5a360293fcdd54a50150af4316",
-      "size": 635
+    "scripts/actions/debloat_opcao18.bat": {
+      "sha256": "d7473121074fe664ed10464462c49227e1c97acf6dad2c3d86c5715737c341fc",
+      "size": 363
     },
-    "scripts/actions/priorizar_cult.bat": {
-      "sha256": "e6373f3835956fd62597c6d6ff87d3f5f58f94995b5325318a17709f53fb8047",
-      "size": 689
+    "scripts/actions/debloat_opcao19.bat": {
+      "sha256": "7203f5202c27095d70e1af4ae2caaac7ee8f7c1f67d79ef1cc4abaecf6f971aa",
+      "size": 358
     },
-    "scripts/actions/priorizar_cuphead.bat": {
-      "sha256": "e47d1d01b325d2e82e87f42e86decb479f450a99e1baa86a03b6d06f86980709",
-      "size": 651
+    "scripts/actions/debloat_opcao2.bat": {
+      "sha256": "030cfa3c4a09d14b3474ff895d3cbce6e97c06b428538896775270675e8f402c",
+      "size": 2822
     },
-    "scripts/actions/priorizar_cyberpunk.bat": {
-      "sha256": "480f9a802a18dcbf26c275cd63729487d3de623a7138a8c3f2c8ade10651e595",
-      "size": 729
+    "scripts/actions/debloat_opcao20.bat": {
+      "sha256": "d1342d71211b4d4087e9cb612cbf07b1125cfbef03c9a7f42aebb91d7a48a65e",
+      "size": 361
     },
-    "scripts/actions/priorizar_daysgone.bat": {
-      "sha256": "13c953999c7578de33ab7f9ee0e21978a08749b79523f9e3d556cbfd8ce62354",
-      "size": 614
+    "scripts/actions/debloat_opcao21.bat": {
+      "sha256": "b846e1e3c76a5c64e003b56b751d0602b67805f90f8d0ad70a7ca4547abfd0a5",
+      "size": 353
     },
-    "scripts/actions/priorizar_dayz.bat": {
-      "sha256": "c974403f9c76793a6ebd346a013455aac98729feee125a8d4ab833390b47c5c5",
-      "size": 597
+    "scripts/actions/debloat_opcao22.bat": {
+      "sha256": "018181ea142062b82fcb473266de9a7e4cb724e8bea79806db317a7464623300",
+      "size": 1930
     },
-    "scripts/actions/priorizar_dbd.bat": {
-      "sha256": "94fefcc2391c26ce4ef874aae30c856880d95f535ba4cfe41bc4ea25552a668a",
-      "size": 684
+    "scripts/actions/debloat_opcao23.bat": {
+      "sha256": "31f68413e41c4c868c0edef7a9bb1a112c18fbc32cd87287bd33fb2b53c75b34",
+      "size": 367
     },
-    "scripts/actions/priorizar_deadlock.bat": {
-      "sha256": "ff707e1ba028d61d048c2e3ec401532b06a28f568b669e0fa631f80c42e8b567",
-      "size": 655
+    "scripts/actions/debloat_opcao24.bat": {
+      "sha256": "79b3b59719eb1cbb53e69312459cbee77917f8a4f1b55bffc3298f50c38f1de8",
+      "size": 349
     },
-    "scripts/actions/priorizar_deathstranding.bat": {
-      "sha256": "bc9ea9cd8e0c3c1339e9c6d356e70e84761172b344252eb835729f517b57dd15",
-      "size": 1087
+    "scripts/actions/debloat_opcao25.bat": {
+      "sha256": "514f898d25ec3670b616f377414cd9a694319a7fe58267b8c484a1b89a83e9ae",
+      "size": 366
     },
-    "scripts/actions/priorizar_escapefromtarkov.bat": {
-      "sha256": "2fbb323f219b8dcaf23ca82a63c962b7db998b18a284c449691775e9a6a602bd",
-      "size": 689
+    "scripts/actions/debloat_opcao26.bat": {
+      "sha256": "34080cd93cc362cbfa05a421a938b8a3ff9e322a0b7e570f6f7ce3206739cac2",
+      "size": 355
     },
-    "scripts/actions/priorizar_ets1.bat": {
-      "sha256": "d1d86dcd189bbc565090d005049c70f77b58d987f60dba5d92c4aa287c72cd13",
-      "size": 633
+    "scripts/actions/debloat_opcao27.bat": {
+      "sha256": "e57ea8a561cf1f3490aaf32d5307a03b232089b604fba4f8d57efaa96dd31676",
+      "size": 449
     },
-    "scripts/actions/priorizar_ets2.bat": {
-      "sha256": "1c1fe06bdc823300c957a747c091d413e5296d0c951567360a8fb19b9c19f5f4",
-      "size": 615
+    "scripts/actions/debloat_opcao28.bat": {
+      "sha256": "9f4b6526487040f6fe75609119046ae13750b2ddda5f83c544283e8a55b8f4bc",
+      "size": 342
     },
-    "scripts/actions/priorizar_fc26.bat": {
-      "sha256": "3b7e5e3b246df0facfdb4fd46e78c619096d294dd6853729a7cb9f3e042ecb67",
-      "size": 608
+    "scripts/actions/debloat_opcao29.bat": {
+      "sha256": "564cc858833d3a18b0a0fcc702ef40866a097536adb0763767acbf32b11667fb",
+      "size": 365
     },
-    "scripts/actions/priorizar_ffxiv.bat": {
-      "sha256": "6f5e7f4243f67a7a272077c89c5ba20823318131c32c18b48e96989d77f2ef23",
-      "size": 628
+    "scripts/actions/debloat_opcao3.bat": {
+      "sha256": "dcefd6eee65656f94e9163f4285c3c1293b7380fc765a1ddb2183723d135e976",
+      "size": 355
     },
-    "scripts/actions/priorizar_fivem.bat": {
-      "sha256": "54ecc1617c6541e73a10de0197813c7ad08ce77be044459ad525f6ac505e2c09",
-      "size": 694
+    "scripts/actions/debloat_opcao4.bat": {
+      "sha256": "0e1e357301f85426a147cff9e1eea4f2e194eb97a212f3615a0e5863e546a3ba",
+      "size": 369
     },
-    "scripts/actions/priorizar_fortnite.bat": {
-      "sha256": "bb6984c78a12d0d52b597c67bd28b24cbbcb47b2340f762a08e2434502a05b26",
-      "size": 718
+    "scripts/actions/debloat_opcao5.bat": {
+      "sha256": "387622729e9815826f9213725a9598cbd2889990666f09c95c4442b51c2e4a04",
+      "size": 579
     },
-    "scripts/actions/priorizar_freefire.bat": {
-      "sha256": "70e707e60fa194d85d8865dafc0d61fbe9b445fcac8cf5b889016e0ed2c0da0e",
-      "size": 670
+    "scripts/actions/debloat_opcao6.bat": {
+      "sha256": "2eddb94a701c3519e4d4afcec175e3f5ec0b6b42a6d51b25362f672e0927e773",
+      "size": 357
     },
-    "scripts/actions/priorizar_fs22.bat": {
-      "sha256": "116c32cdbb334ee915aff048a991888fd9ab3e7f6fcd37b99942de6389ef0c5d",
-      "size": 661
+    "scripts/actions/debloat_opcao7.bat": {
+      "sha256": "68d25a56a36dbbbb139c3ea5e8441a37ea7a49ff681667124bba71c8b4f31ad2",
+      "size": 358
     },
-    "scripts/actions/priorizar_fs25.bat": {
-      "sha256": "8452af30b9aae2c296a8652df739a493b1db34fb8eaafaf913647fab7f54cc6d",
-      "size": 661
+    "scripts/actions/debloat_opcao8.bat": {
+      "sha256": "1c7e187d719c959f0a7f00a4497cb3f023099ccdb8ca33b5d5507860ad1d7fcf",
+      "size": 356
     },
-    "scripts/actions/priorizar_genshin.bat": {
-      "sha256": "2bf5ddfcc80d67bbb548a20b83ed08ea5c2f6b8d0380fb0c64334cfae1517baa",
-      "size": 634
+    "scripts/actions/debloat_opcao9.bat": {
+      "sha256": "618a7671d5f8751bf6eff708da7c5f4d2055ef974e8eac2e750c348859119d23",
+      "size": 355
     },
-    "scripts/actions/priorizar_got.bat": {
-      "sha256": "e4e7d35f324323e04da81006e1825e5737c6b92f5c40420c37dc394728617d80",
-      "size": 643
+    "scripts/actions/desativarmemoria.bat": {
+      "sha256": "292ca663b0894e41d5262779fd4d01641303df84a2e4cb0219a415d19c739c2a",
+      "size": 255
     },
-    "scripts/actions/priorizar_gow.bat": {
-      "sha256": "6c4397bd918ed92c5007bbf0300f0f08df6acafbc7d67074fcf5143f35ca1693",
-      "size": 600
+    "scripts/actions/desativarsuper.bat": {
+      "sha256": "c87a1bef5901d1b1561fad401c72cf8a5a4d80be2bf84a58792d2631de63c293",
+      "size": 558
     },
-    "scripts/actions/priorizar_gow_ragnarok.bat": {
-      "sha256": "7010f02a245db6570f4532189fefffddbfc47e955f39122b63cd2a4632ca5c5e",
-      "size": 633
+    "scripts/actions/desativarxbox.bat": {
+      "sha256": "f68ed62249d1a6f076a5ad5b12857e703cdc188e4c775e22e45f72fe2221d8a6",
+      "size": 991
     },
-    "scripts/actions/priorizar_gtav.bat": {
-      "sha256": "a20b9730b82984b5990720352ccd105efbb8efe7b405b3630cc691acb478e797",
-      "size": 640
+    "scripts/actions/fixarquivoscorrompidos.bat": {
+      "sha256": "2ad73215f4efff68af6d6d001d0ffee6bd22f992c7350ad05a0df2415f9c0da2",
+      "size": 350
     },
-    "scripts/actions/priorizar_hll.bat": {
-      "sha256": "9f2957324029e238f60a3d5601170d440258b933f6441874037df6c13d36075f",
-      "size": 604
+    "scripts/actions/fixaudio.bat": {
+      "sha256": "c1bcc07b8b7c42815ed3b7c5bb18804d3349e77b67a93c6c68e830e5184f695d",
+      "size": 379
     },
-    "scripts/actions/priorizar_hollowknight.bat": {
-      "sha256": "2a0a1c295a265796fd8641a12ce917df25aa777f330fcfa437f5998847d7fdbc",
-      "size": 633
+    "scripts/actions/fixbluetooth.bat": {
+      "sha256": "93eb0850cbdac5cf11d267fdfd33a9681a5c35bead29631296a8a778110cd30b",
+      "size": 263
     },
-    "scripts/actions/priorizar_left4dead.bat": {
-      "sha256": "38382483cbcef3ded10f2e40e8f8c443a2d6f51d8ef35d280c29babd85f5132a",
-      "size": 1089
+    "scripts/actions/fixcamera.bat": {
+      "sha256": "04010ae23b91dd2c0ed9abe4d17dbb9ff7bf04bc1e7500041783a86c93a7f544",
+      "size": 5437
     },
-    "scripts/actions/priorizar_lol.bat": {
-      "sha256": "96ae0d47449c5d770b94f84a9424dbe15f17bd9fbecc31c987b3262b6af99d6d",
-      "size": 676
+    "scripts/actions/fixderedeeinternet.bat": {
+      "sha256": "eac010cdc788f2125cee396de10bd66d66b0c318bcc7ed0fdacb9aa5e5db2101",
+      "size": 311
     },
-    "scripts/actions/priorizar_marvel.bat": {
-      "sha256": "a1ace3a4bf30f1aaa21426a7e8d4f66f47ce510e728298e6e995ae950a5bf491",
-      "size": 630
+    "scripts/actions/fixerrodedisco.bat": {
+      "sha256": "d6804dcb0aa82687bfdfef99972d03db349a6ee6a017f9efbcbacb5f08bec5f9",
+      "size": 242
     },
-    "scripts/actions/priorizar_marvelrivals.bat": {
-      "sha256": "92bf725343d675554559530444773599cd918db515cb1435c6fec9eea27c1936",
-      "size": 672
+    "scripts/actions/fixlojadowindows.bat": {
+      "sha256": "f2f0e8835f172b9a979abc35b5e23cd5c29926e2a5ffecc2b24b94fbed2f8bfb",
+      "size": 408
     },
-    "scripts/actions/priorizar_meccha.bat": {
-      "sha256": "858c5ddad38074c9df3c97f83cb0acba95a683316ddd0ca30d07dd0df50e51c4",
-      "size": 642
+    "scripts/actions/fixmenuiniciarebarradetarefas.bat": {
+      "sha256": "27ae4560e31009175354d39155169504a95c0a7f0a01d4fc5272fdc47dc76946",
+      "size": 264
     },
-    "scripts/actions/priorizar_minecraft.bat": {
-      "sha256": "4bd1cabb79b18e58c3556087223f5801718f246217bc51ba0400f1f88bf5e489",
-      "size": 647
+    "scripts/actions/fixmicrofone.bat": {
+      "sha256": "82513395dd34e243d7ec84b5e64cbafe621d3eedb456240da8963c9abbb033c3",
+      "size": 5048
     },
-    "scripts/actions/priorizar_mta.bat": {
-      "sha256": "02716f276f86253f400abbc8a7ee3b2a8bec642c83b163ee9e8e5ff04c2487be",
-      "size": 1019
+    "scripts/actions/fixnotebookmodoaviao.bat": {
+      "sha256": "f249de2ca1789211414b2dca35f3cf07f53e5fd8376c740b7192490225a13050",
+      "size": 308
     },
-    "scripts/actions/priorizar_mysummercar.bat": {
-      "sha256": "591c804a65173df12f399870b1fee6106a77ae2101a8fdd5aeef64d95168d739",
-      "size": 627
+    "scripts/actions/fixpcnaodesliga.bat": {
+      "sha256": "411df2a06f0c073048b239df9fa45550d4ef3e653c7b43a611e351021ca589f3",
+      "size": 249
     },
-    "scripts/actions/priorizar_palworld.bat": {
-      "sha256": "858c2747e713d1464aed45a090507e4845ac98d77b34c6f1489c480c84681af6",
-      "size": 658
+    "scripts/actions/fixreativarwifi.bat": {
+      "sha256": "4ded56e17c56c03117ab9cd032c71dd6259b765c95490a69f7c210473c088055",
+      "size": 441
     },
-    "scripts/actions/priorizar_pes.bat": {
-      "sha256": "b88ec0a916e973ce847190b002e25df6bc535aaec65c114f739f2ace69bb20db",
-      "size": 2127
+    "scripts/actions/fixservicosxbox.bat": {
+      "sha256": "e35ff083229ebe7b4d92b36ef1cbb6675fd2704901d07c3a3bdef45fcfe6ce6e",
+      "size": 543
     },
-    "scripts/actions/priorizar_pointblank.bat": {
-      "sha256": "aa879d4bfaa1edeba7020a96cee84de6dff11db17015021d65eb46a8e5a237d2",
-      "size": 622
+    "scripts/actions/fixwindowsupdate.bat": {
+      "sha256": "e929996edd969facf9e1b9eeefdc0513ad3afd1c3ab65c5151e59d71d515226d",
+      "size": 436
     },
-    "scripts/actions/priorizar_poppyplaytime.bat": {
-      "sha256": "e58a65de24a30cfad7c7fa18c2f609e37d087aff6cd79f6b1b114b5d9d3255c8",
-      "size": 2300
+    "scripts/actions/fixxboxapp.bat": {
+      "sha256": "62098883bce66cab015b86b0db52838498fdd41d1fce414204bdd90d193dec70",
+      "size": 550
     },
-    "scripts/actions/priorizar_pubg.bat": {
-      "sha256": "59c6b6047ff7aa932f468be5597c31c6f4cfb5eef1f0503b0592e43c6960ebe6",
-      "size": 701
+    "scripts/actions/intel.bat": {
+      "sha256": "d9d52167613b0027961183a11e247fcfa8a21b6c8d880d18ad5b2a7f36711dcc",
+      "size": 1803
     },
-    "scripts/actions/priorizar_r6.bat": {
-      "sha256": "571d1763259d20d217f97749ccaaa2a47fec7c95b33aad18cf3ea3bdf66c273d",
-      "size": 628
-    },
-    "scripts/actions/priorizar_rdr2.bat": {
-      "sha256": "9543b9b3f9fa9eee52b8b5e462b5afdce348b0bba30443e2409459cdcf8b2c8d",
-      "size": 709
-    },
-    "scripts/actions/priorizar_re9.bat": {
-      "sha256": "70fda0b944800a83295c74bff2fcc06458e24e44f8ef33867ec4a04c9a2ee360",
-      "size": 632
-    },
-    "scripts/actions/priorizar_rematch.bat": {
-      "sha256": "02102925190f94b605682ccdb91dbb7482e4683531933f6262f518b95968304a",
-      "size": 609
-    },
-    "scripts/actions/priorizar_residentevil2remake.bat": {
-      "sha256": "a834cb8aba4ddea0a0aa7c1b957b2f12e7389c84769ce94a805cdd3cf9d86866",
-      "size": 665
-    },
-    "scripts/actions/priorizar_residentevil4remake.bat": {
-      "sha256": "8ed08b38bb68ca30b49516e249ac5ec7e1b8729ce27ac6101c16f7b85e1a46d6",
-      "size": 665
-    },
-    "scripts/actions/priorizar_residentevilvillage.bat": {
-      "sha256": "c980b0671459bbf27c0e06eb38541f4b36d2071dc18fc4ae6763512eacc6e6c1",
+    "scripts/actions/limparram.bat": {
+      "sha256": "51aa3db28e788b91b192597fd27164779944c5e5857e9cd27b1b9d3fb2988fdd",
       "size": 664
     },
-    "scripts/actions/priorizar_roblox.bat": {
-      "sha256": "a83747deb649e92026e09475c9a53762a26f843b6a632bbc1328d34bc66b3d40",
-      "size": 677
+    "scripts/actions/nvidia.bat": {
+      "sha256": "8ac4c3e72bd747ee263e071b59911484c8fe6139ea97c34fe434f4cb6addf12f",
+      "size": 1962
     },
-    "scripts/actions/priorizar_rocketleague.bat": {
-      "sha256": "a8760d4ad4f6ba8985d948c1dc404621b292438adecba8668d0f9d9970e7c50d",
-      "size": 725
+    "scripts/actions/opcao1.bat": {
+      "sha256": "562feb50975af5d91cbfd1799e07b5268c9df9dd03bc4aaffb527d794f70d4c2",
+      "size": 417
     },
-    "scripts/actions/priorizar_rust.bat": {
-      "sha256": "61f2b4cc0899db02e499f8f132b5839c5c7c4844f2af3aa232724bb999195d1a",
-      "size": 615
+    "scripts/actions/opcao11.bat": {
+      "sha256": "348d21acbc73f085326924a571c03acb33dea28dea5615c744ef315c968cd6b0",
+      "size": 341
     },
-    "scripts/actions/priorizar_sf6.bat": {
-      "sha256": "35ac67aef1480922c6fee0f14b20e406fcc37aeb6e852381c2542d1191d2981d",
-      "size": 639
+    "scripts/actions/opcao12.bat": {
+      "sha256": "790fe01e055c83e77819e9ce24aba165cc90781f0d2b693ed7f5bb7fb6f12fbc",
+      "size": 712
     },
-    "scripts/actions/priorizar_skyrim.bat": {
-      "sha256": "a7941ab0a89d89f30e18a10e5d8147d6f014bc9dab0521880f254ab7eac2c641",
+    "scripts/actions/opcao13.bat": {
+      "sha256": "e6579d7074b32998171c034ccdbd4bcfa8520a4834e1b987ca41922dd89dc62f",
+      "size": 464
+    },
+    "scripts/actions/opcao15.bat": {
+      "sha256": "571301b950400b233249ffd7771bc7d01afc7972749f0ba71f92088301260355",
+      "size": 935
+    },
+    "scripts/actions/opcao17.bat": {
+      "sha256": "73c49e1854c1339b500034d89ea5602f7167b06f586413e010d1748c456614de",
+      "size": 622
+    },
+    "scripts/actions/opcao19.bat": {
+      "sha256": "1138e5c283fa9ee69b4f600c4ca154772dfa707ae013c64a16777b47d8f6184e",
+      "size": 400
+    },
+    "scripts/actions/opcao2.bat": {
+      "sha256": "8868ebe2e2edf30f69c2d8bd3b3dfa7d851aefc826d815da8f3a6c673907eff0",
+      "size": 651
+    },
+    "scripts/actions/opcao20.bat": {
+      "sha256": "f54b9c65af773ab83753f15768f3effa22376352bf6430c31058ff2e9b252952",
+      "size": 428
+    },
+    "scripts/actions/opcao21.bat": {
+      "sha256": "65253716556292fd17b238062fd9692fe55f84f3fce6ad5ebc4358adb53d1189",
+      "size": 454
+    },
+    "scripts/actions/opcao22.bat": {
+      "sha256": "9b4fb8e8b6ca60f1d0fc7f49472e99e858951e01f2b0a8d7ef0515fe7bd2db15",
+      "size": 491
+    },
+    "scripts/actions/opcao23.bat": {
+      "sha256": "31fc59a0ef0625db11dd07a65947c5e2cfdb3eeeda2f58d9518e7469ce9caa05",
+      "size": 744
+    },
+    "scripts/actions/opcao24.bat": {
+      "sha256": "7b39e205a784bf150031d49d5dee78e714b92074292030081f652f1e6d1e0ec2",
       "size": 611
     },
-    "scripts/actions/priorizar_snowrunner.bat": {
-      "sha256": "15732651f586e80ee0275e8e21487534ea54c7ebb5daadf74718de74992d207e",
-      "size": 621
+    "scripts/actions/opcao25.bat": {
+      "sha256": "a02f8e291e17073daf4408f2fb3e7fc6405ee19fbc211c79c71878336a4b9ec6",
+      "size": 254
     },
-    "scripts/actions/priorizar_subnautica.bat": {
-      "sha256": "36c23dbc462afb4b319ffa7850b91502f8100e99d44443c0aaf156aa79aa7547",
-      "size": 663
+    "scripts/actions/opcao26.bat": {
+      "sha256": "be6a7d24f4dbaee7d6e3559e2294022724d48fb6ad0b7fe871cdfd3b715a5d84",
+      "size": 245
     },
-    "scripts/actions/priorizar_terraria.bat": {
-      "sha256": "5bef6647ac90b6d84eb383a270b3d8db4168991cf32c5941f35aad17343f6b57",
-      "size": 708
+    "scripts/actions/opcao27.bat": {
+      "sha256": "d0501cb7306eec24211f2859381865e88a844421d68e334b6ede8513b0de7044",
+      "size": 785
     },
-    "scripts/actions/priorizar_theisle.bat": {
-      "sha256": "f9606bfa864ed3c4008990c4d1d782d8fb98eab2da3116cc7fb400516a07ea10",
+    "scripts/actions/opcao28.bat": {
+      "sha256": "56eb58425cd5ee686032b45577e590741366f39602ae2eac82159533ae69b57d",
+      "size": 310
+    },
+    "scripts/actions/opcao29.bat": {
+      "sha256": "bab0b24ffd3b935ac8e2918408b504682440196585f71e8400b6e954aae2249e",
+      "size": 465
+    },
+    "scripts/actions/opcao3.bat": {
+      "sha256": "35858d289e5fe285ceb5ed72b9eec023a6f185b9973b4c6302cdbea5b1a482ad",
+      "size": 487
+    },
+    "scripts/actions/opcao30.bat": {
+      "sha256": "adb5b7334438b18f1cbfc1fdb5d2c71588451bb40a4089d73188f14944059675",
+      "size": 571
+    },
+    "scripts/actions/opcao31.bat": {
+      "sha256": "07257ec3e742ba8d94af7b36bf817808dee9b186fe154106261f0108015020a6",
+      "size": 529
+    },
+    "scripts/actions/opcao32.bat": {
+      "sha256": "701344e1ca3364243ada8e5656c524342c7b2692afdc39cb19e0a26011f7b978",
+      "size": 664
+    },
+    "scripts/actions/opcao33.bat": {
+      "sha256": "0943ca2e1e1af2d23663706d2aecb915ce25dd5774d696979b4bfd58052c49c8",
+      "size": 558
+    },
+    "scripts/actions/opcao34.bat": {
+      "sha256": "bbe50dbe8008967a9a69d6ecc9ca55ed7ba9200ce0131e2342ef981c715507b1",
+      "size": 342
+    },
+    "scripts/actions/opcao4.bat": {
+      "sha256": "d4e97d8296dc89f8722474af4cb4a6b212fc7329d7ad3a5cf880bbef712b319b",
+      "size": 518
+    },
+    "scripts/actions/opcao5.bat": {
+      "sha256": "da527ae926419f4f505f36f40e6dff42a6e9683e1372a08a646fd4e1bedcc499",
+      "size": 676
+    },
+    "scripts/actions/opcao7.bat": {
+      "sha256": "e6d7aa9e9b4d08e636b78c1e490b9265616a3723603da8c0f1acb39d2b0606cb",
+      "size": 418
+    },
+    "scripts/actions/opcao8.bat": {
+      "sha256": "40feb899726be73056891a73c3bea3d83f0645e4ab3973fe3d94db5666b19e9f",
+      "size": 983
+    },
+    "scripts/actions/opcao9.bat": {
+      "sha256": "1c75fc352fb841c967df4060adf242550477605e7cdda463b5948411eac12ff3",
+      "size": 259
+    },
+    "scripts/actions/otimizarforeground.bat": {
+      "sha256": "aa2cacf7a0c01f4f665454c9b7f69a1e58743123682f448a752d5f2e80afcc6b",
+      "size": 785
+    },
+    "scripts/actions/ping.bat": {
+      "sha256": "94f596e57ac7ce530a4cbe13405c030e1ff7a7976d7e7ed9daa482721ae629dc",
+      "size": 367
+    },
+    "scripts/actions/priorizar_apex.bat": {
+      "sha256": "d3f9111832421b9634e835091ad5eab5003b30a4117af1678009f5df7a5ac187",
+      "size": 658
+    },
+    "scripts/actions/priorizar_arenabreakout.bat": {
+      "sha256": "5adea8f377e676c6baf8878909f01e8eec56dd663d293b591a3c6b72869b63c3",
+      "size": 692
+    },
+    "scripts/actions/priorizar_battlefield2042.bat": {
+      "sha256": "124d51d9f836f91b21e01a8896ce656d12a96d29d91ad58d22dd5cf1c07ad847",
       "size": 673
     },
-    "scripts/actions/priorizar_tlou1.bat": {
-      "sha256": "a54d61bc63b9d83f4d735850261c9794b02c8360f73cbf4b83e4da0e86c4f1c0",
-      "size": 1139
+    "scripts/actions/priorizar_battlefield4.bat": {
+      "sha256": "3938a3b811f612b58b2cea03707b3aa895d39d68c9c2459c86f935859fc6c6fe",
+      "size": 661
     },
-    "scripts/actions/priorizar_ultrakill.bat": {
-      "sha256": "ca535978331a73ce6cf554317c89320b969fb69d7738b1d7a9a86a88cd9b19e1",
-      "size": 670
+    "scripts/actions/priorizar_battlefield6.bat": {
+      "sha256": "c5190c974a82d4e3f237ca41cd1281bd06d90892971c7e7d600f063bd9a1b982",
+      "size": 608
     },
-    "scripts/actions/priorizar_valorant.bat": {
-      "sha256": "b04e0205937b3164f8b702fa4423b86c8dd7230b1a3f446f022e474726dcc06f",
-      "size": 700
+    "scripts/actions/priorizar_bloodstrike.bat": {
+      "sha256": "ea3217bf6c6bc4cad4a26ce4349cc0ae7dcadc903ddac473b61e646d798c03a0",
+      "size": 683
     },
-    "scripts/actions/priorizar_warface.bat": {
-      "sha256": "300c9977ed31d629ea074feb394b14c9eaab08fd5e92e52cb3fa042380bb753e",
+    "scripts/actions/priorizar_chivalry2.bat": {
+      "sha256": "aa50a15e7bbd07bc46a3a57174ef1a9f928c12e728a31f59d3a7facf60888b3b",
+      "size": 710
+    },
+    "scripts/actions/priorizar_choochoo.bat": {
+      "sha256": "93f5be21f561ebfc4bd3605b212956807cf2e7fa27778af52143e3862cd119e9",
+      "size": 624
+    },
+    "scripts/actions/priorizar_crossfire.bat": {
+      "sha256": "0086088edcb5411598a3fcbe81eefe04e29d7f32c7f01d2fc349b27a87038cf6",
+      "size": 622
+    },
+    "scripts/actions/priorizar_cs2.bat": {
+      "sha256": "932c5780146c331f86180e59bf9a7647d7232af334c42890e495eaaa61698c21",
+      "size": 640
+    },
+    "scripts/actions/priorizar_cult.bat": {
+      "sha256": "d1a67c2e4ab29a11d6fdb01c547d9507678e7683e4ef56a319fbab884e914792",
+      "size": 694
+    },
+    "scripts/actions/priorizar_cuphead.bat": {
+      "sha256": "84cf5cacf2a6666117b1bfe499d484091a4d40c2bd2141e83cc442caeca6566e",
       "size": 656
     },
+    "scripts/actions/priorizar_cyberpunk.bat": {
+      "sha256": "7e7b122d34956411121441f1943acd500f6b453c15bc47fd091415f6fbec43b9",
+      "size": 734
+    },
+    "scripts/actions/priorizar_daysgone.bat": {
+      "sha256": "de5ff34a16b591a15560a4d1fa83349534f7e6dee666ba8a8937f54652cbc6fb",
+      "size": 619
+    },
+    "scripts/actions/priorizar_dayz.bat": {
+      "sha256": "0005e19d2e8b91ec790b017100aac66e8b31c51096f5db2040a882328dd1bcdf",
+      "size": 602
+    },
+    "scripts/actions/priorizar_dbd.bat": {
+      "sha256": "88752aaed0287c4ad102331ce7c20a0b2838702fc3b60ca4ff865627b5fdb457",
+      "size": 689
+    },
+    "scripts/actions/priorizar_deadlock.bat": {
+      "sha256": "bbf6bae93f82e3fd77f9cb6183be38e5c4019b323d3e424a596a9d0ce60a11dc",
+      "size": 660
+    },
+    "scripts/actions/priorizar_deathstranding.bat": {
+      "sha256": "f75c70eb1947185e8ee03e5c3154c273372edcb37782bdd48b42c18f4835a9e9",
+      "size": 1092
+    },
+    "scripts/actions/priorizar_escapefromtarkov.bat": {
+      "sha256": "7e4eb34af8f43386fbb36c786ef720c95770a45e6734b0bf39d6261d198e6e72",
+      "size": 694
+    },
+    "scripts/actions/priorizar_ets1.bat": {
+      "sha256": "840351fb51918da485aeeb2db948fce5c7f5c2101ed0efc78d5b0891837b0cb3",
+      "size": 638
+    },
+    "scripts/actions/priorizar_ets2.bat": {
+      "sha256": "590e9af3362b33087d7b2c6b29399ceb87166380ff1a7b5827c19dce268b4565",
+      "size": 620
+    },
+    "scripts/actions/priorizar_fc26.bat": {
+      "sha256": "180cb6ab16123d79a7c396b1be48e15123f81459fbd3929019a3e5dfea2f5d2a",
+      "size": 613
+    },
+    "scripts/actions/priorizar_ffxiv.bat": {
+      "sha256": "5f37d12a58ca0deed2c35da79db6795ba94768fa2dabad9d36aa7d9907771d31",
+      "size": 633
+    },
+    "scripts/actions/priorizar_fivem.bat": {
+      "sha256": "356c86c18e0a6273f2357c59bab413c11345a70716e8e2dd4ab95ccb488c7ade",
+      "size": 699
+    },
+    "scripts/actions/priorizar_fortnite.bat": {
+      "sha256": "68241dbcfec9d5edc4d7370d4c7cee59474ed1c1cf08701304fbd8d63757c073",
+      "size": 723
+    },
+    "scripts/actions/priorizar_freefire.bat": {
+      "sha256": "66464bebfcceb58a24051806bb7571119a9e3907ce40eec24b763071e10c3277",
+      "size": 675
+    },
+    "scripts/actions/priorizar_fs22.bat": {
+      "sha256": "4faacbbfb8f1f9a3a954f6972381c51b172b173e3cbb5e81be938f3f640e4c5b",
+      "size": 666
+    },
+    "scripts/actions/priorizar_fs25.bat": {
+      "sha256": "2325b0c06efc44e449e23bec571d256c063c74df23ef1cdff9c7b9d73002572f",
+      "size": 666
+    },
+    "scripts/actions/priorizar_genshin.bat": {
+      "sha256": "a7417212b5bb2f6fe67417cc8e79645550ee9b76b6dbdcc2a494dfb8880fbe6e",
+      "size": 639
+    },
+    "scripts/actions/priorizar_got.bat": {
+      "sha256": "ff526467b4e1be093434553ed5eaa627547bd1b5e79d14cf65a84bcc38a053b5",
+      "size": 648
+    },
+    "scripts/actions/priorizar_gow.bat": {
+      "sha256": "2ad58996e0156e8952e09f976b299b03f921259112b94cd4bd45cd545b9de068",
+      "size": 605
+    },
+    "scripts/actions/priorizar_gow_ragnarok.bat": {
+      "sha256": "25b1ee166c94fb103d3fad3708753abf3164dcb30f215d806fa19419041b987b",
+      "size": 638
+    },
+    "scripts/actions/priorizar_gtav.bat": {
+      "sha256": "32e31f706a12fa7256d9dab3f7316b9534a4be50a3566f5989826ad06b67c9a4",
+      "size": 645
+    },
+    "scripts/actions/priorizar_hll.bat": {
+      "sha256": "0a1a369f73789f4705cde9674f6e1643104ff7aa57379bb5825791a2ec945f32",
+      "size": 609
+    },
+    "scripts/actions/priorizar_hollowknight.bat": {
+      "sha256": "69dfc4f95252aebd04374581219516a1197b6bb2b284129869c58caed32ea87a",
+      "size": 638
+    },
+    "scripts/actions/priorizar_left4dead.bat": {
+      "sha256": "da0f0301633e6db4055d7f83c6777ad38180bc00c9c9603b4142010f25c80607",
+      "size": 1094
+    },
+    "scripts/actions/priorizar_lol.bat": {
+      "sha256": "1026ceacebc700937df81ec08e170c572f8e343f0c0e2255558cd87fb92cd651",
+      "size": 681
+    },
+    "scripts/actions/priorizar_marvel.bat": {
+      "sha256": "94e27023ae2dfc745383e4f6dd6a5adb68611aa34be97802453275b61c6f1146",
+      "size": 636
+    },
+    "scripts/actions/priorizar_marvelrivals.bat": {
+      "sha256": "11f9945c8f231f1e70d5876d07b365bacaf587a81b7243795b5523619dbd094d",
+      "size": 677
+    },
+    "scripts/actions/priorizar_meccha.bat": {
+      "sha256": "40bfdcbd925a01f770303b4239f5f66d66356b9e0833baa70633aa066a8be9e4",
+      "size": 647
+    },
+    "scripts/actions/priorizar_minecraft.bat": {
+      "sha256": "11b34b842d78d52d3549f47a574966c12750da3febf48f75582cf6e7a3a8ee13",
+      "size": 652
+    },
+    "scripts/actions/priorizar_mta.bat": {
+      "sha256": "f6972ccc47d81f71948a7a49fde0775d7e6abffd04cfe87c16abbcedbeb2e641",
+      "size": 1024
+    },
+    "scripts/actions/priorizar_mysummercar.bat": {
+      "sha256": "001934c3e37e6068e5d262d62132d8319e6a97d480442e51e016d05f6c7cb8ae",
+      "size": 632
+    },
+    "scripts/actions/priorizar_palworld.bat": {
+      "sha256": "9132cc6a2da83633a929785db6060a1b092d52cdf9984bd3965794701ca30370",
+      "size": 663
+    },
+    "scripts/actions/priorizar_pes.bat": {
+      "sha256": "704a89037760394aa54a07a035dd47e1ce438658e2882173e26926fa0ca97ad2",
+      "size": 2132
+    },
+    "scripts/actions/priorizar_pointblank.bat": {
+      "sha256": "3f63958194f18dcb9ba90eb76cc59b0c9938a5a2bf9428606b40f54821dfcb46",
+      "size": 627
+    },
+    "scripts/actions/priorizar_poppyplaytime.bat": {
+      "sha256": "dabefb8c6676a95f9e2c48adf304b5649b80c1b772f19c1acc1a4c3642c000f5",
+      "size": 2305
+    },
+    "scripts/actions/priorizar_pubg.bat": {
+      "sha256": "9b1a2d723656061db6e086d39d7c94172cc4c5cb1afb20afaaae4bdf8e1e8e91",
+      "size": 706
+    },
+    "scripts/actions/priorizar_r6.bat": {
+      "sha256": "4ec888ed3653b24c1aced17878fc1f8d66154e6ece0e4a19bf52b5cfc565e2ab",
+      "size": 633
+    },
+    "scripts/actions/priorizar_rdr2.bat": {
+      "sha256": "45a650b4a59f51e22df6e8c08378f47aaac9797c7de0fa3270c129b164f6cf3e",
+      "size": 714
+    },
+    "scripts/actions/priorizar_re9.bat": {
+      "sha256": "5c840902789c67d696c4fb175e1d70c72e3039b0936c2851aa738824db2e6a28",
+      "size": 638
+    },
+    "scripts/actions/priorizar_rematch.bat": {
+      "sha256": "0e41eec1273363145194afc303a69cb52af8bd1cb03d1d99c83ee41168a79b80",
+      "size": 614
+    },
+    "scripts/actions/priorizar_residentevil2remake.bat": {
+      "sha256": "586f54adf137b6def2eba34e853fd6ff9248f76a05d0d91709ebe2a78eadd5ba",
+      "size": 670
+    },
+    "scripts/actions/priorizar_residentevil4remake.bat": {
+      "sha256": "1cea0ec9f415ee6a1d8c2ce374da25649e958eed7c03d52cc2088247400254af",
+      "size": 670
+    },
+    "scripts/actions/priorizar_residentevilvillage.bat": {
+      "sha256": "5c4b1952d1ff6265be65ece31ccf77581ffb5837466e38276eead0516020bf01",
+      "size": 669
+    },
+    "scripts/actions/priorizar_roblox.bat": {
+      "sha256": "da9dc59d6d1e66b570ae69dc5e3efc4fa1755130b203c836106bde186c5b4926",
+      "size": 682
+    },
+    "scripts/actions/priorizar_rocketleague.bat": {
+      "sha256": "b97f4d92dd342d03e838891516ce6f1389f3cab2825a67a3df9aef2fe7280994",
+      "size": 730
+    },
+    "scripts/actions/priorizar_rust.bat": {
+      "sha256": "b40d18ef46732b364adacb5b4b4c918ce17aceda5a85b3cf48463942c8742933",
+      "size": 620
+    },
+    "scripts/actions/priorizar_sf6.bat": {
+      "sha256": "2fd9a027c9b33b7798216d0d30817a487af367b93499b47c5a470f79d1e29c72",
+      "size": 644
+    },
+    "scripts/actions/priorizar_skyrim.bat": {
+      "sha256": "9b4f3f6262593575fa026f71e81d83a7ea5987dc3f6973a9ea335c7b6524fea8",
+      "size": 616
+    },
+    "scripts/actions/priorizar_snowrunner.bat": {
+      "sha256": "f5466d77d54c84b9b6f73048e33ef4a2e3af5c5f83151ed498e0ab3597b89cb8",
+      "size": 626
+    },
+    "scripts/actions/priorizar_subnautica.bat": {
+      "sha256": "63d5bd66aecab43d908fda7e68ec7b9067cd34c10644be4c32b0d9cf9ee2b825",
+      "size": 668
+    },
+    "scripts/actions/priorizar_terraria.bat": {
+      "sha256": "871ada9f92ecde75f038db77a8e79f4bae80d61edd71a0cec171a8f07039664d",
+      "size": 713
+    },
+    "scripts/actions/priorizar_theisle.bat": {
+      "sha256": "6d82c819d944c90536bb9061588c75c00d4cf73abfa1e5fab59a1a960a86f652",
+      "size": 678
+    },
+    "scripts/actions/priorizar_tlou1.bat": {
+      "sha256": "4efb4e384901a8e097330c362ee51c886ff618f4b8c6a179773e5ab13785b1f2",
+      "size": 1144
+    },
+    "scripts/actions/priorizar_ultrakill.bat": {
+      "sha256": "6a3d8eff8a8413c0817373f258f545eea703cc8cabbededc5a381a52be7929ca",
+      "size": 675
+    },
+    "scripts/actions/priorizar_valorant.bat": {
+      "sha256": "8cb86168c41148f9c6d3674863b414393d949fb1bed0506cd64e54b4d425a2c0",
+      "size": 705
+    },
+    "scripts/actions/priorizar_warface.bat": {
+      "sha256": "15761aff3f9be83502648007cbff139581176fb21b6ed6eee8aae3633424ee2c",
+      "size": 661
+    },
     "scripts/actions/priorizar_warframe.bat": {
-      "sha256": "db2867b9b0f41438984a21e5da16521e5a872c08c7311d0a845675309f4acc92",
-      "size": 625
+      "sha256": "3f5f1889bc4c8871bc4f855d986ec1a47505acdfd5dedd30ed5afb0feb7c4d9d",
+      "size": 630
     },
     "scripts/actions/priorizar_warzone.bat": {
-      "sha256": "2a945574838a0954d53b88f7e5b68005c0a30bced13e7979984ef65dc79b43b0",
-      "size": 639
+      "sha256": "1a5723bd24549c9ffa2dbec2abe385eb784100b82425b6c7350823eb1da3a066",
+      "size": 644
     },
     "scripts/actions/restore.bat": {
-      "sha256": "ed12314212488ab288910e384bc96db1bb5bc234078ac2dee100e5d255233529",
-      "size": 512
+      "sha256": "a7316a1d18c32a13325eeece6a18e4c5550c7ab983d44c5437cab5f89160101b",
+      "size": 502
     },
     "scripts/actions/reverteramdintelnvidia.bat": {
-      "sha256": "3e68bf2d9b2e5453764d9f397988927c0e6bfc5e002b4472f312cfbf920ed861",
-      "size": 2169
+      "sha256": "b49e1051af64b39df740b576de5caac95f3e51ce88b0eb4cd2048eafca5e6938",
+      "size": 2174
     },
     "scripts/actions/reverterdebloater.bat": {
-      "sha256": "974dee206ea4b56fbefb08e48e812f226f42efbafa77e7afaa9d78554e3903f9",
-      "size": 536
+      "sha256": "c295fb5fe5a4a2a63b43c48f5c6e396caadbb6f9c8a8afae3705e5e8753cb31f",
+      "size": 541
     },
     "scripts/actions/reverterxbox.bat": {
-      "sha256": "d800d515c559dd22b18bef3d68bb2096664defcd3efacc6315f67e440fc4eeb1",
-      "size": 639
+      "sha256": "81b770b9306e50d42f68867ee4f241c68d0618b265577c97065a83192bf15900",
+      "size": 644
     },
     "scripts/actions/voltarforeground.bat": {
-      "sha256": "27c982054d75fcd32f060ea18fecf1ea208a9125d0058ba306f0c01c9564e65a",
-      "size": 806
+      "sha256": "36d926f6d130e518ac4e5900072c8ca67d2b6b3755e02b70bd1fbce9b05481d4",
+      "size": 811
     },
     "scripts/Aga.Controls.dll": {
       "sha256": "830e520caf3e89dccaa3c12e3bfc992221c164f2319a2ba57e402499c24290e3",
@@ -2961,8 +2961,8 @@
       "size": 1758240
     },
     "scripts/debloater.bat": {
-      "sha256": "1f1e9b4ffa735f88204465136c27b561ffb22c2fdd243cbbfff2acec2ddb7e4c",
-      "size": 15173
+      "sha256": "93c8c14475bdc18eb256987d6c0bf83eabcd56cb685c9ae90fb59db5397bb35b",
+      "size": 15159
     },
     "scripts/DnsJumper.exe": {
       "sha256": "6fe6bac71a82a58abcb06b0df4a836116543302efe6e076402fa518dfa455baa",
@@ -2977,8 +2977,8 @@
       "size": 139424
     },
     "scripts/engine.bat": {
-      "sha256": "40a51ebe466243ccf1ecc62d1c6c21e6befa33bb7d4229a58d0392e0897312e4",
-      "size": 104894
+      "sha256": "cb390b8f2253a2b31cdaa55572fb74e71d8375b238d501a7c75ccb598470c7bc",
+      "size": 104740
     },
     "scripts/FilterKeysSetter.exe": {
       "sha256": "1c838c8d8fff838cdb583cf76ff61c8002df9be7d617da6094175d4d78697023",
@@ -3053,8 +3053,8 @@
       "size": 23824
     },
     "scripts/ISLC v1.0.4.6/LICENSE.txt": {
-      "sha256": "31deb37929508cb318b95c586850b45aff999a1e155fbf76465457b893b364cf",
-      "size": 3082
+      "sha256": "40fe70664c49ea6187ad75bb58aa716900fd78851831bf0d0c9a2369464b7269",
+      "size": 3146
     },
     "scripts/ISLC v1.0.4.6/nl/Intelligent standby list cleaner ISLC.resources.dll": {
       "sha256": "7ca857bc2100db8d31abad634bad143b77d93bc18648df878eff3e4bf434bddb",
@@ -3085,8 +3085,8 @@
       "size": 22800
     },
     "scripts/ISLC v1.0.4.6/THIRD-PARTY-NOTICES.txt": {
-      "sha256": "dcb134e849f7ed0e2842c25c5a1a38403c197cda4a7e554bedbaa823f0c97411",
-      "size": 1587
+      "sha256": "57055f54223dd67dd19969aae19da1f2d8374627c47cf0db7437c779f0de295f",
+      "size": 1619
     },
     "scripts/ISLC v1.0.4.6/tr/Intelligent standby list cleaner ISLC.resources.dll": {
       "sha256": "41aed7ca26a995dfb7261456597800cd23a993b71aa5eb97b02f00055aa2a7fc",

@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 >nul
-powershell.exe -NoProfile -Command "try { Checkpoint-Computer -Description 'ice optimizer - Maciota' -RestorePointType MODIFY_SETTINGS -ErrorAction Stop } catch { Write-Error $_; exit 1 }"
+powershell.exe -NoProfile -Command "try { Checkpoint-Computer -Description 'ice optimizer' -RestorePointType MODIFY_SETTINGS -ErrorAction Stop } catch { Write-Error $_; exit 1 }"
 if errorlevel 1 exit /b 1
 if not exist "%~dp0Backup" mkdir "%~dp0Backup"
 reg export "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" "%~dp0Backup\Explorer.reg" /y

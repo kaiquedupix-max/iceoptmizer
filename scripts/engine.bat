@@ -11,7 +11,7 @@ chcp 65001 >nul
 cls
 setlocal enabledelayedexpansion                                                                                                                                                                       
 
-set "line1=ice optimizer - por Maciota"
+set "line1=ice optimizer"
 set "line2="
 set "line3="
 set "line4="
@@ -101,7 +101,7 @@ cls
 :menu
 
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -229,7 +229,7 @@ cls
 set "ESC="
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -428,7 +428,7 @@ cls
 set "ESC="
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -610,7 +610,7 @@ goto :menuwindows
 
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -718,7 +718,7 @@ goto :menuwindows
 :opcao10
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -809,7 +809,7 @@ goto :menuwindows
 :opcao14
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -887,7 +887,7 @@ goto :menuwindows
 :opcao16
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -965,7 +965,7 @@ goto :menuwindows
 :opcao18
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -1267,7 +1267,7 @@ cls
 set "ESC="
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
@@ -2073,7 +2073,7 @@ cls
 set "ESC="
 cls
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="

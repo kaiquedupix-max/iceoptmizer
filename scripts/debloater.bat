@@ -77,7 +77,7 @@ cls
 :menu
 
 echo(
-set "lines[0]=ice optimizer - por Maciota"
+set "lines[0]=ice optimizer"
 set "lines[1]="
 set "lines[2]="
 set "lines[3]="
