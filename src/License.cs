@@ -29,7 +29,7 @@ public static class LicenseGate {
   return SignIn(catalog,state==null?"":state.username);}
  public static bool SignIn(Catalog catalog,string previous=""){using(var form=new AccountForm(catalog,previous)){if(form.ShowDialog()!=DialogResult.OK)return false;Current=form.State;if(form.Remember)Save(Current);else try{if(File.Exists(file))File.Delete(file);}catch{}return true;}}
  public static void Logout(){Current=null;try{if(File.Exists(file))File.Delete(file);}catch{}}
- public static string PlanName(string plan){return plan=="d30"?"30 dias":plan=="d90"?"90 dias":plan=="m6"?"6 meses":plan=="permanent"?"Permanente":"Licença";}
+ public static string PlanName(string plan){return plan=="d30"?"30 dias":plan=="d90"?"3 meses":plan=="d180"||plan=="m6"?"6 meses":plan=="d365"?"12 meses":plan=="permanent"?"Permanente":"Licença";}
  public static string Remaining(LicenseState s){if(s==null)return "Indisponível";if(string.IsNullOrEmpty(s.expiresAt))return "Acesso permanente";DateTime end;if(!DateTime.TryParse(s.expiresAt,out end))return "Indisponível";var left=end.ToUniversalTime()-DateTime.UtcNow;if(left<=TimeSpan.Zero)return "Expirada";if(left.TotalDays>=1)return Math.Ceiling(left.TotalDays)+" dias restantes";return Math.Max(1,Math.Ceiling(left.TotalHours))+" horas restantes";}
  internal static void UsePreview(){if(Current==null)Current=new LicenseState{username="kaique",plan="d30",expiresAt=DateTime.UtcNow.AddDays(30).ToString("o"),createdAt=DateTime.UtcNow.ToString("o"),lastValidated=DateTime.UtcNow.ToString("o")};}
 }
