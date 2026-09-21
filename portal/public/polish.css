@@ -58,3 +58,36 @@ a,a:visited{text-decoration:none}
 #paymentBrick_container{min-height:420px}.checkout-shell{max-height:min(92vh,900px)}.checkout-shell>.payment-form{background:#071827;border-radius:0 0 12px 12px}.checkout-shell .checkout-message{color:#8feaff}.pix-result img{display:block;width:190px;height:190px;object-fit:contain;margin:0 auto;border-radius:12px;background:#fff;padding:8px}.withdrawal-card{display:grid;grid-template-columns:1fr minmax(300px,520px);gap:28px;align-items:end;margin-top:18px}.withdrawal-admin{margin-top:18px}.partner-stats{grid-template-columns:repeat(4,1fr)}@media(max-width:800px){.withdrawal-card{grid-template-columns:1fr}.partner-stats{grid-template-columns:1fr 1fr}}
 .password-link{display:block;margin:-8px 0 16px auto;padding:0;border:0;background:transparent;color:#65dcff;cursor:pointer;font-size:13px}.password-link:hover{text-decoration:underline}.reset-page{min-height:100vh;display:grid;place-items:center;padding:24px}.reset-card{position:relative;z-index:30;width:min(470px,100%);padding:38px;background:linear-gradient(145deg,#102a40f2,#071522fa);border:1px solid #2c86ad;border-radius:22px;box-shadow:0 28px 80px #000b,0 0 45px #36dafa18}.reset-brand{display:flex;align-items:center;gap:14px;margin-bottom:28px}.reset-brand img{width:58px;filter:drop-shadow(0 0 18px #62e8ff66)}.reset-brand strong{display:block;font-size:19px}.reset-brand small{color:#6fabc9}.reset-card h1{margin:0 0 8px;font-size:30px}.reset-card>p{color:#94b5cb}.reset-card .btn{width:100%;margin-top:10px}.reset-message{min-height:24px;color:#79e9fa;font-size:14px}.reset-success{text-align:center;padding:16px 0}.reset-success strong{display:block;font-size:22px;margin-bottom:10px}
 .change-password-box{margin:18px 0;padding:20px;border:1px solid #235d7b;border-radius:14px;background:#061421}.change-password-box>strong{display:block;font-size:18px}.change-password-box .field{margin:12px 0}.change-password-box .password-link{margin:13px auto 0}
+
+
+/* Sales landing v5 */
+.sales-hero{padding-top:76px;padding-bottom:58px}
+.sales-hero .lead{max-width:680px}
+.hero-proof{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hero-proof span{display:flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid rgba(115,214,255,.22);border-radius:999px;background:rgba(5,23,37,.62);color:#9fc3d8;font-size:12px}
+.hero-proof b{color:#effcff}
+.pain-section{background:linear-gradient(180deg,rgba(5,18,30,.18),rgba(7,30,48,.48),rgba(5,18,30,.12))}
+.problem-grid,.steps,.faq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.problem-card,.step,.faq-card,.result-card{position:relative;overflow:hidden;border:1px solid rgba(98,207,255,.18);background:linear-gradient(145deg,rgba(12,38,59,.78),rgba(5,18,31,.86));border-radius:20px;padding:25px;box-shadow:0 18px 48px rgba(0,0,0,.18)}
+.problem-card>span,.step>span{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:rgba(77,222,255,.10);border:1px solid rgba(87,225,255,.25);color:#6eeeff;font-weight:900;margin-bottom:18px}
+.problem-card h3,.step h3,.faq-card h3{margin:0 0 9px;color:#f5fcff}
+.problem-card p,.step p,.faq-card p{margin:0;color:#91b2c8;line-height:1.7}
+.story-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:34px;align-items:center}
+.optimizer-map{display:grid;gap:12px;margin-top:27px}
+.optimizer-row{display:flex;gap:14px;align-items:flex-start;padding:16px;border:1px solid rgba(94,205,255,.16);border-radius:16px;background:rgba(4,19,32,.56)}
+.optimizer-row i{font-style:normal;display:grid;place-items:center;flex:0 0 34px;height:34px;border-radius:10px;background:linear-gradient(145deg,#6ceaff,#1c8cff);color:#04111b;font-weight:900}
+.optimizer-row span{display:grid;gap:4px}.optimizer-row b{color:#f4fbff}.optimizer-row small{color:#85a9c0;line-height:1.5}
+.result-card{padding:30px;background:radial-gradient(circle at 80% 0,rgba(72,221,255,.14),transparent 38%),linear-gradient(145deg,rgba(10,42,65,.92),rgba(4,15,26,.95))}
+.result-head{display:flex;gap:10px;align-items:center;color:#71e9ff;font-size:11px;font-weight:900;letter-spacing:1.4px}.result-head img{width:26px;height:26px}
+.result-card>strong{display:block;font-size:27px;line-height:1.2;margin:22px 0;color:#fff}
+.result-card ul{display:grid;gap:13px;padding:0;margin:0 0 22px;list-style:none}.result-card li{display:flex;gap:10px;color:#bdd5e4;line-height:1.45}.result-card li span{color:#65e9ff;font-weight:900}.result-card>small{color:#678ba4;line-height:1.55}
+.feature-stage{background:radial-gradient(circle at 50% 30%,rgba(27,140,207,.09),transparent 45%)}
+.marketing-features .feature p{line-height:1.7}
+.steps{grid-template-columns:repeat(4,1fr)}
+.step{min-height:210px}
+.faq-grid{grid-template-columns:repeat(2,1fr)}
+.faq-card{min-height:150px}
+.download-message{min-height:18px;margin:12px 0 0;color:#7deaff;font-size:12px}
+.customer-actions .hidden{display:none!important}
+@media(max-width:900px){.story-grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.problem-grid{grid-template-columns:1fr}.sales-hero{padding-top:45px}}
+@media(max-width:620px){.hero-proof{display:grid}.steps,.faq-grid{grid-template-columns:1fr}.problem-card,.step,.faq-card,.result-card{padding:20px}.result-card>strong{font-size:23px}}
