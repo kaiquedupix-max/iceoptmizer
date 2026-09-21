@@ -1,6 +1,6 @@
 # ice optimizer
 
-Interface Windows e integração por **Maciota**. Versão **3.0 — Edição Glacial**: interface inspirada no painel Ice, animações com temporização de alta resolução e alvo de 60 FPS, brilho que acompanha o cursor, navegação lateral, elevação administrativa automática, neve, progresso com cubo de gelo, descrições de 157 ações revisadas, seleção por categoria, painel de hardware, histórico local e perfil da conta.
+Interface Windows e integração do **Ice Optimizer**. Versão **3.0 — Edição Glacial**: interface inspirada no painel Ice, animações com temporização de alta resolução e alvo de 60 FPS, brilho que acompanha o cursor, navegação lateral, elevação administrativa automática, neve, progresso com cubo de gelo, descrições de 157 ações revisadas, seleção por categoria, painel de hardware, histórico local e perfil da conta.
 
 Use os interruptores ou **Marcar categoria**, depois **Revisar e executar**. Ativações e restaurações ficam numa área própria para não serem marcadas junto com os comandos opostos. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. Durante a execução, o aplicativo bloqueia os cliques e mostra o progresso em uma tela gelada; **Esc** solicita uma parada segura depois da ação atual. A fila continua quando uma ação informa erro, mostra o resultado individual e limpa a seleção ao terminar.
 

@@ -1,0 +1,60 @@
+name: Rebuild Ice Optimizer
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "catalog.json"
+      - "assets/**"
+      - "build.ps1"
+      - "README.md"
+      - "THIRD-PARTY-NOTICES.md"
+      - ".github/workflows/rebuild-ice.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify legacy branding is gone from text sources
+        shell: powershell
+        run: |
+          $extensions = @('.cs','.json','.md','.html','.js','.css','.manifest','.ps1','.bat','.txt','.ini','.config','.yml','.yaml')
+          $matches = Get-ChildItem -Recurse -File | Where-Object { $extensions -contains $_.Extension.ToLowerInvariant() } | Select-String -Pattern 'Maciota' -CaseSensitive:$false
+          if ($matches) {
+            $matches | ForEach-Object { Write-Host "$($_.Path):$($_.LineNumber): $($_.Line)" }
+            throw 'Legacy branding still exists in repository text files.'
+          }
+
+      - name: Build Windows executable
+        shell: powershell
+        run: .\build.ps1
+
+      - name: Verify executable branding
+        shell: powershell
+        run: |
+          $bytes = [IO.File]::ReadAllBytes('dist\ice-optimizer.exe')
+          $ascii = [Text.Encoding]::ASCII.GetString($bytes)
+          $unicode = [Text.Encoding]::Unicode.GetString($bytes)
+          if ($ascii -match '(?i)maciota' -or $unicode -match '(?i)maciota') {
+            throw 'Legacy branding still exists in the executable.'
+          }
+
+      - name: Update downloadable executable
+        shell: powershell
+        run: |
+          Copy-Item 'dist\ice-optimizer.exe' 'downloads\ice-optimizer.exe' -Force
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add downloads/ice-optimizer.exe
+          if (-not (git diff --cached --quiet)) {
+            git commit -m "Rebuild Ice Optimizer executable [skip ci]"
+            git push
+          }

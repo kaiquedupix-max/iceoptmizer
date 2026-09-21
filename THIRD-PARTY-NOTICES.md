@@ -1,6 +1,6 @@
 # Componentes externos
 
-**ice optimizer — interface e integração por Maciota.** Os scripts foram adaptados do pacote fornecido pelo responsável pelo projeto. Esta identificação não atribui a Maciota a autoria de utilitários externos.
+**Ice Optimizer — interface e integração do projeto.** Os scripts foram adaptados do pacote fornecido para o projeto. Esta identificação não atribui ao Ice Optimizer a autoria de utilitários externos.
 
 Os executáveis e bibliotecas auxiliares foram preservados sem alteração. Autoruns (Microsoft Sysinternals), DNS Jumper (Sordum), Intelligent Standby List Cleaner (Wagnardsoft), Open Hardware Monitor e demais bibliotecas mantêm seus autores, marcas e licenças. Nem todos os binários do pacote original são usados pelas ações atuais.
 
