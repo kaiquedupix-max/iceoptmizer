@@ -33,17 +33,25 @@ public class Catalog {
  public static async Task<Catalog> LoadLatest(Catalog embedded){
   if(!Valid(embedded))throw new InvalidDataException("Catálogo interno inválido.");
   try{
-   using(var client=new HttpClient{Timeout=TimeSpan.FromSeconds(15)}){
+   using(var client=new HttpClient{Timeout=TimeSpan.FromSeconds(20)}){
     client.DefaultRequestHeaders.Add("User-Agent","ice-optimizer/"+(embedded.version??"app"));
-    string url="https://raw.githubusercontent.com/"+embedded.repository+"/"+embedded.@ref+"/catalog.json?ice="+DateTime.UtcNow.Ticks;
+    string commitsUrl="https://api.github.com/repos/"+embedded.repository+"/commits?path=catalog.json&per_page=1&ice="+DateTime.UtcNow.Ticks;
+    string commitsJson=await client.GetStringAsync(commitsUrl);
+    var commits=new JavaScriptSerializer().DeserializeObject(commitsJson) as object[];
+    if(commits==null||commits.Length==0)throw new InvalidDataException("Nenhuma versão publicada foi encontrada.");
+    var first=commits[0] as Dictionary<string,object>;
+    if(first==null||!first.ContainsKey("sha"))throw new InvalidDataException("Referência publicada inválida.");
+    string sha=Convert.ToString(first["sha"]);
+    if(string.IsNullOrWhiteSpace(sha)||sha.Length<20)throw new InvalidDataException("SHA publicado inválido.");
+    string url="https://raw.githubusercontent.com/"+embedded.repository+"/"+sha+"/catalog.json";
     string json=await client.GetStringAsync(url);
     var latest=new JavaScriptSerializer().Deserialize<Catalog>(json);
     if(!Valid(latest)||!string.Equals(latest.repository,embedded.repository,StringComparison.OrdinalIgnoreCase))throw new InvalidDataException("Catálogo online inválido.");
+    latest.@ref=sha;
     return latest;
    }
-  }catch{return embedded;}
- }
-}
+  }catch(Exception ex){throw new IOException("Não foi possível obter a versão verificada do Ice Optimizer. Confira sua conexão e tente novamente.\n\n"+ex.Message,ex);}
+ }}
 public static class Payload {
  static string onlineRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","online-scripts");
  public static string Hash(byte[] bytes){using(var h=SHA256.Create())return BitConverter.ToString(h.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();}
@@ -62,7 +70,7 @@ public static class Payload {
   using(var handler=new HttpClientHandler{AllowAutoRedirect=false})using(var client=new HttpClient(handler)){
    client.Timeout=TimeSpan.FromSeconds(90);
    client.DefaultRequestHeaders.Add("User-Agent","ice-optimizer/1.0");
-   string url="https://raw.githubusercontent.com/"+cat.repository+"/"+cat.@ref+"/"+string.Join("/",remote.Split('/').Select(Uri.EscapeDataString))+"?ice="+DateTime.UtcNow.Ticks;
+   string url="https://raw.githubusercontent.com/"+cat.repository+"/"+cat.@ref+"/"+string.Join("/",remote.Split('/').Select(Uri.EscapeDataString));
    using(var response=await client.GetAsync(url)){
     if(!response.IsSuccessStatusCode)throw new IOException("Download: HTTP "+(int)response.StatusCode+". Confira sua conexão e a disponibilidade do repositório.");
     byte[] bytes=await response.Content.ReadAsByteArrayAsync();Verify(bytes,cat.files[remote]);return bytes;
