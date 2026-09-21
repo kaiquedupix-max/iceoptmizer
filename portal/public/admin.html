@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Administração · Ice Optimizer</title><link rel="icon" href="/ice.svg"><link rel="stylesheet" href="/styles.css?v=5.2"><link rel="stylesheet" href="/polish.css?v=5.2"></head>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Administração · Ice Optimizer</title><link rel="icon" href="/ice.svg"><link rel="stylesheet" href="/styles.css?v=5.3"><link rel="stylesheet" href="/polish.css?v=5.3"></head>
 <body class="admin-body">
 <section id="login" class="login"><img src="/ice.svg" alt=""><div class="eyebrow">PAINEL PROTEGIDO</div><h1>Administração</h1><p class="muted">Gerencie clientes, parceiros, vendas e ativações.</p><form id="loginForm"><label class="field"><span>Senha administrativa</span><input id="password" type="password" autocomplete="current-password" required></label><button class="btn primary full">Entrar no painel</button><p id="loginError" class="error"></p></form></section>
 <section id="dashboard" class="admin-shell hidden"><aside class="side"><a class="brand" href="/"><img src="/ice.svg" alt=""><span>ICE <b>ADMIN</b></span></a><button class="side-link active" data-view="customers">▣ &nbsp; Clientes</button><button class="side-link" data-view="support">✦ &nbsp; Suporte Premium <span id="supportUnreadBadge" class="side-badge hidden">0</span></button><button class="side-link" data-view="partners">◇ &nbsp; Parceiros</button><a href="/">⌂ &nbsp; Página pública</a><p class="side-note">Os pagamentos são confirmados pelo Mercado Pago. O Ice calcula os 30% e controla as solicitações de saque.</p></aside>
@@ -23,4 +23,28 @@
     </section>
   </div>
 </section>
-</main></section><div id="toast" class="toast hidden"></div><script src="/admin.js?v=5.2" defer></script></body></html>
+</main></section>
+<div id="planModal" class="admin-modal hidden">
+  <div class="admin-modal-backdrop" data-plan-close></div>
+  <section class="admin-modal-card">
+    <button class="modal-close" type="button" data-plan-close>×</button>
+    <div class="eyebrow">GERENCIAR LICENÇA</div>
+    <h2>Definir plano do cliente</h2>
+    <p id="planCustomerMeta" class="muted"></p>
+    <form id="planForm">
+      <label class="field"><span>Plano</span><select id="planSelect">
+        <option value="none">Sem plano</option>
+        <option value="d30">Mensal · 30 dias</option>
+        <option value="d90">Trimestral · 3 meses</option>
+        <option value="d180">Semestral · 6 meses</option>
+        <option value="d365">Anual · 12 meses</option>
+        <option value="permanent">Permanente</option>
+      </select></label>
+      <label class="admin-premium-check"><input id="planPremium" type="checkbox"><span><b>Suporte Premium</b><small>Libera o chat profissional para este cliente.</small></span></label>
+      <div class="plan-modal-note">Ao salvar um plano com prazo, a validade começa novamente a partir de agora.</div>
+      <button class="btn primary full" type="submit">Salvar plano</button>
+      <p id="planFormMessage" class="reset-message"></p>
+    </form>
+  </section>
+</div>
+<div id="toast" class="toast hidden"></div><script src="/admin.js?v=5.3" defer></script></body></html>
