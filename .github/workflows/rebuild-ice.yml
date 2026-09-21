@@ -35,7 +35,8 @@ jobs:
           } | ForEach-Object {
             $path = $_.FullName
             $content = [IO.File]::ReadAllText($path)
-            $clean = [Regex]::Replace($content, 'Maciota', 'Ice Optimizer', [Text.RegularExpressions.RegexOptions]::IgnoreCase)
+            $legacy = ('Maci' + 'ota')
+            $clean = [Regex]::Replace($content, $legacy, 'Ice Optimizer', [Text.RegularExpressions.RegexOptions]::IgnoreCase)
             if ($clean -ne $content) {
               [IO.File]::WriteAllText($path, $clean, (New-Object Text.UTF8Encoding($false)))
             }
@@ -49,9 +50,10 @@ jobs:
         shell: powershell
         run: |
           $extensions = @('.cs','.json','.md','.html','.js','.css','.manifest','.ps1','.bat','.txt','.ini','.config','.mjs','.yml','.yaml')
+          $legacy = ('Maci' + 'ota')
           $matches = Get-ChildItem -Recurse -File | Where-Object {
             $extensions -contains $_.Extension.ToLowerInvariant() -and $_.FullName -notmatch '\\.git\\'
-          } | Select-String -Pattern 'Maciota' -CaseSensitive:$false
+          } | Select-String -Pattern $legacy -CaseSensitive:$false
           if ($matches) {
             $matches | ForEach-Object { Write-Host "$($_.Path):$($_.LineNumber): $($_.Line)" }
             throw 'Legacy branding still exists in repository text files.'
@@ -67,7 +69,8 @@ jobs:
           $bytes = [IO.File]::ReadAllBytes('dist\ice-optimizer.exe')
           $ascii = [Text.Encoding]::ASCII.GetString($bytes)
           $unicode = [Text.Encoding]::Unicode.GetString($bytes)
-          if ($ascii -match '(?i)maciota' -or $unicode -match '(?i)maciota') {
+          $legacy = ('maci' + 'ota')
+          if ($ascii -match ('(?i)'+$legacy) -or $unicode -match ('(?i)'+$legacy)) {
             throw 'Legacy branding still exists in the executable.'
           }
 
