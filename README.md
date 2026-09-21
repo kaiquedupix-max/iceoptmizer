@@ -4,14 +4,16 @@ Interface Windows e integração por **Maciota**. Versão **3.0 — Edição Gla
 
 Use os interruptores ou **Marcar categoria**, depois **Revisar e executar**. Ativações e restaurações ficam numa área própria para não serem marcadas junto com os comandos opostos. Reiniciar, desligar, encerrar Explorer e verificar disco precisam de execução separada. O ponto de restauração selecionado vem primeiro. Todos os downloads são preparados antes da primeira mudança. Durante a execução, o aplicativo bloqueia os cliques e mostra o progresso em uma tela gelada; **Esc** solicita uma parada segura depois da ação atual. A fila continua quando uma ação informa erro, mostra o resultado individual e limpa a seleção ao terminar.
 
-O portal em `portal/` inclui página comercial, cadastro e login de clientes, compra simulada, painel administrativo e API de ativação. Configure `ADMIN_PASSWORD`, `SESSION_SECRET` e `DATA_PATH=/data/licenses.json` no Railway e monte um volume em `/data`. A compra mensal simulada libera 30 dias; o plano completo simulado libera acesso permanente. Não há cobrança nesta versão.
+O portal em `portal/` inclui página comercial, cadastro e login de clientes, checkout pela Cakto, painel administrativo de clientes e parceiros, painel individual do divulgador, atribuição de vendas e API de ativação. A confirmação de pagamento chega pelo webhook da Cakto e libera automaticamente 30 dias ou acesso permanente. Reembolso, chargeback e cancelamento suspendem a licença ligada ao pedido.
+
+Configure no Railway `ADMIN_PASSWORD`, `SESSION_SECRET`, `DATA_PATH=/data/licenses.json`, `PUBLIC_URL` e as variáveis `CAKTO_*` descritas em `portal/.env.example`. Monte um volume persistente em `/data`. O split financeiro de 30% é configurado e pago pela própria Cakto; o portal registra o valor real informado no webhook.
 
 O cliente cria a conta no site, ativa um plano e entra no aplicativo com o mesmo usuário ou e-mail e senha. A ativação fica vinculada ao primeiro computador por uma impressão de hardware composta por UUID do sistema, serial da BIOS, placa-mãe e processador. Senhas usam scrypt com salt individual e os tokens são assinados no servidor.
 
 ## Usar
 
 1. Baixe `ice-optimizer.exe` em `downloads` neste repositório.
-2. Crie sua conta no site, simule a ativação do plano e entre com seu usuário ou e-mail e senha.
+2. Crie sua conta no site, compre um plano usando o mesmo e-mail no checkout e entre com seu usuário ou e-mail e senha depois da confirmação.
 3. Abra com **Executar como administrador** para aplicar ajustes.
 4. Escolha a categoria ou busque a ação (Ctrl+F). Marque as ações desejadas, leia seus efeitos em **Ver detalhes** e revise o plano antes de confirmar.
 5. O aplicativo baixa apenas o script selecionado e suas dependências de `kaiquedupix-max/iceoptmizer`, confere o SHA-256 embutido no executável e executa a ação.
