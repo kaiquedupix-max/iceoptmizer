@@ -91,3 +91,27 @@ a,a:visited{text-decoration:none}
 .customer-actions .hidden{display:none!important}
 @media(max-width:900px){.story-grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.problem-grid{grid-template-columns:1fr}.sales-hero{padding-top:45px}}
 @media(max-width:620px){.hero-proof{display:grid}.steps,.faq-grid{grid-template-columns:1fr}.problem-card,.step,.faq-card,.result-card{padding:20px}.result-card>strong{font-size:23px}}
+
+
+/* Sales plans + premium support v5.2 */
+.steps>.step{width:auto!important;height:auto!important;display:block!important;place-items:unset!important;min-width:0!important;min-height:210px!important}
+.steps>.step>span{display:grid!important}
+.plan-grid-v2{max-width:1120px!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.plan-grid-v2 .plan{min-height:0!important}
+.plan-grid-v2 .plan .simulate{margin-top:18px;width:100%}
+.simulate:after{display:none!important}
+.premium-option{display:flex;align-items:flex-start;gap:12px;margin-top:auto;padding:15px;border:1px solid #2a6b8b;border-radius:14px;background:#061a29;cursor:pointer}
+.premium-option input,.premium-mini input{accent-color:#65e9ff;margin-top:4px}
+.premium-option span{display:grid;gap:4px}.premium-option b{color:#c9f8ff;font-size:13px}.premium-option small{color:#7fa8c1;line-height:1.45}
+.premium-explainer{max-width:1120px;margin:28px auto 0;padding:28px;display:grid;grid-template-columns:58px 1fr;gap:20px;align-items:start;border:1px solid #3d94b7;border-radius:20px;background:linear-gradient(135deg,#0d3048,#061522)}
+.premium-explainer h3{font-size:27px;margin:5px 0 8px}.premium-explainer p{margin:0;color:#9bbcd0;line-height:1.7}.premium-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;background:#56e7ff1a;border:1px solid #56e7ff77;color:#72eeff;font-size:24px}
+.customer-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.customer-plan-grid article{min-width:0}.premium-mini{display:flex;gap:6px;align-items:center;color:#8feaff;font-size:11px}
+.account-card.has-plans,.account-card.support-open{width:min(860px,100%);max-height:calc(100vh - 32px);overflow:auto}
+.premium-support-button{border-color:#42cfee!important;background:linear-gradient(135deg,#0b3045,#092033)!important}.premium-support-button.premium-active{box-shadow:0 0 24px #55e7ff28;color:#8ef3ff!important}
+.support-panel{clear:both}.support-back{border:0;background:transparent;color:#85bed7;padding:0;margin:6px 0 20px;cursor:pointer}.support-back:hover{color:#73edff}
+.support-title{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:16px}.support-title h3{font-size:27px;margin:5px 0}.support-title>span{font-size:9px;font-weight:900;letter-spacing:.12em;padding:7px 10px;border-radius:999px;border:1px solid #49dfff66;color:#75ebff;background:#0a2a3b}
+.support-locked{text-align:center;padding:32px 24px;border:1px solid #245b78;border-radius:18px;background:#061522}.support-locked .premium-icon{margin:0 auto 16px}.support-locked h3{margin:0 0 10px}.support-locked p{max-width:640px;margin:0 auto 22px;color:#91b3c8;line-height:1.7}
+.support-chat{display:grid;gap:12px}.support-messages{height:390px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:16px;border:1px solid #24546f;border-radius:16px;background:#04111d}
+.support-message{max-width:78%;padding:11px 13px;border-radius:14px;background:#0b273b;border:1px solid #245875}.support-message.mine{align-self:flex-end;background:#0a3a4d;border-color:#3da9c8}.support-message.theirs{align-self:flex-start}.support-message small{display:block;color:#6f9bb4;font-size:9px;margin-bottom:5px}.support-message p{margin:0;white-space:pre-wrap;color:#e9f9ff;line-height:1.5}.support-empty{margin:auto;color:#7396ac;text-align:center}
+#support-form{display:grid;grid-template-columns:1fr auto;gap:10px}#support-form textarea{min-height:74px;max-height:160px;resize:vertical;padding:12px;border:1px solid #265d79;border-radius:12px;background:#061725;color:#eefaff}#support-form .btn{width:auto}.support-hint{color:#6c91a7}
+@media(max-width:760px){.plan-grid-v2{grid-template-columns:1fr!important}.customer-plan-grid{grid-template-columns:1fr}.premium-explainer{grid-template-columns:1fr}.support-message{max-width:92%}#support-form{grid-template-columns:1fr}}
