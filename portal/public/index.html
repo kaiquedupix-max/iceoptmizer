@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/polish.css?v=5.4">
 <script src="https://sdk.mercadopago.com/js/v2" defer></script>
 <script src="https://www.mercadopago.com/v2/security.js" view="checkout" defer></script>
-<script src="/site.js?v=5.5" defer></script>
+<script src="/site.js?v=5.6" defer></script>
 </head>
 <body>
 <div class="snow" aria-hidden="true"></div><div class="aurora" aria-hidden="true"></div>
@@ -198,25 +198,68 @@
 
 <div class="account-modal hidden" id="account-modal"><div class="account-backdrop" data-close></div><section class="account-card"><button class="modal-close" data-close>×</button><img src="/ice.svg" alt=""><div class="eyebrow">CENTRAL DO CLIENTE</div><h2 id="account-title">Entre na sua conta</h2><div class="account-tabs"><button class="active" data-mode="login">Entrar</button><button data-mode="register">Criar conta</button></div><form id="account-form"><label class="field register-only hidden"><span>Nome de usuário</span><input id="account-username" autocomplete="username"></label><label class="field register-only hidden"><span>E-mail</span><input id="account-email" type="email" autocomplete="email"></label><label class="field"><span id="login-label">Usuário ou e-mail</span><input id="account-login" autocomplete="username"></label><label class="field password-field"><span>Senha</span><input id="account-password" type="password" autocomplete="current-password" minlength="8"></label><button class="password-link" type="button" id="forgot-password">Esqueci minha senha</button><button class="btn primary" id="account-submit">Entrar</button><p id="account-message"></p></form>
 <div id="customer-panel" class="hidden">
-  <div id="customer-main">
-    <h3>Olá, <span id="customer-name"></span></h3><p id="customer-status"></p>
-    <div id="customer-plans" class="customer-plans customer-plan-grid hidden">
-      <article><span>MENSAL</span><strong>R$ 29,90</strong><small>30 dias de acesso completo</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d30">Comprar mensal</button></article>
-      <article><span>TRIMESTRAL</span><strong>R$ 79,90</strong><small>3 meses · economize R$ 9,80</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d90">Comprar trimestral</button></article>
-      <article><span>SEMESTRAL</span><strong>R$ 149,90</strong><small>6 meses · economize R$ 29,50</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d180">Comprar semestral</button></article>
-      <article class="complete"><span>ANUAL</span><strong>R$ 269,90</strong><small>12 meses · economize R$ 88,90</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d365">Comprar anual</button></article>
+  <div class="customer-dashboard">
+    <aside class="customer-dashboard-side">
+      <div class="customer-identity">
+        <img src="/ice.svg" alt="">
+        <div><small>CLIENTE ICE</small><strong>@<span id="customer-name"></span></strong><span id="customer-email"></span></div>
+      </div>
+      <nav class="customer-nav">
+        <button class="active" type="button" data-customer-view="overview">▣ <span>Visão geral</span></button>
+        <button type="button" data-customer-view="plan">◇ <span>Plano e download</span></button>
+        <button type="button" data-customer-view="support">✦ <span>Suporte Premium</span><i id="customer-support-unread" class="hidden">0</i></button>
+        <button type="button" data-customer-view="security">⌁ <span>Segurança</span></button>
+      </nav>
+      <button class="customer-logout" id="account-logout" type="button">↪ Sair da conta</button>
+    </aside>
+
+    <div class="customer-dashboard-content">
+      <section id="customer-main" class="customer-view" data-customer-section="overview">
+        <div class="customer-view-head"><div><div class="eyebrow">MINHA CONTA</div><h3>Olá, <span id="customer-welcome-name"></span></h3><p>Acompanhe sua assinatura, download e atendimento em um só lugar.</p></div><span class="customer-online">● ONLINE</span></div>
+        <div id="customer-status"></div>
+        <div class="customer-overview-grid">
+          <article><span>PLANO ATUAL</span><strong id="overview-plan">—</strong><small id="overview-validity">—</small></article>
+          <article><span>COMPUTADOR</span><strong id="overview-hardware">—</strong><small>Vínculo de segurança do aplicativo</small></article>
+          <article><span>ATENDIMENTO</span><strong id="overview-support">—</strong><small id="overview-support-detail">—</small></article>
+        </div>
+        <div class="customer-actions">
+          <button class="btn primary" id="go-plan" type="button">Plano e download</button>
+          <button class="btn premium-support-button" id="open-support" type="button">Suporte Premium</button>
+          <button class="btn" id="open-password-change" type="button">Segurança</button>
+        </div>
+      </section>
+
+      <section id="customer-plan-panel" class="customer-view hidden" data-customer-section="plan">
+        <div class="customer-view-head"><div><div class="eyebrow">ASSINATURA</div><h3>Plano e download</h3><p>Veja seu acesso atual ou escolha um plano para liberar o Ice.</p></div></div>
+        <div class="customer-plan-summary"><div><span>Seu plano</span><strong id="plan-summary-name">—</strong><small id="plan-summary-validity">—</small></div><button class="btn primary hidden" id="download-app" type="button">Baixar Ice Optimizer</button></div>
+        <p id="download-message" class="download-message"></p>
+        <div id="customer-plans" class="customer-plans customer-plan-grid hidden">
+          <article><span>MENSAL</span><strong>R$ 29,90</strong><small>30 dias de acesso completo</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d30">Comprar mensal</button></article>
+          <article><span>TRIMESTRAL</span><strong>R$ 79,90</strong><small>3 meses · economize R$ 9,80</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d90">Comprar trimestral</button></article>
+          <article><span>SEMESTRAL</span><strong>R$ 149,90</strong><small>6 meses · economize R$ 29,50</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d180">Comprar semestral</button></article>
+          <article class="complete"><span>ANUAL</span><strong>R$ 269,90</strong><small>12 meses · economize R$ 88,90</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d365">Comprar anual</button></article>
+        </div>
+        <p id="customer-message" class="checkout-message"></p>
+      </section>
+
+      <section id="support-panel" class="customer-view support-panel hidden" data-customer-section="support">
+        <div class="support-title"><div><div class="eyebrow">SUPORTE PREMIUM</div><h3>Atendimento profissional</h3><p>Converse diretamente com o suporte e acompanhe a leitura das mensagens.</p></div><span id="support-badge">PREMIUM</span></div>
+        <div id="support-locked" class="support-locked hidden"><div class="premium-icon">✦</div><h3>Este chat é exclusivo do Suporte Premium.</h3><p>Por mais R$ 50, você libera atendimento direto pelo site. O suporte entra no seu PC para realizar uma otimização completa, incluindo Windows, configurações avançadas e BIOS quando aplicável.</p><button class="btn primary" id="buy-premium-support" type="button">Liberar Suporte Premium por R$ 50</button></div>
+        <div id="support-chat" class="support-chat hidden">
+          <div class="chat-presence"><span><i></i> Suporte Ice</span><small>Mensagens atualizadas automaticamente</small></div>
+          <div id="support-messages" class="support-messages"></div>
+          <form id="support-form"><textarea id="support-text" maxlength="2000" placeholder="Escreva sua mensagem para o suporte..." required></textarea><button class="btn primary" type="submit">Enviar</button></form>
+          <small class="support-hint">✓ enviada · ✓✓ lida pelo suporte. Nunca envie senhas pelo chat.</small>
+        </div>
+      </section>
+
+      <section id="customer-security-panel" class="customer-view hidden" data-customer-section="security">
+        <div class="customer-view-head"><div><div class="eyebrow">SEGURANÇA</div><h3>Senha e acesso</h3><p>Altere sua senha de acesso à conta Ice.</p></div></div>
+        <form id="change-password-form" class="change-password-box"><strong>Alterar senha</strong><label class="field"><span>Senha atual</span><input id="current-password" type="password" autocomplete="current-password" required></label><label class="field"><span>Nova senha</span><input id="changed-password" type="password" autocomplete="new-password" minlength="8" required></label><label class="field"><span>Confirmar nova senha</span><input id="changed-password-confirm" type="password" autocomplete="new-password" minlength="8" required></label><button class="btn primary full">Salvar nova senha</button><button class="password-link" type="button" id="cancel-password-change">Limpar campos</button><p id="change-password-message" class="reset-message"></p></form>
+      </section>
     </div>
-    <p id="customer-message" class="checkout-message"></p>
-    <form id="change-password-form" class="change-password-box hidden"><strong>Alterar senha</strong><label class="field"><span>Senha atual</span><input id="current-password" type="password" autocomplete="current-password" required></label><label class="field"><span>Nova senha</span><input id="changed-password" type="password" autocomplete="new-password" minlength="8" required></label><label class="field"><span>Confirmar nova senha</span><input id="changed-password-confirm" type="password" autocomplete="new-password" minlength="8" required></label><button class="btn primary full">Salvar nova senha</button><button class="password-link" type="button" id="cancel-password-change">Cancelar</button><p id="change-password-message" class="reset-message"></p></form>
-    <div class="customer-actions"><button class="btn primary hidden" id="download-app" type="button">Baixar Ice Optimizer</button><button class="btn premium-support-button" id="open-support" type="button">Suporte Premium</button><button class="btn" id="open-password-change">Alterar senha</button><button class="btn" id="account-logout">Sair</button></div><p id="download-message" class="download-message"></p>
   </div>
-  <section id="support-panel" class="support-panel hidden">
-    <button class="support-back" id="back-support" type="button">← Voltar para minha conta</button>
-    <div class="support-title"><div><div class="eyebrow">SUPORTE PREMIUM</div><h3>Atendimento profissional</h3></div><span id="support-badge">PREMIUM</span></div>
-    <div id="support-locked" class="support-locked hidden"><div class="premium-icon">✦</div><h3>Este chat é exclusivo do Suporte Premium.</h3><p>Por mais R$ 50, você libera atendimento direto pelo site. O suporte entra no seu PC para realizar uma otimização completa, incluindo Windows, configurações avançadas e BIOS quando aplicável, indo além das automações do aplicativo.</p><button class="btn primary" id="buy-premium-support" type="button">Liberar Suporte Premium por R$ 50</button></div>
-    <div id="support-chat" class="support-chat hidden"><div id="support-messages" class="support-messages"></div><form id="support-form"><textarea id="support-text" maxlength="2000" placeholder="Escreva sua mensagem para o suporte..." required></textarea><button class="btn primary" type="submit">Enviar mensagem</button></form><small class="support-hint">Use este chat para combinar o atendimento e enviar informações sobre sua máquina. Nunca envie senhas.</small></div>
-  </section>
-</div></section></div>
+</div>
 <div class="checkout-modal hidden" id="checkout-modal"><div class="checkout-backdrop" data-checkout-close></div><section class="checkout-shell"><header><div><div class="eyebrow">PAGAMENTO · MERCADO PAGO</div><h2>Finalize sua compra</h2><p>Pix ou cartão sem sair do Ice Optimizer.</p></div><button class="modal-close" data-checkout-close aria-label="Fechar">×</button></header><div class="payment-form"><div id="payment-loading" class="checkout-loading">Carregando pagamento…</div><div id="paymentBrick_container"></div><p id="pay-message" class="checkout-message"></p><section id="pix-result" class="pix-result hidden"><strong>Pix gerado com sucesso</strong><img id="pix-qr" alt="QR Code Pix"><textarea id="pix-code" readonly></textarea><button type="button" class="btn full" id="copy-pix">Copiar código Pix</button><small>A ativação acontece automaticamente após a confirmação.</small></section></div><footer>O pagamento é processado pelo Mercado Pago.</footer></section></div>
 </body>
 </html>
