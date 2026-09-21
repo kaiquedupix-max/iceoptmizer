@@ -175,7 +175,7 @@ a,a:visited{text-decoration:none}
 
 
 /* Fullscreen account + account-linked partner dashboard v5.7 */
-.account-modal.account-authenticated{display:block!important;position:fixed;inset:0;z-index:150;background:#06111d}
+.account-modal.account-authenticated{position:fixed;inset:0;z-index:150;background:#06111d}
 .account-modal.account-authenticated .account-backdrop{display:none}
 .account-modal.account-authenticated .account-card{position:fixed;inset:0;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#071522!important;overflow:hidden!important;padding:0!important}
 .account-modal.account-authenticated .account-card>.modal-close{position:fixed;top:18px;right:22px;z-index:40;width:38px;height:38px;border:1px solid #214d67;border-radius:10px;background:#081b2b;color:#8fb4c8}
