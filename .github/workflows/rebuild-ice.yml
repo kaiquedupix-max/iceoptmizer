@@ -46,6 +46,12 @@ jobs:
         shell: powershell
         run: node tools/catalog.mjs
 
+      - name: Run portal tests
+        shell: powershell
+        run: |
+          Set-Location portal
+          npm test
+
       - name: Verify legacy branding is gone from text sources
         shell: powershell
         run: |
