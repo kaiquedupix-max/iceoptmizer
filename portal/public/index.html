@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/polish.css?v=5.4">
 <script src="https://sdk.mercadopago.com/js/v2" defer></script>
 <script src="https://www.mercadopago.com/v2/security.js" view="checkout" defer></script>
-<script src="/site.js?v=5.7" defer></script>
+<script src="/site.js?v=5.8" defer></script>
 </head>
 <body>
 <div class="snow" aria-hidden="true"></div><div class="aurora" aria-hidden="true"></div>
@@ -130,7 +130,7 @@
   <div class="wrap">
     <div class="eyebrow reveal">ESCOLHA O TEMPO DE ACESSO</div>
     <h2 class="reveal">Quanto mais tempo, maior o desconto.</h2>
-    <p class="section-intro reveal">Todos os planos liberam o Ice Optimizer completo. Em qualquer um deles você pode adicionar o Suporte Premium por mais R$ 50.</p>
+    <p class="section-intro reveal">Todos os planos liberam o Ice Optimizer completo. No Mensal e Trimestral, o Suporte Premium pode ser adicionado por R$ 50. No Semestral e Anual, ele já vem incluso.</p>
     <div class="plans sale-plans plan-grid-v2">
       <article class="plan reveal">
         <div class="plan-tag">MENSAL</div><h3>30 dias</h3>
@@ -152,22 +152,22 @@
         <div class="popular">ECONOMIZE R$ 29,50</div><div class="plan-tag">SEMESTRAL · MELHOR EQUILÍBRIO</div><h3>6 meses</h3>
         <div class="price"><span>R$</span><strong>149,90</strong></div>
         <p>Seis meses com um desconto maior para quem usa o PC todos os dias.</p>
-        <ul><li>Economia de cerca de 16%</li><li>Ice Optimizer completo</li><li>Otimizações e correções centralizadas</li><li>Atualizações durante o plano</li></ul>
-        <label class="premium-option" data-plan="d180" tabindex="0"><input type="checkbox" class="premium-toggle" tabindex="-1"><span class="premium-check" aria-hidden="true"></span><span class="premium-option-copy"><span class="premium-option-head"><b>Suporte Premium</b><em>+ R$ 50</em></span><small>Otimização profissional do PC, Windows e BIOS, com atendimento direto pelo chat.</small></span></label>
+        <ul><li>Economia de cerca de 16%</li><li>Ice Optimizer completo</li><li>Suporte Premium já incluso</li><li>Otimizações e correções centralizadas</li><li>Atualizações durante o plano</li></ul>
+        <div class="premium-included"><span>✦</span><div><b>Suporte Premium incluso</b><small>Otimização profissional do PC, Windows e BIOS, com atendimento direto pelo chat. Sem custo adicional.</small></div><em>INCLUSO</em></div>
         <button class="btn primary simulate" data-plan="d180">Escolher plano semestral</button>
       </article>
       <article class="plan reveal">
         <div class="popular">MAIOR DESCONTO · R$ 88,90</div><div class="plan-tag">ANUAL</div><h3>12 meses</h3>
         <div class="price"><span>R$</span><strong>269,90</strong></div>
         <p>Um ano inteiro de Ice com o menor custo por mês.</p>
-        <ul><li>Economia de cerca de 25%</li><li>Ice Optimizer completo</li><li>Todos os recursos e rotinas</li><li>Atualizações durante o plano</li></ul>
-        <label class="premium-option" data-plan="d365" tabindex="0"><input type="checkbox" class="premium-toggle" tabindex="-1"><span class="premium-check" aria-hidden="true"></span><span class="premium-option-copy"><span class="premium-option-head"><b>Suporte Premium</b><em>+ R$ 50</em></span><small>Otimização profissional do PC, Windows e BIOS, com atendimento direto pelo chat.</small></span></label>
+        <ul><li>Economia de cerca de 25%</li><li>Ice Optimizer completo</li><li>Suporte Premium já incluso</li><li>Todos os recursos e rotinas</li><li>Atualizações durante o plano</li></ul>
+        <div class="premium-included"><span>✦</span><div><b>Suporte Premium incluso</b><small>Otimização profissional do PC, Windows e BIOS, com atendimento direto pelo chat. Sem custo adicional.</small></div><em>INCLUSO</em></div>
         <button class="btn primary simulate" data-plan="d365">Escolher plano anual</button>
       </article>
     </div>
     <div class="premium-explainer reveal">
       <div class="premium-icon">✦</div>
-      <div><div class="eyebrow">SUPORTE PREMIUM · + R$ 50</div><h3>O aplicativo otimiza. O Premium vai além dele.</h3><p>Com o Premium, o atendimento é feito diretamente no seu PC: análise da máquina, ajustes manuais no Windows, drivers, configurações e BIOS quando aplicável, além de acompanhamento pelo chat interno. O serviço é voltado a extrair o melhor desempenho possível dentro dos limites do seu hardware.</p></div>
+      <div><div class="eyebrow">SUPORTE PREMIUM · INCLUSO NO SEMESTRAL E ANUAL</div><h3>O aplicativo otimiza. O Premium vai além dele.</h3><p>Com o Premium, o atendimento é feito diretamente no seu PC: análise da máquina, ajustes manuais no Windows, drivers, configurações e BIOS quando aplicável, além de acompanhamento pelo chat interno. O serviço é voltado a extrair o melhor desempenho possível dentro dos limites do seu hardware.</p></div>
     </div>
     <p id="checkout-message" class="checkout-message"></p>
   </div>
@@ -237,8 +237,8 @@
         <div id="customer-plans" class="customer-plans customer-plan-grid hidden">
           <article><span>MENSAL</span><strong>R$ 29,90</strong><small>30 dias de acesso completo</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d30">Comprar mensal</button></article>
           <article><span>TRIMESTRAL</span><strong>R$ 79,90</strong><small>3 meses · economize R$ 9,80</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d90">Comprar trimestral</button></article>
-          <article><span>SEMESTRAL</span><strong>R$ 149,90</strong><small>6 meses · economize R$ 29,50</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d180">Comprar semestral</button></article>
-          <article class="complete"><span>ANUAL</span><strong>R$ 269,90</strong><small>12 meses · economize R$ 88,90</small><label class="premium-mini"><input type="checkbox" class="premium-toggle"> Premium + R$ 50</label><button class="btn primary simulate" data-plan="d365">Comprar anual</button></article>
+          <article><span>SEMESTRAL</span><strong>R$ 149,90</strong><small>6 meses · economize R$ 29,50</small><div class="premium-mini-included">✦ Suporte Premium incluso</div><button class="btn primary simulate" data-plan="d180">Comprar semestral</button></article>
+          <article class="complete"><span>ANUAL</span><strong>R$ 269,90</strong><small>12 meses · economize R$ 88,90</small><div class="premium-mini-included">✦ Suporte Premium incluso</div><button class="btn primary simulate" data-plan="d365">Comprar anual</button></article>
         </div>
         <p id="customer-message" class="checkout-message"></p>
       </section>

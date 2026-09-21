@@ -194,3 +194,10 @@ a,a:visited{text-decoration:none}
 .partner-action.active-role{border-color:#5adfb5;color:#7cf0c7;background:#0b31261f}
 @media(max-width:1050px){.account-partner-stats{grid-template-columns:repeat(2,1fr)}.account-partner-grid{grid-template-columns:1fr}.account-partner-withdraw{align-items:stretch;flex-direction:column}.account-partner-withdraw .copy-line{min-width:0;width:100%}}
 @media(max-width:800px){.account-modal.account-authenticated .customer-dashboard{grid-template-columns:1fr}.account-modal.account-authenticated .customer-dashboard-content{height:auto;min-height:calc(100vh - 90px);padding:24px 14px 50px}.account-modal.account-authenticated .customer-dashboard-side{padding-top:12px}.account-modal.account-authenticated .account-card>.modal-close{top:9px;right:9px}.account-partner-stats{grid-template-columns:1fr}.customer-nav{grid-template-columns:repeat(5,1fr)}}
+
+
+/* Premium bundled plans v5.8 */
+.premium-included{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:start;margin-top:auto;padding:16px 17px;border:1px solid rgba(101,234,255,.48);border-radius:16px;background:linear-gradient(145deg,rgba(9,47,63,.98),rgba(6,27,39,.99));box-shadow:0 12px 28px rgba(0,0,0,.14),0 0 24px rgba(84,226,255,.08)}
+.premium-included>span{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#6cecff,#3da9ff);color:#04131d;font-weight:1000}.premium-included>div{display:grid;gap:5px}.premium-included b{color:#eefcff;font-size:13px}.premium-included small{color:#86a9bd;line-height:1.48;font-size:11px}.premium-included em{font-style:normal;white-space:nowrap;padding:5px 8px;border-radius:999px;background:#6cecff;color:#031019;font-size:9px;font-weight:1000;letter-spacing:.08em}
+.premium-mini-included{display:flex;align-items:center;gap:6px;color:#72edff;font-size:11px;font-weight:800;padding:8px 10px;border:1px solid #55dff144;border-radius:9px;background:#0a2d3d55}
+@media(max-width:560px){.premium-included{grid-template-columns:28px 1fr}.premium-included em{grid-column:2;justify-self:start}}
