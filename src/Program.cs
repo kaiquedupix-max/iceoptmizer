@@ -120,7 +120,7 @@ public static class Program {
    if(args.Length==2&&args[0]=="--render-login"){using(var preview=new AccountForm(Catalog.Load(),"")){preview.ShowInTaskbar=false;preview.Show();preview.Refresh();Application.DoEvents();using(var bmp=new Bitmap(preview.Width,preview.Height)){preview.DrawToBitmap(bmp,new Rectangle(0,0,preview.Width,preview.Height));bmp.Save(args[1]);}preview.Hide();return 0;}}
     if(args.Length==2&&args[0].StartsWith("--render")){using(var preview=new MainWindow()){string mode=args[0].StartsWith("--render-")?args[0].Substring(9):"";preview.Render(args[1],mode);return 0;}}
     if(!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)){try{Process.Start(new ProcessStartInfo(Application.ExecutablePath){UseShellExecute=true,Verb="runas"});}catch(System.ComponentModel.Win32Exception){MessageBox.Show("O Ice Optimizer precisa ser aberto como administrador.","Permissão necessária",MessageBoxButtons.OK,MessageBoxIcon.Information);}return 3;}
-   var embedded=Catalog.Load(),catalog=Catalog.LoadLatest(embedded).GetAwaiter().GetResult();if(!LicenseGate.Ensure(catalog))return 2;if(!ScriptSyncForm.Sync(catalog))return 4;
+   var embedded=Catalog.Load();var catalog=Catalog.LoadLatest(embedded).GetAwaiter().GetResult();if(!LicenseGate.Ensure(catalog))return 2;if(!ScriptSyncForm.Sync(catalog))return 4;
    using(var window=new MainWindow(catalog))Application.Run(window);return 0;
   }catch(Exception e){if(args.Length>1)File.WriteAllText(args[args.Length-1],e.ToString());else MessageBox.Show(e.Message,"ice optimizer");return 1;}
  }
