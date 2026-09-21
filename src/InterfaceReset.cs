@@ -79,9 +79,10 @@ sealed class HomeCanvas:Panel {
 
 // The interface is rebuilt one page at a time from the approved references.
 public sealed class MainWindow:Form {
- readonly Catalog catalog=Catalog.Load();readonly IcePageCanvas home,account;readonly Dictionary<string,IcePageCanvas> pages=new Dictionary<string,IcePageCanvas>();readonly Timer transition=new Timer{Interval=4},ambient=new Timer{Interval=4};readonly Stopwatch transitionClock=new Stopwatch();Control current,outgoing,incoming;
+ readonly Catalog catalog;readonly IcePageCanvas home,account;readonly Dictionary<string,IcePageCanvas> pages=new Dictionary<string,IcePageCanvas>();readonly Timer transition=new Timer{Interval=4},ambient=new Timer{Interval=4};readonly Stopwatch transitionClock=new Stopwatch();Control current,outgoing,incoming;
  [DllImport("user32.dll")]static extern bool ReleaseCapture();[DllImport("user32.dll")]static extern IntPtr SendMessage(IntPtr h,int msg,IntPtr w,IntPtr l);[DllImport("winmm.dll")]static extern uint timeBeginPeriod(uint period);[DllImport("winmm.dll")]static extern uint timeEndPeriod(uint period);
- public MainWindow(){Text="Ice Optimizer";StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(3,13,24);DoubleBuffered=true;ClientSize=new Size(1168,705);MinimumSize=MaximumSize=Size;using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);
+ public MainWindow():this(Catalog.Load()){}
+ public MainWindow(Catalog source){catalog=source??Catalog.Load();Text="Ice Optimizer";StartPosition=FormStartPosition.CenterScreen;FormBorderStyle=FormBorderStyle.None;BackColor=Color.FromArgb(3,13,24);DoubleBuffered=true;ClientSize=new Size(1168,705);MinimumSize=MaximumSize=Size;using(var stream=Assembly.GetExecutingAssembly().GetManifestResourceStream("ice.ico"))if(stream!=null)Icon=new Icon(stream);
   timeBeginPeriod(1);FormClosed+=(s,e)=>timeEndPeriod(1);
   transition.Tick+=AnimateTransition;ambient.Tick+=(s,e)=>{if(WindowState!=FormWindowState.Minimized&&current!=null&&!transition.Enabled)current.Invalidate();};ambient.Start();
   home=new IcePageCanvas(catalog,"Início",Navigate,ExecuteItems);account=new IcePageCanvas(catalog,"Minha conta",Navigate,ExecuteItems);home.MouseDown+=DragWindow;account.MouseDown+=DragWindow;

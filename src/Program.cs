@@ -29,11 +29,25 @@ public class Catalog {
  public ActionItem[] actions;
  public Dictionary<string,FileInfoEntry> files;
  public static Catalog Load(){using(var s=Assembly.GetExecutingAssembly().GetManifestResourceStream("catalog.json"))using(var r=new StreamReader(s))return new JavaScriptSerializer().Deserialize<Catalog>(r.ReadToEnd());}
+ public static bool Valid(Catalog c){return c!=null&&!string.IsNullOrWhiteSpace(c.repository)&&!string.IsNullOrWhiteSpace(c.@ref)&&!string.IsNullOrWhiteSpace(c.licenseApi)&&c.actions!=null&&c.actions.Length>=100&&c.files!=null&&c.files.Count>100;}
+ public static async Task<Catalog> LoadLatest(Catalog embedded){
+  if(!Valid(embedded))throw new InvalidDataException("Catálogo interno inválido.");
+  try{
+   using(var client=new HttpClient{Timeout=TimeSpan.FromSeconds(15)}){
+    client.DefaultRequestHeaders.Add("User-Agent","ice-optimizer/"+(embedded.version??"app"));
+    string url="https://raw.githubusercontent.com/"+embedded.repository+"/"+embedded.@ref+"/catalog.json?ice="+DateTime.UtcNow.Ticks;
+    string json=await client.GetStringAsync(url);
+    var latest=new JavaScriptSerializer().Deserialize<Catalog>(json);
+    if(!Valid(latest)||!string.Equals(latest.repository,embedded.repository,StringComparison.OrdinalIgnoreCase))throw new InvalidDataException("Catálogo online inválido.");
+    return latest;
+   }
+  }catch{return embedded;}
+ }
 }
 public static class Payload {
  static string onlineRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","online-scripts");
  public static string Hash(byte[] bytes){using(var h=SHA256.Create())return BitConverter.ToString(h.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();}
- public static void Verify(byte[] bytes, FileInfoEntry entry){if(bytes.LongLength!=entry.size||Hash(bytes)!=entry.sha256)throw new InvalidDataException("Integridade inválida. O arquivo não será executado. Atualize o aplicativo com o responsável.");}
+ public static void Verify(byte[] bytes, FileInfoEntry entry){if(bytes.LongLength!=entry.size||Hash(bytes)!=entry.sha256)throw new InvalidDataException("Os arquivos online mudaram durante a sincronização. Feche e abra o Ice Optimizer novamente. Se continuar, baixe a versão mais recente no site.");}
  public static string SafeRoot(string root){
   if(string.IsNullOrWhiteSpace(root)||root.IndexOfAny(new[]{'"','%','!','\r','\n','&','^','|','<','>'})>=0)throw new ArgumentException("Escolha uma pasta local sem caracteres especiais de comando.");
   root=Path.GetFullPath(root);if(root.StartsWith(@"\\"))throw new ArgumentException("Escolha uma pasta em disco local.");return root;
@@ -48,7 +62,7 @@ public static class Payload {
   using(var handler=new HttpClientHandler{AllowAutoRedirect=false})using(var client=new HttpClient(handler)){
    client.Timeout=TimeSpan.FromSeconds(90);
    client.DefaultRequestHeaders.Add("User-Agent","ice-optimizer/1.0");
-   string url="https://raw.githubusercontent.com/"+cat.repository+"/"+cat.@ref+"/"+string.Join("/",remote.Split('/').Select(Uri.EscapeDataString));
+   string url="https://raw.githubusercontent.com/"+cat.repository+"/"+cat.@ref+"/"+string.Join("/",remote.Split('/').Select(Uri.EscapeDataString))+"?ice="+DateTime.UtcNow.Ticks;
    using(var response=await client.GetAsync(url)){
     if(!response.IsSuccessStatusCode)throw new IOException("Download: HTTP "+(int)response.StatusCode+". Confira sua conexão e a disponibilidade do repositório.");
     byte[] bytes=await response.Content.ReadAsByteArrayAsync();Verify(bytes,cat.files[remote]);return bytes;
@@ -106,8 +120,8 @@ public static class Program {
    if(args.Length==2&&args[0]=="--render-login"){using(var preview=new AccountForm(Catalog.Load(),"")){preview.ShowInTaskbar=false;preview.Show();preview.Refresh();Application.DoEvents();using(var bmp=new Bitmap(preview.Width,preview.Height)){preview.DrawToBitmap(bmp,new Rectangle(0,0,preview.Width,preview.Height));bmp.Save(args[1]);}preview.Hide();return 0;}}
     if(args.Length==2&&args[0].StartsWith("--render")){using(var preview=new MainWindow()){string mode=args[0].StartsWith("--render-")?args[0].Substring(9):"";preview.Render(args[1],mode);return 0;}}
     if(!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)){try{Process.Start(new ProcessStartInfo(Application.ExecutablePath){UseShellExecute=true,Verb="runas"});}catch(System.ComponentModel.Win32Exception){MessageBox.Show("O Ice Optimizer precisa ser aberto como administrador.","Permissão necessária",MessageBoxButtons.OK,MessageBoxIcon.Information);}return 3;}
-   var catalog=Catalog.Load();if(!LicenseGate.Ensure(catalog))return 2;if(!ScriptSyncForm.Sync(catalog))return 4;
-   using(var window=new MainWindow())Application.Run(window);return 0;
+   var embedded=Catalog.Load(),catalog=Catalog.LoadLatest(embedded).GetAwaiter().GetResult();if(!LicenseGate.Ensure(catalog))return 2;if(!ScriptSyncForm.Sync(catalog))return 4;
+   using(var window=new MainWindow(catalog))Application.Run(window);return 0;
   }catch(Exception e){if(args.Length>1)File.WriteAllText(args[args.Length-1],e.ToString());else MessageBox.Show(e.Message,"ice optimizer");return 1;}
  }
 }
