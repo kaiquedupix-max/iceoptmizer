@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "src/**"
+      - "scripts/**"
+      - "tools/**"
       - "catalog.json"
       - "assets/**"
       - "build.ps1"
@@ -18,16 +20,38 @@ permissions:
 
 jobs:
   build:
+    if: ${{ !contains(github.event.head_commit.message || '', '[skip build]') }}
     runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Normalize legacy branding in text files
+        shell: powershell
+        run: |
+          $extensions = @('.cs','.json','.md','.html','.js','.css','.manifest','.ps1','.bat','.txt','.ini','.config','.mjs','.yml','.yaml')
+          Get-ChildItem -Recurse -File | Where-Object {
+            $extensions -contains $_.Extension.ToLowerInvariant() -and $_.FullName -notmatch '\\.git\\'
+          } | ForEach-Object {
+            $path = $_.FullName
+            $content = [IO.File]::ReadAllText($path)
+            $clean = [Regex]::Replace($content, 'Maciota', 'Ice Optimizer', [Text.RegularExpressions.RegexOptions]::IgnoreCase)
+            if ($clean -ne $content) {
+              [IO.File]::WriteAllText($path, $clean, (New-Object Text.UTF8Encoding($false)))
+            }
+          }
+
+      - name: Regenerate action catalog and hashes
+        shell: powershell
+        run: node tools/catalog.mjs
+
       - name: Verify legacy branding is gone from text sources
         shell: powershell
         run: |
-          $extensions = @('.cs','.json','.md','.html','.js','.css','.manifest','.ps1','.bat','.txt','.ini','.config','.yml','.yaml')
-          $matches = Get-ChildItem -Recurse -File | Where-Object { $extensions -contains $_.Extension.ToLowerInvariant() } | Select-String -Pattern 'Maciota' -CaseSensitive:$false
+          $extensions = @('.cs','.json','.md','.html','.js','.css','.manifest','.ps1','.bat','.txt','.ini','.config','.mjs','.yml','.yaml')
+          $matches = Get-ChildItem -Recurse -File | Where-Object {
+            $extensions -contains $_.Extension.ToLowerInvariant() -and $_.FullName -notmatch '\\.git\\'
+          } | Select-String -Pattern 'Maciota' -CaseSensitive:$false
           if ($matches) {
             $matches | ForEach-Object { Write-Host "$($_.Path):$($_.LineNumber): $($_.Line)" }
             throw 'Legacy branding still exists in repository text files.'
@@ -47,14 +71,14 @@ jobs:
             throw 'Legacy branding still exists in the executable.'
           }
 
-      - name: Update downloadable executable
+      - name: Commit cleaned sources and downloadable executable
         shell: powershell
         run: |
           Copy-Item 'dist\ice-optimizer.exe' 'downloads\ice-optimizer.exe' -Force
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add downloads/ice-optimizer.exe
+          git add -A
           if (-not (git diff --cached --quiet)) {
-            git commit -m "Rebuild Ice Optimizer executable [skip ci]"
+            git commit -m "Regenerate Ice Optimizer without legacy branding [skip build]"
             git push
           }

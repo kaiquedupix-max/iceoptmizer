@@ -3,7 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {enrich} from './descriptions.mjs';
 const read=p=>fs.readFileSync(p,'utf8').replace(/\r/g,'');
-const branding=s=>s.replace(/iGust(?: Windows Boost)?|Windows Boost/gi,'ice optimizer').replace(/^set "line([1-7])=.*$/gmi,(_,i)=>'set "line'+i+'='+(i==='1'?'ice optimizer - por Maciota':'')+'"').replace(/^set "lines\[(\d+)\]=.*$/gmi,(_,i)=>'set "lines['+i+']='+(i==='0'?'ice optimizer - por Maciota':'')+'"');
+const branding=s=>s.replace(/iGust(?: Windows Boost)?|Windows Boost/gi,'ice optimizer').replace(/^set "line([1-7])=.*$/gmi,(_,i)=>'set "line'+i+'='+(i==='1'?'ice optimizer':'')+'"').replace(/^set "lines\[(\d+)\]=.*$/gmi,(_,i)=>'set "lines['+i+']='+(i==='0'?'ice optimizer':'')+'"');
 for(const file of ['scripts/engine.bat','scripts/debloater.bat']) fs.writeFileSync(file,branding(read(file)).replace(/\n/g,'\r\n'));
 const engine=read('scripts/engine.bat'), debloat=read('scripts/debloater.bat');
 function blocks(s){const m=[...s.matchAll(/^:([a-z0-9_]+)\s*$/gmi)];return m.map((x,i)=>({id:x[1].toLowerCase(),body:s.slice(x.index+x[0].length,m[i+1]?.index??s.length)}));}
@@ -22,7 +22,7 @@ function add(b,category,title){
  // Output is captured by the GUI; avoid falsely declaring successful multi-command jobs.
  body=body.replace(/^echo .*sucesso.*$/gmi,'echo Etapa encerrada. Verifique as mensagens acima.');
  if(/set \/p|^\s*if .*goto /mi.test(body))throw Error('Interactive block: '+b.id);
- const prefix='@echo off\nchcp 65001 >nul\nsetlocal EnableExtensions EnableDelayedExpansion\nrem ice optimizer - Interface e integracao por Maciota\nset "LOG=%~dp0details.log"\n';
+ const prefix='@echo off\nchcp 65001 >nul\nsetlocal EnableExtensions EnableDelayedExpansion\nrem ice optimizer - Interface e integracao do Ice Optimizer\nset "LOG=%~dp0details.log"\n';
  const suffix='\nexit /b %errorlevel%\n'+(body.includes('call :step')?'\n:step\necho [*] %~1\nexit /b 0\n':'');
  const file='scripts/actions/'+b.id+'.bat';fs.writeFileSync(file,(prefix+body+suffix).replace(/\n/g,'\r\n'));
  let warning='Altera configurações do Windows. Pode exigir reinicialização. Consulte o registro ao terminar.';
@@ -44,7 +44,7 @@ function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.
 for(const b of all){if(menus.has(b.id)||duplicates.has(b.id))continue;const game=b.id.startsWith('priorizar_');let title=names[b.id]||windows[Number(b.id.replace('opcao',''))];if(game)title='Priorizar '+b.id.replace('priorizar_','').replaceAll('_',' ').toUpperCase();if(!title)throw Error('Missing name '+b.id);add(b,game?'Jogos':activations.has(b.id)?'Ativações':b.id.startsWith('fix')?'Reparos':['amd','intel','nvidia'].includes(b.id)?'Hardware':b.id==='restore'?'Recuperação':'Windows',title);}
 for(const b of blocks(debloat)){if(!/^opcao\d+$/.test(b.id)||b.id==='opcao1')continue;const label=(b.body.match(/echo (?:Removendo|Desativando) (.+)/i)?.[1]||'Todos os aplicativos').replace(/\.{2,}/g,'').trim();add({...b,id:'debloat_'+b.id},'Aplicativos','Remover: '+label);}
 // Fix restore deterministically: original batch had duplicate labels and ignored PowerShell errors.
-fs.writeFileSync('scripts/actions/restore.bat','@echo off\r\nchcp 65001 >nul\r\npowershell.exe -NoProfile -Command "try { Checkpoint-Computer -Description \'ice optimizer - Maciota\' -RestorePointType MODIFY_SETTINGS -ErrorAction Stop } catch { Write-Error $_; exit 1 }"\r\nif errorlevel 1 exit /b 1\r\nif not exist "%~dp0Backup" mkdir "%~dp0Backup"\r\nreg export "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer" "%~dp0Backup\\Explorer.reg" /y\r\nif errorlevel 1 exit /b 1\r\nreg export "HKCU\\Control Panel\\Desktop" "%~dp0Backup\\Desktop.reg" /y\r\nexit /b %errorlevel%\r\n');
+fs.writeFileSync('scripts/actions/restore.bat','@echo off\r\nchcp 65001 >nul\r\npowershell.exe -NoProfile -Command "try { Checkpoint-Computer -Description \'ice optimizer\' -RestorePointType MODIFY_SETTINGS -ErrorAction Stop } catch { Write-Error $_; exit 1 }"\r\nif errorlevel 1 exit /b 1\r\nif not exist "%~dp0Backup" mkdir "%~dp0Backup"\r\nreg export "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer" "%~dp0Backup\\Explorer.reg" /y\r\nif errorlevel 1 exit /b 1\r\nreg export "HKCU\\Control Panel\\Desktop" "%~dp0Backup\\Desktop.reg" /y\r\nexit /b %errorlevel%\r\n');
 const files=Object.fromEntries(walk('scripts').map(p=>[p,{sha256:crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),size:fs.statSync(p).size}]));
-fs.writeFileSync('catalog.json',JSON.stringify({name:'ice optimizer',author:'Maciota',version:'3.0.0',repository:'kaiquedupix-max/iceoptmizer',ref:'main',licenseApi:'https://ice-optimizer-web-production.up.railway.app',actions:enrich(actions),files},null,2));
+fs.writeFileSync('catalog.json',JSON.stringify({name:'ice optimizer',author:'Ice Optimizer',version:'3.0.0',repository:'kaiquedupix-max/iceoptmizer',ref:'main',licenseApi:'https://ice-optimizer-web-production.up.railway.app',actions:enrich(actions),files},null,2));
 console.log(`${actions.length} actions generated; ${Object.keys(files).length} files indexed.`);
