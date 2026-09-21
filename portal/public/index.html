@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/polish.css?v=5.4">
 <script src="https://sdk.mercadopago.com/js/v2" defer></script>
 <script src="https://www.mercadopago.com/v2/security.js" view="checkout" defer></script>
-<script src="/site.js?v=5.15" defer></script>
+<script src="/site.js?v=5.16" defer></script>
 </head>
 <body>
 <div class="snow" aria-hidden="true"></div><div class="aurora" aria-hidden="true"></div>
@@ -194,7 +194,7 @@
 </section>
 </main>
 
-<footer class="wrap foot"><span>© 2026 Maciota · Ice Optimizer</span><span>Suporte: kaiquedupix@gmail.com</span></footer>
+<footer class="wrap foot"><span>© 2026 Maciota · Ice Optimizer</span><span>Atendimento disponível pelo chat do site.</span></footer>
 
 <div class="account-modal hidden" id="account-modal"><div class="account-backdrop" data-close></div><section class="account-card"><button class="modal-close" data-close>×</button><img src="/ice.svg" alt=""><div class="eyebrow">CENTRAL DO CLIENTE</div><h2 id="account-title">Entre na sua conta</h2><div class="account-tabs"><button class="active" data-mode="login">Entrar</button><button data-mode="register">Criar conta</button></div><form id="account-form"><label class="field register-only hidden"><span>Nome de usuário</span><input id="account-username" autocomplete="username"></label><label class="field register-only hidden"><span>E-mail</span><input id="account-email" type="email" autocomplete="email"></label><label class="field"><span id="login-label">Usuário ou e-mail</span><input id="account-login" autocomplete="username"></label><label class="field password-field"><span>Senha</span><input id="account-password" type="password" autocomplete="current-password" minlength="8"></label><button class="password-link" type="button" id="forgot-password">Esqueci minha senha</button><button class="btn primary" id="account-submit">Entrar</button><p id="account-message"></p></form>
 <div id="customer-panel" class="hidden">
@@ -279,6 +279,27 @@
   </div>
 </div>
 </section></div>
+<div class="question-widget" id="question-widget">
+  <button class="question-fab" id="question-fab" type="button" aria-label="Abrir chat de dúvidas"><span>?</span><i id="question-unread" class="hidden">0</i></button>
+  <section class="question-box hidden" id="question-box">
+    <header><div><div class="eyebrow">DÚVIDAS · ICE OPTIMIZER</div><h3>Fale com a gente</h3><p>Tire dúvidas sobre planos, pagamento e uso do aplicativo.</p></div><button type="button" id="question-close" aria-label="Fechar">×</button></header>
+    <div id="question-start">
+      <form id="question-start-form">
+        <label class="field"><span>Seu nome</span><input id="question-name" maxlength="80" required></label>
+        <label class="field"><span>Seu e-mail</span><input id="question-email" type="email" maxlength="180" required></label>
+        <button class="btn primary full" type="submit">Iniciar conversa</button>
+        <small>Este chat é para dúvidas gerais. O atendimento de otimização profissional continua no Suporte Premium.</small>
+      </form>
+    </div>
+    <div id="question-chat" class="hidden">
+      <div class="question-presence"><span><i></i> Atendimento Ice</span><small>Responderemos por aqui.</small></div>
+      <div id="question-messages" class="question-messages"></div>
+      <form id="question-message-form"><textarea id="question-text" maxlength="2000" placeholder="Digite sua dúvida..." required></textarea><button class="btn primary" type="submit">Enviar</button></form>
+      <small class="question-hint">✓ enviada · ✓✓ lida pela equipe</small>
+    </div>
+  </section>
+</div>
+
 <div class="checkout-modal hidden" id="checkout-modal"><div class="checkout-backdrop" data-checkout-close></div><section class="checkout-shell"><header><div><div class="eyebrow">PAGAMENTO · MERCADO PAGO</div><h2 id="checkout-title">Finalize sua compra</h2><p id="checkout-subtitle">Pix ou cartão sem sair do Ice Optimizer.</p></div><button class="modal-close" data-checkout-close aria-label="Fechar">×</button></header><div class="payment-form"><div id="payment-loading" class="checkout-loading">Carregando pagamento…</div><div id="paymentBrick_container"></div><p id="pay-message" class="checkout-message"></p><section id="pix-result" class="pix-result hidden"><strong>Pix gerado com sucesso</strong><img id="pix-qr" alt="QR Code Pix"><textarea id="pix-code" readonly></textarea><button type="button" class="btn full" id="copy-pix">Copiar código Pix</button><small>A ativação acontece automaticamente após a confirmação.</small></section></div><footer>O pagamento é processado pelo Mercado Pago.</footer></section></div>
 </body>
 </html>
