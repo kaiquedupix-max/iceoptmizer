@@ -18,8 +18,8 @@ public static class BatchPlan {
   for(int i=0;i<items.Length;i++){if(cancel())return results;progress("download",i,items.Length,items[i]);paths[items[i].id]=await prepare(items[i]);}
   for(int i=0;i<items.Length;i++){
    if(cancel())break;var a=items[i];progress("execute",i,items.Length,a);int code;
-   try{code=await execute(a,paths[a.id]);}catch(Exception e){results.Add(new BatchResult{id=a.id,title=a.title,status="Falha: "+e.Message,code=-1,folder=Path.GetDirectoryName(paths[a.id])});if(stopOnError)break;else continue;}
-   results.Add(new BatchResult{id=a.id,title=a.title,status=code==0?"Encerrado — revisar registro":"Código de erro "+code,code=code,folder=Path.GetDirectoryName(paths[a.id])});progress("complete",i+1,items.Length,a);
+   try{code=await execute(a,paths[a.id]);}catch(Exception e){results.Add(new BatchResult{id=a.id,title=a.title,status="Não foi possível executar: "+e.Message,code=-1,folder=Path.GetDirectoryName(paths[a.id])});if(stopOnError)break;else continue;}
+   results.Add(new BatchResult{id=a.id,title=a.title,status=code==0?"Concluída com sucesso":"A ação terminou com falha. Código técnico: "+code,code=code,folder=Path.GetDirectoryName(paths[a.id])});progress("complete",i+1,items.Length,a);
    if(code!=0&&stopOnError)break;
   }return results;
  }
