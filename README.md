@@ -6,7 +6,7 @@ Use os interruptores ou **Marcar categoria**, depois **Revisar e executar**. Ati
 
 O portal em `portal/` inclui página comercial, cadastro e login de clientes, checkout pelo Mercado Pago, painel administrativo de clientes e parceiros, painel individual do divulgador, atribuição de vendas e API de ativação. A confirmação de pagamento chega pelo webhook do Mercado Pago e libera automaticamente 30 dias ou acesso permanente. Reembolso, chargeback e cancelamento suspendem a licença ligada ao pedido.
 
-Configure no Railway `ADMIN_PASSWORD`, `SESSION_SECRET`, `DATA_PATH=/data/licenses.json`, `PUBLIC_URL` e as variáveis `MP_*` descritas em `portal/.env.example`. Monte um volume persistente em `/data`. O portal calcula 30% de comissão, mantém uma carteira por parceiro e controla solicitações de saque por Pix.
+Configure no Railway `ADMIN_PASSWORD`, `SESSION_SECRET`, `DATA_PATH=/data/licenses.json`, `PUBLIC_URL`, as variáveis `MP_*` e as variáveis do Resend descritas em `portal/.env.example`. Monte um volume persistente em `/data`. O portal calcula 30% de comissão, mantém uma carteira por parceiro, controla solicitações de saque por Pix e envia e-mails transacionais para contas, pagamentos, assinaturas, senhas, afiliados e saques.
 
 O cliente cria a conta no site, ativa um plano e entra no aplicativo com o mesmo usuário ou e-mail e senha. A ativação fica vinculada ao primeiro computador por uma impressão de hardware composta por UUID do sistema, serial da BIOS, placa-mãe e processador. Senhas usam scrypt com salt individual e os tokens são assinados no servidor.
 
