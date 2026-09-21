@@ -1,7 +1,7 @@
 {
   "name": "ice optimizer",
   "author": "Ice Optimizer",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "repository": "kaiquedupix-max/iceoptmizer",
   "ref": "main",
   "licenseApi": "https://ice-optimizer-web-production.up.railway.app",
@@ -3053,8 +3053,8 @@
       "size": 23824
     },
     "scripts/ISLC v1.0.4.6/LICENSE.txt": {
-      "sha256": "40fe70664c49ea6187ad75bb58aa716900fd78851831bf0d0c9a2369464b7269",
-      "size": 3146
+      "sha256": "31deb37929508cb318b95c586850b45aff999a1e155fbf76465457b893b364cf",
+      "size": 3082
     },
     "scripts/ISLC v1.0.4.6/nl/Intelligent standby list cleaner ISLC.resources.dll": {
       "sha256": "7ca857bc2100db8d31abad634bad143b77d93bc18648df878eff3e4bf434bddb",
@@ -3085,8 +3085,8 @@
       "size": 22800
     },
     "scripts/ISLC v1.0.4.6/THIRD-PARTY-NOTICES.txt": {
-      "sha256": "57055f54223dd67dd19969aae19da1f2d8374627c47cf0db7437c779f0de295f",
-      "size": 1619
+      "sha256": "dcb134e849f7ed0e2842c25c5a1a38403c197cda4a7e554bedbaa823f0c97411",
+      "size": 1587
     },
     "scripts/ISLC v1.0.4.6/tr/Intelligent standby list cleaner ISLC.resources.dll": {
       "sha256": "41aed7ca26a995dfb7261456597800cd23a993b71aa5eb97b02f00055aa2a7fc",
