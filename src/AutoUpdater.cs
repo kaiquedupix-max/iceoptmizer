@@ -74,6 +74,7 @@ public static class AutoUpdater {
    var request=new JavaScriptSerializer().Deserialize<IceUpdateRequest>(File.ReadAllText(requestPath,Encoding.UTF8));
    if(request==null||!SafeUpdatePath(request.candidate)||!string.Equals(Path.GetFullPath(request.candidate),Path.GetFullPath(Application.ExecutablePath),StringComparison.OrdinalIgnoreCase))return 11;
    if(string.IsNullOrWhiteSpace(request.target)||!request.target.EndsWith(".exe",StringComparison.OrdinalIgnoreCase)||!File.Exists(request.target))return 12;
+   var targetInfo=FileVersionInfo.GetVersionInfo(request.target);if(!string.Equals(targetInfo.ProductName,"Ice Optimizer",StringComparison.OrdinalIgnoreCase))return 12;
    if(string.IsNullOrWhiteSpace(request.sha256)||request.sha256.Length!=64||!string.Equals(HashFile(Application.ExecutablePath),request.sha256,StringComparison.OrdinalIgnoreCase))return 13;
    try{using(var old=Process.GetProcessById(request.pid)){if(!old.HasExited)old.WaitForExit(30000);}}catch(ArgumentException){}
    for(int i=0;i<20;i++){try{File.Copy(Application.ExecutablePath,request.target,true);break;}catch(IOException){if(i==19)throw;Thread.Sleep(250);}catch(UnauthorizedAccessException){if(i==19)throw;Thread.Sleep(250);}}
