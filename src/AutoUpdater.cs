@@ -20,7 +20,7 @@ public sealed class IceUpdateRequest {
 public static class AutoUpdater {
  static readonly string Root=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","updates");
  const string ManifestPath="update.json";
- static string Quote(string value){return "\""+String(value??"").Replace("\"","\\\"")+"\"";}
+ static string Quote(string value){return "\""+(value??"").Replace("\"","\\\"")+"\"";}
  static string Hash(byte[] bytes){using(var h=SHA256.Create())return BitConverter.ToString(h.ComputeHash(bytes)).Replace("-","").ToLowerInvariant();}
  static string HashFile(string file){return Hash(File.ReadAllBytes(file));}
  static bool Newer(string current,string latest){Version a,b;return Version.TryParse(current,out a)&&Version.TryParse(latest,out b)&&b>a;}
