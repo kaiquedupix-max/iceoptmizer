@@ -3,6 +3,8 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {enrich} from './descriptions.mjs';
 const read=p=>fs.readFileSync(p,'utf8').replace(/\r/g,'');
+const appVersion=fs.readFileSync('VERSION','utf8').trim();
+if(!/^\d+\.\d+\.\d+$/.test(appVersion))throw Error('Invalid VERSION');
 const branding=s=>s.replace(/iGust(?: Windows Boost)?|Windows Boost/gi,'ice optimizer').replace(/^set "line([1-7])=.*$/gmi,(_,i)=>'set "line'+i+'='+(i==='1'?'ice optimizer':'')+'"').replace(/^set "lines\[(\d+)\]=.*$/gmi,(_,i)=>'set "lines['+i+']='+(i==='0'?'ice optimizer':'')+'"');
 for(const file of ['scripts/engine.bat','scripts/debloater.bat']) fs.writeFileSync(file,branding(read(file)).replace(/\n/g,'\r\n'));
 const engine=read('scripts/engine.bat'), debloat=read('scripts/debloater.bat');
@@ -46,5 +48,5 @@ for(const b of blocks(debloat)){if(!/^opcao\d+$/.test(b.id)||b.id==='opcao1')con
 // Fix restore deterministically: original batch had duplicate labels and ignored PowerShell errors.
 fs.writeFileSync('scripts/actions/restore.bat','@echo off\r\nchcp 65001 >nul\r\npowershell.exe -NoProfile -Command "try { Checkpoint-Computer -Description \'ice optimizer\' -RestorePointType MODIFY_SETTINGS -ErrorAction Stop } catch { Write-Error $_; exit 1 }"\r\nif errorlevel 1 exit /b 1\r\nif not exist "%~dp0Backup" mkdir "%~dp0Backup"\r\nreg export "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer" "%~dp0Backup\\Explorer.reg" /y\r\nif errorlevel 1 exit /b 1\r\nreg export "HKCU\\Control Panel\\Desktop" "%~dp0Backup\\Desktop.reg" /y\r\nexit /b %errorlevel%\r\n');
 const files=Object.fromEntries(walk('scripts').map(p=>[p,{sha256:crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),size:fs.statSync(p).size}]));
-fs.writeFileSync('catalog.json',JSON.stringify({name:'ice optimizer',author:'Ice Optimizer',version:'3.0.3',repository:'kaiquedupix-max/iceoptmizer',ref:'main',licenseApi:'https://iceotimizacoes.store',actions:enrich(actions),files},null,2));
+fs.writeFileSync('catalog.json',JSON.stringify({name:'ice optimizer',author:'Ice Optimizer',version:appVersion,repository:'kaiquedupix-max/iceoptmizer',ref:'main',licenseApi:'https://iceotimizacoes.store',actions:enrich(actions),files},null,2));
 console.log(`${actions.length} actions generated; ${Object.keys(files).length} files indexed.`);
