@@ -26,7 +26,21 @@ async function sendEmail(message){if(!RESEND_API_KEY||!message.to)return {ok:fal
 async function trackedEmail(db,message){try{const result=await sendEmail(message);if(result.ok){console.log('E-mail enviado:',message.template,message.to);db.events.unshift({at:new Date().toISOString(),type:'email_sent',template:message.template,to:message.to,emailId:result.id})}else if(result.skipped){console.error('E-mail não enviado:',message.template,'RESEND_API_KEY ou destinatário ausente');db.events.unshift({at:new Date().toISOString(),type:'email_skipped',template:message.template,to:message.to||'',message:'RESEND_API_KEY ou destinatário ausente'})}return result}catch(error){console.error('E-mail não enviado:',message.template,error.message);db.events.unshift({at:new Date().toISOString(),type:'email_failed',template:message.template,to:message.to,message:error.message});return {ok:false,error:error.message}}}
 function blank(){return {licenses:[],events:[],users:[],orders:[],partners:[],withdrawals:[],supportMessages:[],questionThreads:[],questionMessages:[]}}
 function load(){try{const db=JSON.parse(fs.readFileSync(DATA,'utf8'));for(const k of Object.keys(blank()))db[k]||=[];return db}catch{return blank()}}
-function save(db){fs.mkdirSync(path.dirname(DATA),{recursive:true});const tmp=DATA+'.tmp';fs.writeFileSync(tmp,JSON.stringify(db,null,2));fs.renameSync(tmp,DATA)}
+function save(db){
+ fs.mkdirSync(path.dirname(DATA),{recursive:true});
+ const tmp=DATA+'.tmp',serialized=JSON.stringify(db,null,2);
+ try{
+  fs.writeFileSync(tmp,serialized);
+  fs.renameSync(tmp,DATA);
+ }catch(error){
+  if(error&&['EBUSY','EXDEV','EPERM','EACCES'].includes(error.code)){
+   try{if(fs.existsSync(tmp))fs.unlinkSync(tmp)}catch{}
+   fs.writeFileSync(DATA,serialized);
+   return;
+  }
+  throw error;
+ }
+}
 function json(res,status,data,headers={}){res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff',...headers});res.end(JSON.stringify(data))}
 function body(req){return new Promise((resolve,reject)=>{let data='';req.on('data',c=>{data+=c;if(data.length>250000){reject(Error('too-large'));req.destroy()}});req.on('end',()=>{try{resolve(data?JSON.parse(data):{})}catch{reject(Error('invalid-json'))}});req.on('error',reject)})}
 function cookies(req){return Object.fromEntries((req.headers.cookie||'').split(';').map(x=>x.trim().split('=')).filter(x=>x.length===2))}
