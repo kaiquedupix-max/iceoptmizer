@@ -1,5 +1,5 @@
 name: Rebuild Ice Optimizer
-# Integrity build v3.0.3
+# Integrity build with verified updater
 
 on:
   push:
@@ -11,6 +11,7 @@ on:
       - "catalog.json"
       - "assets/**"
       - "build.ps1"
+      - "VERSION"
       - "README.md"
       - "THIRD-PARTY-NOTICES.md"
       - ".github/workflows/rebuild-ice.yml"
@@ -88,6 +89,27 @@ jobs:
         shell: powershell
         run: .\build.ps1
 
+      - name: Authenticode sign executable when certificate is configured
+        shell: powershell
+        env:
+          WINDOWS_CERTIFICATE_BASE64: ${{ secrets.WINDOWS_CERTIFICATE_BASE64 }}
+          WINDOWS_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:WINDOWS_CERTIFICATE_BASE64)) {
+            Write-Host "No Windows signing certificate configured; continuing unsigned."
+            exit 0
+          }
+          $pfx = Join-Path $env:RUNNER_TEMP 'ice-codesign.pfx'
+          [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:WINDOWS_CERTIFICATE_BASE64))
+          $signtool = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin" -Filter signtool.exe -Recurse |
+            Where-Object { $_.FullName -match '\x64\signtool.exe$' } |
+            Sort-Object FullName -Descending |
+            Select-Object -First 1
+          if (-not $signtool) { throw 'signtool.exe not found.' }
+          & $signtool.FullName sign /fd SHA256 /td SHA256 /tr https://timestamp.digicert.com /f $pfx /p $env:WINDOWS_CERTIFICATE_PASSWORD 'dist\ice-optimizer.exe'
+          if ($LASTEXITCODE -ne 0) { throw 'Authenticode signing failed.' }
+          Remove-Item $pfx -Force -ErrorAction SilentlyContinue
+
       - name: Verify executable branding
         shell: powershell
         run: |
@@ -99,14 +121,35 @@ jobs:
             throw 'Legacy branding still exists in the executable.'
           }
 
-      - name: Commit cleaned sources and downloadable executable
+      - name: Verify Windows version metadata
+        shell: powershell
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          $info = (Get-Item 'dist\ice-optimizer.exe').VersionInfo
+          if ($info.ProductName -ne 'Ice Optimizer') { throw 'ProductName metadata missing.' }
+          if ($info.FileVersion -ne "$version.0") { throw "Unexpected file version: $($info.FileVersion)" }
+
+      - name: Publish executable and verified update manifest
         shell: powershell
         run: |
           Copy-Item 'dist\ice-optimizer.exe' 'downloads\ice-optimizer.exe' -Force
+          $catalog = Get-Content catalog.json -Raw | ConvertFrom-Json
+          $hash = (Get-FileHash 'downloads\ice-optimizer.exe' -Algorithm SHA256).Hash.ToLowerInvariant()
+          $size = (Get-Item 'downloads\ice-optimizer.exe').Length
+          $manifest = [ordered]@{
+            version = [string]$catalog.version
+            repository = [string]$catalog.repository
+            path = 'downloads/ice-optimizer.exe'
+            sha256 = $hash
+            size = $size
+          } | ConvertTo-Json
+          [IO.File]::WriteAllText((Join-Path $PWD 'update.json'), $manifest, (New-Object Text.UTF8Encoding($false)))
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           if (-not (git diff --cached --quiet)) {
-            git commit -m "Regenerate Ice Optimizer without legacy branding [skip build]"
+            git commit -m "Publish Ice Optimizer $($catalog.version) with verified updater [skip build]"
+            git pull --rebase origin main
             git push
           }
