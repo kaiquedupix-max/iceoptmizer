@@ -53,7 +53,7 @@ public class Catalog {
   }catch(Exception ex){throw new IOException("Não foi possível obter a versão verificada do Ice Optimizer. Confira sua conexão e tente novamente.\n\n"+ex.Message,ex);}
  }}
 public static class Payload {
- static string onlineRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","online-scripts");
+ static string onlineRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer","action-cache");
  public static string Hash(byte[] bytes){using(var h=SHA256.Create())return BitConverter.ToString(h.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();}
  public static void Verify(byte[] bytes, FileInfoEntry entry){string actual=Hash(bytes);if(bytes.LongLength!=entry.size||actual!=entry.sha256)throw new InvalidDataException("Falha de integridade. Esperado: "+entry.size+" bytes / "+entry.sha256+". Recebido: "+bytes.LongLength+" bytes / "+actual+".");}
  public static string SafeRoot(string root){
