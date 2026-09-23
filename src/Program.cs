@@ -87,13 +87,20 @@ public static class Payload {
    await Task.WhenAll(tasks);if(Directory.Exists(finalRoot))Directory.Delete(finalRoot,true);Directory.Move(staging,finalRoot);onlineRoot=finalRoot;
   }catch{try{if(Directory.Exists(staging))Directory.Delete(staging,true);}catch{}throw;}finally{gate.Dispose();}
  }
- public static Task<string> Prepare(Catalog cat,ActionItem action,string root,string token,Action<string> report){
+ public static async Task<string> Prepare(Catalog cat,ActionItem action,string root,string token,Action<string> report){
   root=SafeRoot(root);string run=Path.Combine(root,DateTime.Now.ToString("yyyyMMdd-HHmmss")+"-"+Guid.NewGuid().ToString("N").Substring(0,8));Directory.CreateDirectory(run);
   foreach(string remote in new[]{action.file}.Concat(action.dependencies)){
-   report("Preparando: "+Path.GetFileName(remote));string source=Destination(onlineRoot,remote);if(!File.Exists(source))throw new FileNotFoundException("Cache online incompleto. Feche e abra o aplicativo novamente: "+remote);byte[] bytes=File.ReadAllBytes(source);Verify(bytes,cat.files[remote]);
+   report("Preparando: "+Path.GetFileName(remote));string source=Destination(onlineRoot,remote);byte[] bytes=null;
+   if(File.Exists(source)){try{bytes=File.ReadAllBytes(source);Verify(bytes,cat.files[remote]);}catch{try{File.Delete(source);}catch{}bytes=null;}}
+   if(bytes==null){report("Baixando arquivo verificado: "+Path.GetFileName(remote));bytes=await Download(cat,remote,token);Directory.CreateDirectory(Path.GetDirectoryName(source));File.WriteAllBytes(source,bytes);}
    string dest=Destination(run,remote);Directory.CreateDirectory(Path.GetDirectoryName(dest));File.WriteAllBytes(dest,bytes);
   }
-  return Task.FromResult(Destination(run,action.file));
+  return Destination(run,action.file);
+ }
+ public static void CleanupLegacyCache(){
+  string appRoot=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"ice optimizer"),legacy=Path.Combine(appRoot,"online-scripts");
+  try{if(Directory.Exists(legacy))Directory.Delete(legacy,true);}catch{}
+  try{foreach(string dir in Directory.Exists(appRoot)?Directory.GetDirectories(appRoot,"online-scripts.new-*"):new string[0])Directory.Delete(dir,true);}catch{}
  }
  public static Task<int> Execute(string script,Action<string> log){return Task.Run(()=>{
   var info=new ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),"cmd.exe"),"/d /s /c \"\""+script+"\"\""){
@@ -111,6 +118,8 @@ public static class Program {
  [STAThread] public static int Main(string[] args){
   ServicePointManager.SecurityProtocol=SecurityProtocolType.Tls12;Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);
   try{
+   if(args.Length==2&&args[0]=="--apply-update")return AutoUpdater.ApplyPending(args[1]);
+   if(args.Length>=2&&args[0]=="--cleanup-update"){AutoUpdater.Cleanup(args.Skip(1).ToArray());args=new string[0];}
    if(args.Length==2&&args[0]=="--download-test"){
     var cat=Catalog.Load();string cache=Path.Combine(Path.GetDirectoryName(Path.GetFullPath(args[1])),"online-cache");Payload.RefreshOnline(cat,null,(a,b,c)=>{},cache).GetAwaiter().GetResult();foreach(string id in new[]{"priorizar_rust","opcao22"}){var a=cat.actions.Single(x=>x.id==id);Payload.Prepare(cat,a,Path.Combine(Path.GetDirectoryName(Path.GetFullPath(args[1])),"download-test"),null,x=>{}).GetAwaiter().GetResult();}
     File.WriteAllText(args[1],"PASS: public HTTPS downloads and SHA-256 verification, Rust script and complete ISLC dependency tree; no script executed.");return 0;
@@ -120,7 +129,7 @@ public static class Program {
     byte[] b=Encoding.UTF8.GetBytes("verified");var f=new FileInfoEntry{sha256=Payload.Hash(b),size=b.Length};Payload.Verify(b,f);bool rejected=false;try{Payload.Verify(new byte[]{1},f);}catch(InvalidDataException){rejected=true;}if(!rejected)throw new Exception("Corruption accepted");
     foreach(string p in new[]{"C:\\bad%PATH%","C:\\bad!name","\\\\server\\share"}){rejected=false;try{Payload.SafeRoot(p);}catch(ArgumentException){rejected=true;}if(!rejected)throw new Exception("Unsafe path accepted");}
     using(var window=new MainWindow())window.UiTest();
-    Verification.BatchTests().GetAwaiter().GetResult();
+    Verification.BatchTests().GetAwaiter().GetResult();AutoUpdater.SelfTest();
     string testRoot=Path.Combine(Path.GetDirectoryName(Path.GetFullPath(args[1])),"test runs "+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(testRoot);
     string script=Path.Combine(testRoot,"harmless.bat");File.WriteAllText(script,"@echo off\r\necho ICE_TEST_OK\r\nexit /b 7\r\n");var lines=new List<string>();int code=Payload.Execute(script,l=>{lock(lines)lines.Add(l);}).GetAwaiter().GetResult();if(code!=7||!lines.Contains("ICE_TEST_OK"))throw new Exception("Process output/exit test failed");
     if(args.Length>1)File.WriteAllText(args[1],"PASS: clean UI boundary; trusted catalog and descriptions; hash tampering rejection; unsafe paths; queue order, cancellation, error policies, conflicts and restore ordering; harmless process output/exit code; online-cache boundary. No optimization executed.");return 0;
@@ -128,7 +137,9 @@ public static class Program {
    if(args.Length==2&&args[0]=="--render-login"){using(var preview=new AccountForm(Catalog.Load(),"")){preview.ShowInTaskbar=false;preview.Show();preview.Refresh();Application.DoEvents();using(var bmp=new Bitmap(preview.Width,preview.Height)){preview.DrawToBitmap(bmp,new Rectangle(0,0,preview.Width,preview.Height));bmp.Save(args[1]);}preview.Hide();return 0;}}
     if(args.Length==2&&args[0].StartsWith("--render")){using(var preview=new MainWindow()){string mode=args[0].StartsWith("--render-")?args[0].Substring(9):"";preview.Render(args[1],mode);return 0;}}
     if(!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator)){try{Process.Start(new ProcessStartInfo(Application.ExecutablePath){UseShellExecute=true,Verb="runas"});}catch(System.ComponentModel.Win32Exception){MessageBox.Show("O Ice Optimizer precisa ser aberto como administrador.","Permissão necessária",MessageBoxButtons.OK,MessageBoxIcon.Information);}return 3;}
-   var embedded=Catalog.Load();var catalog=Catalog.LoadLatest(embedded).GetAwaiter().GetResult();if(!LicenseGate.Ensure(catalog))return 2;if(!ScriptSyncForm.Sync(catalog))return 4;
+   Payload.CleanupLegacyCache();
+   if(AutoUpdater.CheckAndApply())return 0;
+   var embedded=Catalog.Load();var catalog=Catalog.LoadLatest(embedded).GetAwaiter().GetResult();if(!LicenseGate.Ensure(catalog))return 2;
    using(var window=new MainWindow(catalog))Application.Run(window);return 0;
   }catch(Exception e){if(args.Length>1)File.WriteAllText(args[args.Length-1],e.ToString());else MessageBox.Show(e.Message,"ice optimizer");return 1;}
  }
